@@ -1,5 +1,5 @@
 
 public class etat {
-	console.wr
+	String a; 
 
 }
