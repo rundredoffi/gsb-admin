@@ -8,8 +8,6 @@ import metier.Utilisateur;
 
 public class AccesData {
 
-	// création d’une session hibernate 
-	// public static Session s = HibernateSession.getSession();
 	
 	private static Session s = HibernateSession.getSession();
 	
