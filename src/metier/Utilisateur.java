@@ -50,11 +50,11 @@ public class Utilisateur {
 	private String telPortable;
 	
 	@ManyToOne
-	@JoinColumn(name="region")
+	@JoinColumn(name="idRegion")
 	private Region region;
 	
 	@OneToMany
-	@JoinColumn(name="role")
+	@JoinColumn(name="idRole")
 	private Role role;
 	
 	@OneToMany
