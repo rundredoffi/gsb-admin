@@ -3,37 +3,35 @@ package metier;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(name="fichefrais")
 public class FicheFrais {
-	@Id
+	@EmbeddedId
 	@Column(name="mois")
 	private String mois;
+	@EmbeddedId
+	@Column(name="idVisiteur")
+	private String idVisiteur;
 	@Column(name="nbJustificatifs")
 	private int nbJustificatif;
 	@Column(name="montantValide")
 	private int montantValide;
+    @Temporal(TemporalType.DATE)
 	@Column(name="dateModif")
 	private Date dateModif;
-	@ManyToOne
-	@JoinColumn(name = "idEtat")
+    @Enumerated(EnumType.STRING)
 	private Etat etat;
-	@Id
-	@Column(name="idVisiteur")
-	private String idVisiteur;
-		
 	
-	public String getIdVisiteur() {
-		return idVisiteur;
-	}
-	public void setIdVisiteur(String idVisiteur) {
-		this.idVisiteur = idVisiteur;
-	}
 	public FicheFrais(String mois, int nbJustificatif, int montantValide, Date dateModif, Etat etat,
 			String idVisiteur) {
 		super();
@@ -47,6 +45,13 @@ public class FicheFrais {
 	public FicheFrais() {
 		super();
 	}
+	public String getIdVisiteur() {
+		return idVisiteur;
+	}
+	public void setIdVisiteur(String idVisiteur) {
+		this.idVisiteur = idVisiteur;
+	}
+	
 	public String getMois() {
 		return mois;
 	}

@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="Utilisateur")
@@ -37,7 +39,7 @@ public class Utilisateur {
 	
 	@Column(name="ville")
 	private String ville;
-	
+    @Temporal(TemporalType.DATE)
 	@Column(name="dateEmbauche")
 	private Date dateEmbauche;
 	
@@ -58,8 +60,7 @@ public class Utilisateur {
 	@JoinColumn(name="idRole")
 	private Role role;
 	
-	@OneToMany
-	@JoinColumn(name="idVisiteur")
+	@OneToMany(mappedBy = "idVisiteur")
 	private List<FicheFrais> lesFicheFrais;
 
 	public Utilisateur(String idUtilisateur, String nom, String prenom, String login, String adresse, String cp,
