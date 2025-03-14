@@ -58,8 +58,8 @@ public class Utilisateur {
 	@JoinColumn(name="idRole")
 	private Role role;
 	
-	@ManyToOne
-	@JoinColumn(name="idUtilisateur")
+	@OneToMany
+	@JoinColumn(name="idVisiteur")
 	private List<FicheFrais> lesFicheFrais;
 
 	public Utilisateur(String idUtilisateur, String nom, String prenom, String login, String adresse, String cp,
