@@ -6,47 +6,44 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Role")
+@Table(name="role")
 
 public class Role {
 	@Id
 	@Column (name="idRole")
 	private int idRole;
-	@Column (name="Libelle")
-	private String Libelle;
+	@Column (name="libelleRole")
+	private String LibelleRole;
 		
 	public Role() {
 		super();
 	}
-	
-	public Role(int idRole, String libelle) {
+
+	public Role(int idRole, String libelleRole) {
 		super();
 		this.idRole = idRole;
-		Libelle = libelle;
+		LibelleRole = libelleRole;
 	}
 	
 	public int getIdRole() {
 		return idRole;
 	}
 
-
 	public void setIdRole(int idRole) {
 		this.idRole = idRole;
 	}
 
-
-	public String getLibelle() {
-		return Libelle;
+	public String getLibelleRole() {
+		return LibelleRole;
 	}
 
-
-	public void setLibelle(String libelle) {
-		Libelle = libelle;
+	public void setLibelleRole(String libelleRole) {
+		LibelleRole = libelleRole;
 	}
-
 
 	@Override
 	public String toString() {
-		return "Role [idRole=" + idRole + ", Libelle=" + Libelle + "]";
+		return "Role [idRole=" + idRole + ", LibelleRole=" + LibelleRole + "]";
 	}
+	
 }
