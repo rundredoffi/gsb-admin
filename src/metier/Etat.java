@@ -1,8 +1,23 @@
 package metier;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Etat")
+
 public class Etat {
+	@Id
+	@Column (name="idEtat")
 	private int idEtat;
+	@Column (name="LibelleEtat")
 	private String LibelleEtat;
+	
+	public Etat() {
+		super();
+	}
 	
 	public Etat(int idEtat, String libelleEtat) {
 		super();
@@ -10,9 +25,6 @@ public class Etat {
 		LibelleEtat = libelleEtat;
 	}
 	
-	
-	
-
 	public int getIdEtat() {
 		return idEtat;
 	}
@@ -33,9 +45,5 @@ public class Etat {
 	public String toString() {
 		return "Etat [idEtat=" + idEtat + ", LibelleEtat=" + LibelleEtat + "]";
 	}
-	
-	
-	
-	
 
 }
