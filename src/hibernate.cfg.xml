@@ -12,7 +12,7 @@
 		<!--  Paramètres de connexion à la base de données -->
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
 		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://http://10.29.128.170//gsb2024?serverTimezone=UTC</property>
+		<property name="hibernate.connection.url">jdbc:mysql://10.29.128.170/gsb2024?serverTimezone=UTC</property>
 		<property name="hibernate.connection.username">adminer</property>
 		<property name="hibernate.connection.password">Azerty123</property>
 	</session-factory>
