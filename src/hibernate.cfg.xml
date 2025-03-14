@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-	<session-factory>
-		<!-- Affiche les logs SQL -->
-		<!--		<property name="show_sql">true</property>-->
-		<!--		<property name="hibernate.format_sql">true</property>-->
-		<!--		<property name="use_sql_comments">true</property>-->
-
-		<!--  Paramètres de connexion à la base de données -->
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://http://10.29.128.170//gsb2024?serverTimezone=UTC</property>
-		<property name="hibernate.connection.username">adminer</property>
-		<property name="hibernate.connection.password">Azerty123</property>
-	</session-factory>
+ <session-factory name="">
+  <!-- Affiche les logs SQL 
+		<property name="show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="use_sql_comments">true</property>
+  Paramètres de connexion à la base de données -->
+  	<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+  	<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+  	<property name="hibernate.connection.url">jdbc:mysql://mysql-skylink.alwaysdata.net/skylink_gsb-admin?serverTimezone=UTC</property>
+  	<property name="hibernate.connection.username">skylink_gsb</property>
+  	<property name="hibernate.connection.password">Skylink!GSB!1456</property>
+	
+	<mapping class="metier.Utilisateur" />
+  	<mapping class="metier.FicheFrais" />
+  	<mapping class="metier.Role" />
+  	<mapping class="metier.Etat" />
+  	<mapping class="metier.Region" />
+ </session-factory>
 </hibernate-configuration>

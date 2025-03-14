@@ -6,9 +6,9 @@
   <name>GSB-Admin</name>
   <dependencies>
 	<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.22</version>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>8.0.33</version>
 	</dependency>
 	<dependency>
 			<groupId>org.hibernate</groupId>

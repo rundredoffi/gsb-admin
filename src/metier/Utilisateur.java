@@ -54,11 +54,11 @@ public class Utilisateur {
 	@JoinColumn(name="idRegion")
 	private Region region;
 	
-	@OneToMany
+-+*	@ManyToOne
 	@JoinColumn(name="idRole")
 	private Role role;
 	
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name="idUtilisateur")
 	private List<FicheFrais> lesFicheFrais;
 
