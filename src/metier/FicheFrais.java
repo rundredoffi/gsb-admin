@@ -4,12 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name="fichefrais")
 public class FicheFrais {
+	@Id
 	@Column(name="mois")
 	private String mois;
 	@Column(name="nbJustificatifs")
@@ -21,14 +23,26 @@ public class FicheFrais {
 	@ManyToOne
 	@JoinColumn(name = "idEtat")
 	private Etat etat;
+	@Id
+	@Column(name="idVisiteur")
+	private String idVisiteur;
 		
-	public FicheFrais(String mois, int nbJustificatif, int montantValide, Date dateModif, Etat etat) {
+	
+	public String getIdVisiteur() {
+		return idVisiteur;
+	}
+	public void setIdVisiteur(String idVisiteur) {
+		this.idVisiteur = idVisiteur;
+	}
+	public FicheFrais(String mois, int nbJustificatif, int montantValide, Date dateModif, Etat etat,
+			String idVisiteur) {
 		super();
 		this.mois = mois;
 		this.nbJustificatif = nbJustificatif;
 		this.montantValide = montantValide;
 		this.dateModif = dateModif;
 		this.etat = etat;
+		this.idVisiteur = idVisiteur;
 	}
 	public FicheFrais() {
 		super();
