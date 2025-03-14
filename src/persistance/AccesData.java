@@ -2,6 +2,8 @@ package persistance;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import metier.Utilisateur;
 
 import org.hibernate.query.Query;
@@ -14,8 +16,10 @@ public class AccesData {
 	// création d’une session hibernate 
 	public static Session s = HibernateSession.getSession();
 	
-	public static Utilisateur getUtlisateur() {
-		return null;
-	}
+	private static Session s = HibernateSession.getSession();
+	
+//	public static Utilisateur getUtlisateur() {
+//		return null;
+//	}
 
 }
