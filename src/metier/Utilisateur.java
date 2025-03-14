@@ -5,18 +5,18 @@ import java.util.List;
 
 
 public class Utilisateur {
-	String nom;
-	String prenom;
-	String login;
-	String adresse;
-	String cp;
-	String ville;
-	Date dateEmbauche;
-	String email;
-	String telfixe;
-	String telPortable;
-	Region region;
-	Role role;
+	private String nom;
+	private String prenom;
+	private String login;
+	private String adresse;
+	private String cp;
+	private String ville;
+	private Date dateEmbauche;
+	private String email;
+	private String telfixe;
+	private String telPortable;
+	private Region region;
+	private Role role;
 	
 	
 	private List<FicheFrais> lesFicheFrais;

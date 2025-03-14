@@ -1,8 +1,8 @@
 package metier;
 
 public class Region {
-	int idRegion;
-	String LibelleRegion;
+	private int idRegion;
+	private String LibelleRegion;
 	
 	public Region(int idRegion, String libelleRegion) {
 		super();

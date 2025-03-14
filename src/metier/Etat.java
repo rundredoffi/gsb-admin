@@ -1,8 +1,8 @@
 package metier;
 
 public class Etat {
-	int idEtat;
-	String LibelleEtat;
+	private int idEtat;
+	private String LibelleEtat;
 	
 	public Etat(int idEtat, String libelleEtat) {
 		super();

@@ -1,8 +1,8 @@
 package metier;
 
 public class Role {
-	int idRole;
-	String Libelle;
+	private int idRole;
+	private String Libelle;
 		
 	
 	public Role(int idRole, String libelle) {

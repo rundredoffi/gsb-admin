@@ -3,11 +3,11 @@ package metier;
 import java.util.Date;
 
 public class FicheFrais {
-	String mois;
-	int nbJustificatif;
-	int montantValide;
-	Date dateModif;
-	Etat etat;
+	private String mois;
+	private int nbJustificatif;
+	private int montantValide;
+	private Date dateModif;
+	private Etat etat;
 		
 	public FicheFrais(String mois, int nbJustificatif, int montantValide, Date dateModif, Etat etat) {
 		super();
