@@ -3,28 +3,69 @@ package metier;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="Utilisateur")
 public class Utilisateur {
+	
+	@Id
+	@Column(name="idUtilisateur")
+	private String idUtilisateur;
+	
+	@Column(name="nom")
 	private String nom;
+	
+	@Column(name="prenom")
 	private String prenom;
+	
+	@Column(name="login")
 	private String login;
+	
+	@Column(name="adresse")
 	private String adresse;
+	
+	@Column(name="cp")
 	private String cp;
+	
+	@Column(name="ville")
 	private String ville;
+	
+	@Column(name="dateEmbauche")
 	private Date dateEmbauche;
+	
+	@Column(name="email")
 	private String email;
+	
+	@Column(name="telfixe")
 	private String telfixe;
+	
+	@Column(name="telPortable")
 	private String telPortable;
+	
+	@ManyToOne
+	@JoinColumn(name="region")
 	private Region region;
+	
+	@OneToMany
+	@JoinColumn(name="role")
 	private Role role;
 	
-	
+	@OneToMany
+	@JoinColumn(name="idUtilisateur")
 	private List<FicheFrais> lesFicheFrais;
-	
-	public Utilisateur(String nom, String prenom, String login, String adresse, String cp, String ville,
-			Date dateEmbauche, String email, String telfixe, String telPortable, Region region, Role role,
+
+	public Utilisateur(String idUtilisateur, String nom, String prenom, String login, String adresse, String cp,
+			String ville, Date dateEmbauche, String email, String telfixe, String telPortable, Region region, Role role,
 			List<FicheFrais> lesFicheFrais) {
 		super();
+		this.idUtilisateur = idUtilisateur;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.login = login;
@@ -38,6 +79,14 @@ public class Utilisateur {
 		this.region = region;
 		this.role = role;
 		this.lesFicheFrais = lesFicheFrais;
+	}
+
+	public String getIdUtilisateur() {
+		return idUtilisateur;
+	}
+
+	public void setIdUtilisateur(String idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	public String getNom() {
@@ -146,12 +195,10 @@ public class Utilisateur {
 
 	@Override
 	public String toString() {
-		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", login=" + login + ", adresse=" + adresse + ", cp="
-				+ cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", email=" + email + ", telfixe="
-				+ telfixe + ", telPortable=" + telPortable + ", region=" + region + ", role=" + role
-				+ ", lesFicheFrais=" + lesFicheFrais + "]";
+		return "Utilisateur [idUtilisateur=" + idUtilisateur + ", nom=" + nom + ", prenom=" + prenom + ", login="
+				+ login + ", adresse=" + adresse + ", cp=" + cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche
+				+ ", email=" + email + ", telfixe=" + telfixe + ", telPortable=" + telPortable + ", region=" + region
+				+ ", role=" + role + ", lesFicheFrais=" + lesFicheFrais + "]";
 	}
 	
 }
-	
-	

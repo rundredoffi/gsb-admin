@@ -16,6 +16,10 @@ public class AccesData {
 	
 	private static Session s = HibernateSession.getSession();
 	
+	public static List<Utilisateur> getLesUtilisateur() {
+		return s.createQuery("from Utilisateur").list();
+	}
+	
 //	public static Utilisateur getUtlisateur() {
 //		return null;
 //	}
