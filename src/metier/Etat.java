@@ -1,5 +1,6 @@
+package metier;
 
-public class etat {
+public class Etat {
 	String a; 
 	String b;
 
