@@ -54,7 +54,7 @@ public class Utilisateur {
 	@JoinColumn(name="idRegion")
 	private Region region;
 	
--+*	@ManyToOne
+	@ManyToOne
 	@JoinColumn(name="idRole")
 	private Role role;
 	
