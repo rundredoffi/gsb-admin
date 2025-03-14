@@ -1,5 +1,6 @@
 package metier;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -80,7 +81,13 @@ public class Utilisateur {
 		this.role = role;
 		this.lesFicheFrais = lesFicheFrais;
 	}
+	
+	public Utilisateur() {
+		super();
+		this.lesFicheFrais = new ArrayList<FicheFrais>();
 
+	}
+	
 	public String getIdUtilisateur() {
 		return idUtilisateur;
 	}
