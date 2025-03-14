@@ -1,8 +1,23 @@
 package metier;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Region")
+
 public class Region {
+	@Id
+	@Column (name="idRegion")
 	private int idRegion;
+	@Column (name="libelleRegion")
 	private String LibelleRegion;
+	
+	public Region() {
+		super();
+	}
 	
 	public Region(int idRegion, String libelleRegion) {
 		super();
@@ -10,10 +25,6 @@ public class Region {
 		LibelleRegion = libelleRegion;
 	}
 
-	
-	
-	
-	
 	public int getIdRegion() {
 		return idRegion;
 	}

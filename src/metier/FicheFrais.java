@@ -30,7 +30,9 @@ public class FicheFrais {
 		this.dateModif = dateModif;
 		this.etat = etat;
 	}
-
+	public FicheFrais() {
+		super();
+	}
 	public String getMois() {
 		return mois;
 	}
