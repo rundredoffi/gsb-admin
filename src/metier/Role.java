@@ -1,18 +1,30 @@
 package metier;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Role")
+
 public class Role {
+	@Id
+	@Column (name="idRole")
 	private int idRole;
+	@Column (name="Libelle")
 	private String Libelle;
 		
+	public Role() {
+		super();
+	}
 	
 	public Role(int idRole, String libelle) {
 		super();
 		this.idRole = idRole;
 		Libelle = libelle;
 	}
-
 	
-
 	public int getIdRole() {
 		return idRole;
 	}

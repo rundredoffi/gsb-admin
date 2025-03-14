@@ -6,6 +6,11 @@ import org.hibernate.Session;
 
 import metier.Utilisateur;
 
+import org.hibernate.query.Query;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 public class AccesData {
 
 	
