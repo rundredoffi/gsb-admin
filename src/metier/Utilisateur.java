@@ -17,6 +17,8 @@ public class Utilisateur {
 	String telPortable;
 	Region region;
 	Role role;
+	
+	
 	private List<FicheFrais> lesFicheFrais;
 	
 	public Utilisateur(String nom, String prenom, String login, String adresse, String cp, String ville,

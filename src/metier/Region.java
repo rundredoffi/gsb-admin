@@ -10,6 +10,10 @@ public class Region {
 		LibelleRegion = libelleRegion;
 	}
 
+	
+	
+	
+	
 	public int getIdRegion() {
 		return idRegion;
 	}

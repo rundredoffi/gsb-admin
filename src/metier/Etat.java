@@ -9,6 +9,9 @@ public class Etat {
 		this.idEtat = idEtat;
 		LibelleEtat = libelleEtat;
 	}
+	
+	
+	
 
 	public int getIdEtat() {
 		return idEtat;
