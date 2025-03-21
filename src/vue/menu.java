@@ -1,9 +1,14 @@
 package vue;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 import metier.Utilisateur;
+import persistance.AccesData;
 
 public class menu {
     private JFrame frame;
@@ -31,46 +36,29 @@ public class menu {
         frame.getContentPane().add(panelTitre);
 
         JPanel panelBoutons = new JPanel();
-        btnMatchs = new JButton("Fiches visiteurs");
-        btnStats = new JButton("Statistiques");
-        btnJoueurs = new JButton("Liste des visiteurs");
+        JButton btnGestionVisiteurs = new JButton("Gérer les visiteurs");
+        JButton btnConsulterFicheVisiteurs = new JButton("Consulter les fiches des visiteurs");
+        JButton btnConsulterStats = new JButton("Consulter les statistiques");
         btnDeconnexion = new JButton("Déconnexion");
-
-        if (util.getRole().equals("s")) { 
-            btnStats.setVisible(false);
-            btnJoueurs.setVisible(false);
-            panelBoutons.add(btnMatchs);
-        }
-
-        btnMatchs.addActionListener(e -> {
-            frame.setVisible(false);
-        });
-
-        btnStats.addActionListener(e -> {
-            frame.setVisible(false);
-        });
-
-        btnJoueurs.addActionListener(e -> {
-            frame.setVisible(false);
-        });
-
-        btnDeconnexion.addActionListener(e -> {
-            frame.setVisible(false);
-    		new Login();
-        });
-
-        if (util.getRole().equals("r")) {
-            panelBoutons.add(btnStats);
-            panelBoutons.add(btnJoueurs);
+        if (util.getRole().getIdRole().equals("s")) { 
+        	panelBoutons.add(btnGestionVisiteurs);
+        	panelBoutons.add(btnConsulterFicheVisiteurs);
         }
         
-        if (util.getRole().equals("d")) {
-            panelBoutons.add(btnStats);
-            panelBoutons.add(btnJoueurs);
+        if (util.getRole().getIdRole().equals("r")) {
+            panelBoutons.add(btnConsulterStats);
+        }
+        
+        if (util.getRole().getIdRole().equals("d")) {
+            panelBoutons.add(btnConsulterFicheVisiteurs);
         }       
         
+     
+        btnDeconnexion.addActionListener(e -> System.exit(0));
         panelBoutons.add(btnDeconnexion);
-
-        frame.getContentPane().add(panelBoutons);
+        frame.getContentPane().add(panelBoutons);      
     }
+
+	
+      
 }
