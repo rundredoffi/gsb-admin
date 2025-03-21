@@ -96,12 +96,8 @@ public class visiteurs {
         btnNewButton = new JButton("Retour");
         buttonPanel.add(btnNewButton);
 
-        InsererBDD = new JButton("Insérer XML dans BDD");
-        buttonPanel.add(InsererBDD);
-
-        SelectXMLButton = new JButton("Sélectionner un fichier XML");
-        buttonPanel.add(SelectXMLButton);
-
+       
+     
         
         
         // Créer une barre de menu (JMenuBar)
