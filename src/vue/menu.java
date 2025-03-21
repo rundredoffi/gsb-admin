@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import vue.visiteurs;
 import javax.swing.*;
 
 import metier.Utilisateur;
@@ -43,7 +43,7 @@ public class menu {
         if (util.getRole().getIdRole().equals("s")) { 
         	panelBoutons.add(btnGestionVisiteurs);
         	panelBoutons.add(btnConsulterFicheVisiteurs);
-        	btnGestionVisiteurs.addActionListener(e -> new visiteur());
+        	btnGestionVisiteurs.addActionListener(e -> new visiteurs());
         }
         
         if (util.getRole().getIdRole().equals("r")) {
