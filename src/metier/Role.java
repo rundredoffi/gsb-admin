@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Role {
     @Id
     @Column(name="idRole")
-    private int idRole;
+    private String idRole;
 
     @Column(name="libelleRole")
     private String libelleRole;
@@ -19,17 +19,17 @@ public class Role {
         super();
     }
 
-    public Role(int idRole, String libelleRole) {
+    public Role(String idRole, String libelleRole) {
         super();
         this.idRole = idRole;
         this.libelleRole = libelleRole;
     }
 
-    public int getIdRole() {
+    public String getIdRole() {
         return idRole;
     }
 
-    public void setIdRole(int idRole) {
+    public void setIdRole(String idRole) {
         this.idRole = idRole;
     }
 
