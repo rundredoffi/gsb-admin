@@ -57,6 +57,10 @@ private static Session s = HibernateSession.getSession();
 	public static List<Utilisateur> getLesVisiteurs() {
 		return s.createQuery("from Utilisateur where idRole='v'").list();
 	}
+	
+	public static List<FicheFrais> getLesFichesFrais() {
+		return s.createQuery("from fichefrais").list();
+	}
 }
 	
 	

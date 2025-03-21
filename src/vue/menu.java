@@ -30,7 +30,7 @@ public class menu {
         frame.setLocationRelativeTo(null);
 
         JPanel panelTitre = new JPanel();
-        JLabel lblTitre = new JLabel("GSB - Bienvenue, " + util.getNom());
+        JLabel lblTitre = new JLabel("GSB - Bienvenue, " + util.getNom() + ", " + util.getRole().getLibelleRole());
         lblTitre.setFont(new Font("Serif", Font.BOLD, 18));
         panelTitre.add(lblTitre);
         frame.getContentPane().add(panelTitre);
