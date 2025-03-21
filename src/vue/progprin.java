@@ -1,19 +1,26 @@
 package vue;
-import persistance.HibernateSession;
-import java.util.List;
-import metier.Utilisateur;
+import java.util.ArrayList;
+
+import antlr.collections.List;
 import persistance.AccesData;
+import persistance.HibernateSession;
+import metier.Utilisateur;
+
 
 public class progprin {
 	public static void main(String[] args) {
-		List<Utilisateur> unUtilisateur = AccesData.getLesUtilisateur();
-		System.out.println(unUtilisateur.toString());
-		System.out.println("******************************");
-		
-        new Login().setVisible(true);
-        
-        Utilisateur util = AccesData.getUtilisateurByLoginAndMdp("lvillachane", "dqdqzqzd");
-		System.out.println(util.toString());
-	}
+        Login loginScreen = new Login();
+        loginScreen.setVisible(true);
+        loginScreen.addLoginListener(utilConnecte -> {
+            System.out.println("Utilisateur connecté : " + utilConnecte.getPrenom()+" "+utilConnecte.getNom());
+            loginScreen.dispose();// Fermer la fenêtre de login
+            new menu(utilConnecte);
+            
+           
+        });
+       
 
+        
+
+	}
 }

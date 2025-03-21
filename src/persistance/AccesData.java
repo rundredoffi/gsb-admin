@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import metier.FicheFrais;
+import metier.Region;
 import metier.Utilisateur;
 
 import org.hibernate.query.Query;
@@ -21,6 +23,15 @@ private static Session s = HibernateSession.getSession();
 	public static List<Utilisateur> getLesUtilisateur() {
 		return s.createQuery("from Utilisateur").list();
 	}
+	
+	public static List<Region> getLesRegions() {
+		return s.createQuery("from Region").list();
+	}
+	
+	public static List<FicheFrais> getLesFicheFrais() {
+		return s.createQuery("from fichefrais").list();
+	}
+	
 	
 	public static Utilisateur getUtilisateurByLoginAndMdp(String login, String motDePasse) {
 	    Session session = null;
@@ -42,4 +53,10 @@ private static Session s = HibernateSession.getSession();
 
 	    return utilisateur;  
 	}
+	
+	public static List<Utilisateur> getLesVisiteurs() {
+		return s.createQuery("from Utilisateur where idRole='v'").list();
+	}
 }
+	
+	
