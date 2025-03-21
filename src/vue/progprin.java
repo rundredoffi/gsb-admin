@@ -13,6 +13,11 @@ public class progprin {
 		System.out.println("******************************");
 		
         new Login().setVisible(true);
+        
+        Utilisateur util = AccesData.getUtilisateurByLoginAndMdp("lvillachane", "dqdqzqzd");
+		System.out.println(util.toString());
+
+        
 
 
 	}

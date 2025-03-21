@@ -19,31 +19,32 @@ public class AccesData {
 	private static Session s = HibernateSession.getSession();
 	
 	
+	
 	public static List<Utilisateur> getLesUtilisateur() {
 		return s.createQuery("from Utilisateur").list();
 	}
 	
-	public static String getMotDePasseByNomUtilisateur(String login, String mdp) {
-        Session session = null;
-        String motDePasse = null;
+	public static Utilisateur getUtilisateurByLoginAndMdp(String login, String motDePasse) {
+	    Session session = null;
+	    Utilisateur utilisateur = null;  
+	    try {
+	        String hql = "FROM Utilisateur u WHERE u.login = :login AND u.mdp = :motDePasse";
+	        Query<Utilisateur> query = s.createQuery(hql, Utilisateur.class);
+	        query.setParameter("login", login);
+	        query.setParameter("motDePasse", motDePasse);  
 
-        try {
-            session = s.getSession();
-            String hql = "SELECT mdp FROM Utilisateur WHERE login = :login";
-            Query<String> query = session.createQuery(hql, String.class);
-            query.setParameter("login", login);
+	        utilisateur = query.uniqueResult();  
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (session != null) {
+	            session.close();  
+	        }
+	    }
 
-            motDePasse = query.uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
+	    return utilisateur;  
+	}
 
-        return motDePasse;
-    }
 	
 //	public static Utilisateur getUtlisateur() {
 //		return null;
