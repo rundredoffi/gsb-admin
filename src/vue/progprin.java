@@ -1,8 +1,6 @@
 package vue;
 import persistance.HibernateSession;
-
 import java.util.List;
-
 import metier.Utilisateur;
 import persistance.AccesData;
 
@@ -16,10 +14,6 @@ public class progprin {
         
         Utilisateur util = AccesData.getUtilisateurByLoginAndMdp("lvillachane", "dqdqzqzd");
 		System.out.println(util.toString());
-
-        
-
-
 	}
 
 }

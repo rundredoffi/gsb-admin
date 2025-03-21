@@ -18,7 +18,7 @@ public class Etat {
 	public Etat() {
 		super();
 	}
-	
+
 	public Etat(String idEtat, String libelleEtat) {
 		super();
 		this.idEtat = idEtat;

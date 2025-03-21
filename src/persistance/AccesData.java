@@ -16,10 +16,8 @@ import org.hibernate.Transaction;
 public class AccesData {
 
 	
-	private static Session s = HibernateSession.getSession();
-	
-	
-	
+private static Session s = HibernateSession.getSession();
+
 	public static List<Utilisateur> getLesUtilisateur() {
 		return s.createQuery("from Utilisateur").list();
 	}
@@ -44,10 +42,4 @@ public class AccesData {
 
 	    return utilisateur;  
 	}
-
-	
-//	public static Utilisateur getUtlisateur() {
-//		return null;
-//	}
-
 }
