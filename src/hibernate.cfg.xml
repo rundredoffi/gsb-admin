@@ -14,11 +14,11 @@
   	<property name="hibernate.connection.url">jdbc:mysql://mysql-skylink.alwaysdata.net/skylink_gsb-admin?serverTimezone=UTC</property>
   	<property name="hibernate.connection.username">skylink_gsb</property>
   	<property name="hibernate.connection.password">Skylink!GSB!1456</property>
-	
 	<mapping class="metier.Utilisateur" />
   	<mapping class="metier.FicheFrais" />
   	<mapping class="metier.Role" />
   	<mapping class="metier.Etat" />
   	<mapping class="metier.Region" />
+  	<mapping class="metier.FicheFraisId" />
  </session-factory>
 </hibernate-configuration>
