@@ -19,17 +19,17 @@ public class Etat {
 		super();
 	}
 	
-	public Etat(int idEtat, String libelleEtat) {
+	public Etat(String idEtat, String libelleEtat) {
 		super();
 		this.idEtat = idEtat;
 		this.LibelleEtat = libelleEtat;
 	}
 	
-	public int getIdEtat() {
+	public String getIdEtat() {
 		return idEtat;
 	}
 
-	public void setIdEtat(int idEtat) {
+	public void setIdEtat(String idEtat) {
 		this.idEtat = idEtat;
 	}
 
