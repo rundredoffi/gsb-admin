@@ -38,11 +38,53 @@ public class FicheFrais {
         this.etat = etat;
     }
 
-    // Getters and setters
+	public FicheFrais() {
+		super();
+	}
+	public String getMois() {
+		return mois;
+	}
 
-    @Override
-    public String toString() {
-        return "FicheFrais [id=" + id + ", nbJustificatif=" + nbJustificatif + ", montantValide=" + montantValide
-                + ", dateModif=" + dateModif + ", etat=" + etat + "]";
-    }
+	public void setMois(String mois) {
+		this.mois = mois;
+	}
+
+	public int getNbJustificatif() {
+		return nbJustificatif;
+	}
+
+	public void setNbJustificatif(int nbJustificatif) {
+		this.nbJustificatif = nbJustificatif;
+	}
+
+	public int getMontantValide() {
+		return montantValide;
+	}
+
+	public void setMontantValide(int montantValide) {
+		this.montantValide = montantValide;
+	}
+
+	public Date getDateModif() {
+		return dateModif;
+	}
+
+	public void setDateModif(Date dateModif) {
+		this.dateModif = dateModif;
+	}
+
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	@Override
+	public String toString() {
+		return "FicheFrais [mois=" + mois + ", nbJustificatif=" + nbJustificatif + ", montantValide=" + montantValide
+				+ ", dateModif=" + dateModif + ", etat=" + etat + "]";
+	}
+
 }
