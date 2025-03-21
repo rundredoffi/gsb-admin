@@ -11,7 +11,7 @@ import javax.persistence.Table;
 public class Etat {
 	@Id
 	@Column (name="idEtat")
-	private int idEtat;
+	private String idEtat;
 	@Column (name="libelleEtat")
 	private String LibelleEtat;
 	
@@ -22,7 +22,7 @@ public class Etat {
 	public Etat(int idEtat, String libelleEtat) {
 		super();
 		this.idEtat = idEtat;
-		LibelleEtat = libelleEtat;
+		this.LibelleEtat = libelleEtat;
 	}
 	
 	public int getIdEtat() {
