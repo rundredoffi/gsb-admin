@@ -49,7 +49,6 @@ public class Login extends JFrame {
                 if (util != null) {
                     messageLabel.setText("Connexion réussie !");
                     messageLabel.setForeground(Color.GREEN);
-                    
                     notifyListeners(); // Notifier les écouteurs
                 } else {
                     messageLabel.setText("Identifiants incorrects.");
