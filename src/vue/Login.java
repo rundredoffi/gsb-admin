@@ -1,6 +1,10 @@
 package vue;
 
 import javax.swing.*;
+
+import metier.Utilisateur;
+import persistance.AccesData;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,8 +39,11 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = userField.getText();
                 String password = new String(passField.getPassword());
+                
+                Utilisateur util = AccesData.getUtilisateurByLoginAndMdp(username, password);
 
-                if (verifyCredentials(username, password)) {
+
+                if (util != null) {
                     messageLabel.setText("Connexion réussie !");
                     messageLabel.setForeground(Color.GREEN);
                 } else {
@@ -45,10 +52,6 @@ public class Login extends JFrame {
                 }
             }
         });
-    }
-
-    private boolean verifyCredentials(String username, String password) {
-        return username.equals("admin") && password.equals("1234");
     }
 }
 
