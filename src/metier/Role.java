@@ -7,43 +7,42 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="role")
-
 public class Role {
-	@Id
-	@Column (name="idRole")
-	private int idRole;
-	@Column (name="libelleRole")
-	private String LibelleRole;
-		
-	public Role() {
-		super();
-	}
+    @Id
+    @Column(name="idRole")
+    private String idRole;
 
-	public Role(int idRole, String libelleRole) {
-		super();
-		this.idRole = idRole;
-		LibelleRole = libelleRole;
-	}
-	
-	public int getIdRole() {
-		return idRole;
-	}
+    @Column(name="libelleRole")
+    private String libelleRole;
 
-	public void setIdRole(int idRole) {
-		this.idRole = idRole;
-	}
+    public Role() {
+        super();
+    }
 
-	public String getLibelleRole() {
-		return LibelleRole;
-	}
+    public Role(String idRole, String libelleRole) {
+        super();
+        this.idRole = idRole;
+        this.libelleRole = libelleRole;
+    }
 
-	public void setLibelleRole(String libelleRole) {
-		LibelleRole = libelleRole;
-	}
+    public String getIdRole() {
+        return idRole;
+    }
 
-	@Override
-	public String toString() {
-		return "Role [idRole=" + idRole + ", LibelleRole=" + LibelleRole + "]";
-	}
-	
+    public void setIdRole(String idRole) {
+        this.idRole = idRole;
+    }
+
+    public String getLibelleRole() {
+        return libelleRole;
+    }
+
+    public void setLibelleRole(String libelleRole) {
+        this.libelleRole = libelleRole;
+    }
+
+    @Override
+    public String toString() {
+        return "Role [idRole=" + idRole + ", libelleRole=" + libelleRole + "]";
+    }
 }

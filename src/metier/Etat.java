@@ -11,25 +11,25 @@ import javax.persistence.Table;
 public class Etat {
 	@Id
 	@Column (name="idEtat")
-	private int idEtat;
+	private String idEtat;
 	@Column (name="libelleEtat")
 	private String LibelleEtat;
 	
 	public Etat() {
 		super();
 	}
-	
-	public Etat(int idEtat, String libelleEtat) {
+
+	public Etat(String idEtat, String libelleEtat) {
 		super();
 		this.idEtat = idEtat;
-		LibelleEtat = libelleEtat;
+		this.LibelleEtat = libelleEtat;
 	}
 	
-	public int getIdEtat() {
+	public String getIdEtat() {
 		return idEtat;
 	}
 
-	public void setIdEtat(int idEtat) {
+	public void setIdEtat(String idEtat) {
 		this.idEtat = idEtat;
 	}
 

@@ -2,156 +2,98 @@ package metier;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-
+@Entity
+@Table(name="utilisateur")
 public class Utilisateur {
-	private String nom;
-	private String prenom;
-	private String login;
-	private String adresse;
-	private String cp;
-	private String ville;
-	private Date dateEmbauche;
-	private String email;
-	private String telfixe;
-	private String telPortable;
-	private Region region;
-	private Role role;
-	
-	
-	private List<FicheFrais> lesFicheFrais;
-	
-	public Utilisateur(String nom, String prenom, String login, String adresse, String cp, String ville,
-			Date dateEmbauche, String email, String telfixe, String telPortable, Region region, Role role,
-			List<FicheFrais> lesFicheFrais) {
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.login = login;
-		this.adresse = adresse;
-		this.cp = cp;
-		this.ville = ville;
-		this.dateEmbauche = dateEmbauche;
-		this.email = email;
-		this.telfixe = telfixe;
-		this.telPortable = telPortable;
-		this.region = region;
-		this.role = role;
-		this.lesFicheFrais = lesFicheFrais;
-	}
+    @Id
+    @Column(name="idUtilisateur")
+    private String idUtilisateur;
 
-	public String getNom() {
-		return nom;
-	}
+    @Column(name="nom")
+    private String nom;
 
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+    @Column(name="prenom")
+    private String prenom;
 
-	public String getPrenom() {
-		return prenom;
-	}
+    @Column(name="login")
+    private String login;
 
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
+    @Column(name="mdp")
+    private String mdp;
 
-	public String getLogin() {
-		return login;
-	}
+    @Column(name="adresse")
+    private String adresse;
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+    @Column(name="cp")
+    private String cp;
 
-	public String getAdresse() {
-		return adresse;
-	}
+    @Column(name="ville")
+    private String ville;
 
-	public void setAdresse(String adresse) {
-		this.adresse = adresse;
-	}
+    @Column(name="dateEmbauche")
+    private Date dateEmbauche;
 
-	public String getCp() {
-		return cp;
-	}
+    @Column(name="email")
+    private String email;
 
-	public void setCp(String cp) {
-		this.cp = cp;
-	}
+    @Column(name="telFixe")
+    private String telfixe;
 
-	public String getVille() {
-		return ville;
-	}
+    @Column(name="telPortable")
+    private String telPortable;
 
-	public void setVille(String ville) {
-		this.ville = ville;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idRegion")
+    private Region region;
 
-	public Date getDateEmbauche() {
-		return dateEmbauche;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idRole")
+    private Role role;
 
-	public void setDateEmbauche(Date dateEmbauche) {
-		this.dateEmbauche = dateEmbauche;
-	}
+    @OneToMany(mappedBy = "id.idVisiteur")
+    private List<FicheFrais> lesFicheFrais;
 
-	public String getEmail() {
-		return email;
-	}
+    public Utilisateur() {
+        super();
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public Utilisateur(String idUtilisateur, String nom, String prenom, String login, String mdp, String adresse, String cp, String ville,
+                       Date dateEmbauche, String email, String telfixe, String telPortable, Region region, Role role,
+                       List<FicheFrais> lesFicheFrais) {
+        super();
+        this.idUtilisateur = idUtilisateur;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.login = login;
+        this.mdp = mdp;
+        this.adresse = adresse;
+        this.cp = cp;
+        this.ville = ville;
+        this.dateEmbauche = dateEmbauche;
+        this.email = email;
+        this.telfixe = telfixe;
+        this.telPortable = telPortable;
+        this.region = region;
+        this.role = role;
+        this.lesFicheFrais = lesFicheFrais;
+    }
 
-	public String getTelfixe() {
-		return telfixe;
-	}
+    // Getters and setters
 
-	public void setTelfixe(String telfixe) {
-		this.telfixe = telfixe;
-	}
-
-	public String getTelPortable() {
-		return telPortable;
-	}
-
-	public void setTelPortable(String telPortable) {
-		this.telPortable = telPortable;
-	}
-
-	public Region getRegion() {
-		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(Role role) {
-		this.role = role;
-	}
-
-	public List<FicheFrais> getLesFicheFrais() {
-		return lesFicheFrais;
-	}
-
-	public void setLesFicheFrais(List<FicheFrais> lesFicheFrais) {
-		this.lesFicheFrais = lesFicheFrais;
-	}
-
-	@Override
-	public String toString() {
-		return "Utilisateur [nom=" + nom + ", prenom=" + prenom + ", login=" + login + ", adresse=" + adresse + ", cp="
-				+ cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", email=" + email + ", telfixe="
-				+ telfixe + ", telPortable=" + telPortable + ", region=" + region + ", role=" + role
-				+ ", lesFicheFrais=" + lesFicheFrais + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "Utilisateur [idUtilisateur=" + idUtilisateur + ", nom=" + nom + ", prenom=" + prenom + ", login=" + login + ", mdp=" + mdp + ", adresse=" + adresse + ", cp="
+                + cp + ", ville=" + ville + ", dateEmbauche=" + dateEmbauche + ", email=" + email + ", telfixe="
+                + telfixe + ", telPortable=" + telPortable + ", region=" + region + ", role=" + role
+                + ", lesFicheFrais=" + lesFicheFrais + "]";
+    }
 }
-	
-	
