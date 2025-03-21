@@ -20,7 +20,7 @@ public class Login extends JFrame {
     private List<LoginListener> listeners = new ArrayList<>();
 
     public Login() {
-    	setTitle("Connexion");
+        setTitle("Connexion");
         setSize(440, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -57,20 +57,7 @@ public class Login extends JFrame {
         // Message de confirmation ou d'erreur
         messageLabel = new JLabel("", SwingConstants.CENTER);
         gbc.gridy = 5;
-        gbc.gridwidth = 2; // Pour étirer le message sur deux colonnes
-        add(messageLabel, gbc);
-
-
-        // Bouton de connexion
-        loginButton = new JButton("Se connecter");
-        gbc.gridy = 4;
-        gbc.gridwidth = 2; // Pour étirer le bouton sur deux colonnes
-        add(loginButton, gbc);
-
-        // Message de confirmation ou d'erreur
-        messageLabel = new JLabel("", SwingConstants.CENTER);
-        gbc.gridy = 5;
-        gbc.gridwidth = 2; // Pour étirer le message sur deux colonnes
+        gbc.gridwidth = 2; 
         add(messageLabel, gbc);
 
         // Action du bouton de connexion
@@ -79,11 +66,13 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = userField.getText();
                 String password = new String(passField.getPassword());
-                Utilisateur util = AccesData.getUtilisateurByLoginAndMdp(username, password);
+
+                util = AccesData.getUtilisateurByLoginAndMdp(username, password); // Stocker l'utilisateur dans l'attribut
 
                 if (util != null) {
                     messageLabel.setText("Connexion réussie !");
                     messageLabel.setForeground(Color.GREEN);
+
                     notifyListeners(); // Notifier les écouteurs
                 } else {
                     messageLabel.setText("Identifiants incorrects.");
@@ -91,10 +80,6 @@ public class Login extends JFrame {
                 }
             }
         });
-    }
-
-    public Utilisateur getUtil() {
-        return util;
     }
 
     public void addLoginListener(LoginListener listener) {
