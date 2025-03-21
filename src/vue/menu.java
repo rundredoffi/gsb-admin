@@ -43,6 +43,7 @@ public class menu {
         if (util.getRole().getIdRole().equals("s")) { 
         	panelBoutons.add(btnGestionVisiteurs);
         	panelBoutons.add(btnConsulterFicheVisiteurs);
+        	btnGestionVisiteurs.addActionListener(e -> new visiteur());
         }
         
         if (util.getRole().getIdRole().equals("r")) {
