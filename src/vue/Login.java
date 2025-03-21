@@ -2,18 +2,22 @@ package vue;
 
 import javax.swing.*;
 
+import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Login extends JFrame {
     private JTextField userField;
     private JPasswordField passField;
     private JButton loginButton;
     private JLabel messageLabel;
+    private Utilisateur util;
+    private List<LoginListener> listeners = new ArrayList<>();
 
     public Login() {
         setTitle("Connexion");
@@ -62,14 +66,13 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = userField.getText();
                 String password = new String(passField.getPassword());
-                
-                Utilisateur util = AccesData.getUtilisateurByLoginAndMdp(username, password);
-
                 Utilisateur util = AccesData.getUtilisateurByLoginAndMdp(username, password);
 
                 if (util != null) {
                     messageLabel.setText("Connexion réussie !");
                     messageLabel.setForeground(Color.GREEN);
+                    
+                    notifyListeners(); // Notifier les écouteurs
                 } else {
                     messageLabel.setText("Identifiants incorrects.");
                     messageLabel.setForeground(Color.RED);
@@ -77,8 +80,18 @@ public class Login extends JFrame {
             }
         });
     }
-    public static void main(String[] args) {
-        // Lancer l'application
-        SwingUtilities.invokeLater(() -> new Login().setVisible(true));
+
+    public Utilisateur getUtil() {
+        return util;
+    }
+
+    public void addLoginListener(LoginListener listener) {
+        listeners.add(listener);
+    }
+
+    private void notifyListeners() {
+        for (LoginListener listener : listeners) {
+            listener.onLoginSuccess(util);
+        }
     }
 }
