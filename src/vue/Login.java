@@ -20,7 +20,7 @@ public class Login extends JFrame {
     private List<LoginListener> listeners = new ArrayList<>();
 
     public Login() {
-        setTitle("Connexion");
+    	setTitle("Connexion");
         setSize(440, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -47,6 +47,19 @@ public class Login extends JFrame {
         passField.setPreferredSize(new Dimension(250, 30)); // Fixer la taille du champ mot de passe
         gbc.gridy = 3;
         add(passField, gbc);
+
+        // Bouton de connexion
+        loginButton = new JButton("Se connecter");
+        gbc.gridy = 4;
+        gbc.gridwidth = 2; // Pour étirer le bouton sur deux colonnes
+        add(loginButton, gbc);
+
+        // Message de confirmation ou d'erreur
+        messageLabel = new JLabel("", SwingConstants.CENTER);
+        gbc.gridy = 5;
+        gbc.gridwidth = 2; // Pour étirer le message sur deux colonnes
+        add(messageLabel, gbc);
+
 
         // Bouton de connexion
         loginButton = new JButton("Se connecter");
