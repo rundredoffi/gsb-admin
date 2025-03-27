@@ -37,11 +37,8 @@ import persistance.AccesData;
 public class visiteurs {
     private JFrame frame;
     private JTable table;
-    private JPanel buttonPanel; // Panneau pour les boutons
-    private JButton InsererBDD;
+    private JPanel buttonPanel; 
     private JButton btnNewButton;
-    private JLabel TextError;
-    private JButton SelectXMLButton;
     private JMenuBar menuBar;
 
 

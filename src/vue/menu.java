@@ -12,9 +12,6 @@ import persistance.AccesData;
 
 public class menu {
     private JFrame frame;
-    private JButton btnMatchs;
-    private JButton btnStats;
-    private JButton btnJoueurs;
     private JButton btnDeconnexion;
 
     public menu(Utilisateur util) {
