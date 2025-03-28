@@ -59,7 +59,7 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static List<FicheFrais> getLesFichesFrais() {
-		return s.createQuery("from fichefrais").list();
+		return s.createQuery("from FicheFrais").list();
 	}
 }
 	
