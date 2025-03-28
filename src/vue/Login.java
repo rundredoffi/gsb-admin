@@ -1,7 +1,6 @@
 package vue;
 
 import javax.swing.*;
-
 import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
@@ -17,67 +16,86 @@ public class Login extends JFrame {
     private JButton loginButton;
     private JLabel messageLabel;
     private Utilisateur util;
+    private Boolean status;
     private List<LoginListener> listeners = new ArrayList<>();
+    private LoadingScreen loadingScreen;
 
     public Login() {
         setTitle("Connexion");
         setSize(440, 280);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout()); // Utilisation de GridBagLayout pour un placement flexible
+        setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10); // Marge autour des composants
-        gbc.fill = GridBagConstraints.HORIZONTAL; // Pour forcer les composants à s'étirer horizontalement
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Label et champ utilisateur
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(new JLabel("Utilisateur:"), gbc);  // Texte au-dessus du champ utilisateur
+        add(new JLabel("Utilisateur:"), gbc);
         userField = new JTextField();
-        userField.setPreferredSize(new Dimension(250, 30)); // Fixer la taille du champ utilisateur
+        userField.setPreferredSize(new Dimension(250, 30));
         gbc.gridy = 1;
-        gbc.gridwidth = 2; // Pour étirer le champ utilisateur sur deux colonnes
+        gbc.gridwidth = 2;
         add(userField, gbc);
 
-        // Label et champ mot de passe
         gbc.gridy = 2;
-        add(new JLabel("Mot de passe:"), gbc);  // Texte au-dessus du champ mot de passe
+        add(new JLabel("Mot de passe:"), gbc);
         passField = new JPasswordField();
-        passField.setPreferredSize(new Dimension(250, 30)); // Fixer la taille du champ mot de passe
+        passField.setPreferredSize(new Dimension(250, 30));
         gbc.gridy = 3;
         add(passField, gbc);
 
-        // Bouton de connexion
         loginButton = new JButton("Se connecter");
         gbc.gridy = 4;
-        gbc.gridwidth = 2; // Pour étirer le bouton sur deux colonnes
+        gbc.gridwidth = 2;
         add(loginButton, gbc);
 
-        // Message de confirmation ou d'erreur
         messageLabel = new JLabel("", SwingConstants.CENTER);
         gbc.gridy = 5;
-        gbc.gridwidth = 2; 
+        gbc.gridwidth = 2;
         add(messageLabel, gbc);
 
-        // Action du bouton de connexion
+        loadingScreen = new LoadingScreen(this);
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = userField.getText();
                 String password = new String(passField.getPassword());
+                status = true;
+                loadingScreen.show();
 
-                util = AccesData.getUtilisateurByLoginAndMdp(username, password); // Stocker l'utilisateur dans l'attribut
+                // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        util = AccesData.getUtilisateurByLoginAndMdp(username, password);
+                        return null;
+                    }
 
-                if (util != null) {
-                    messageLabel.setText("Connexion réussie !");
-                    messageLabel.setForeground(Color.GREEN);
+                    @Override
+                    protected void done() {
+                        try {
+                            get();
+                            status = false;
+                            loadingScreen.hide();
 
-                    notifyListeners(); // Notifier les écouteurs
-                } else {
-                    messageLabel.setText("Identifiants incorrects.");
-                    messageLabel.setForeground(Color.RED);
-                }
+                            if (util != null) {
+                                messageLabel.setText("Connexion réussie !");
+                                messageLabel.setForeground(Color.GREEN);
+                                notifyListeners();
+                            } else {
+                                messageLabel.setText("Identifiants incorrects.");
+                                messageLabel.setForeground(Color.RED);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                };
+                worker.execute();
             }
         });
     }
