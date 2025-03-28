@@ -79,18 +79,18 @@ private static Session s = HibernateSession.getSession();
 	}
 	public static Boolean insertionVisiteur(Utilisateur util) {
 		Transaction t = s.beginTransaction();
-		boolean ok = false;
+		Boolean b = false;
 		try {
 			s.save(util);
 			t.commit();
-			ok = true;
+			b = true;
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage());
 			if (t.isActive()) {
 				t.rollback();
 			}
 		}
-		return ok;
+		return b;
 	}
 }
 	
