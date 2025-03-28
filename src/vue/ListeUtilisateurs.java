@@ -96,9 +96,11 @@ public class ListeUtilisateurs {
         TableColumn regionColumn = table.getColumnModel().getColumn(10);
         regionColumn.setCellEditor(new DefaultCellEditor(regionComboBox));
 
-        TableColumn deleteColumn = table.getColumnModel().getColumn(11);
-        deleteColumn.setCellRenderer(new ButtonRenderer());
-        deleteColumn.setCellEditor(new ButtonEditor());
+        if(utilConnecte.getRole().getIdRole().equals("s")) {
+        	TableColumn deleteColumn = table.getColumnModel().getColumn(11);
+            deleteColumn.setCellRenderer(new ButtonRenderer());
+            deleteColumn.setCellEditor(new ButtonEditor());
+        }
 
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);

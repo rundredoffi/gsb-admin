@@ -45,7 +45,9 @@ public class Menu {
         }
         
         if (util.getRole().getIdRole().equals("d")) {
-            panelBoutons.add(btnConsulterFicheVisiteurs);
+        	btnGestionVisiteurs.setText("Consulter les fiches visiteur");
+            panelBoutons.add(btnGestionVisiteurs);
+        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }       
         
      
