@@ -66,23 +66,36 @@ public class Login extends JFrame {
                 String password = new String(passField.getPassword());
                 status = true;
                 loadingScreen.show();
-                
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
+
+                // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
                         util = AccesData.getUtilisateurByLoginAndMdp(username, password);
-                        status = false;
-                        loadingScreen.hide();
-                        
-                        if (util != null) {
-                            messageLabel.setText("Connexion réussie !");
-                            messageLabel.setForeground(Color.GREEN);
-                            notifyListeners();
-                        } else {
-                            messageLabel.setText("Identifiants incorrects.");
-                            messageLabel.setForeground(Color.RED);
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            get();
+                            status = false;
+                            loadingScreen.hide();
+
+                            if (util != null) {
+                                messageLabel.setText("Connexion réussie !");
+                                messageLabel.setForeground(Color.GREEN);
+                                notifyListeners();
+                            } else {
+                                messageLabel.setText("Identifiants incorrects.");
+                                messageLabel.setForeground(Color.RED);
+                            }
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
                         }
                     }
-                });
+                };
+                worker.execute();
             }
         });
     }
@@ -90,7 +103,6 @@ public class Login extends JFrame {
     public void addLoginListener(LoginListener listener) {
         listeners.add(listener);
     }
-
 
     private void notifyListeners() {
         for (LoginListener listener : listeners) {
