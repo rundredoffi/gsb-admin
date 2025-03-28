@@ -48,7 +48,7 @@ public class FicheUtilisateur extends JDialog {
     }
 
     private FicheUtilisateur(JFrame parent,String firstCellValue) {
-        super(parent, "Nouvelle Fenêtre", true);
+        super(parent, "Fiche utilisateur : " + firstCellValue, true);
         setSize(450, 650);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
