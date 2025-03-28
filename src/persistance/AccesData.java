@@ -24,6 +24,8 @@ private static Session s = HibernateSession.getSession();
 		return query.list();
 	}
 	
+
+	
 	public static List<FicheFrais> getLesFicheFrais() {
 		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
 		return query.list();
@@ -93,6 +95,22 @@ private static Session s = HibernateSession.getSession();
 			}
 		}
 		return b;
+	}
+	
+	public static Boolean updateVisiteur(Utilisateur util) {
+	    Transaction t = s.beginTransaction();
+	    Boolean b = false;
+	    try {
+	        s.merge(util); // Merge permet de mettre à jour un objet détaché
+	        t.commit();
+	        b = true;
+	    } catch (HibernateException e) {
+	        System.out.println(e.getMessage());
+	        if (t != null && t.isActive()) {
+	            t.rollback();
+	        }
+	    }
+	    return b;
 	}
 }
 	
