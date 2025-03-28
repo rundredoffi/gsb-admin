@@ -25,7 +25,12 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static List<FicheFrais> getLesFicheFrais() {
-		Query<FicheFrais> query = s.createQuery("from fichefrais", FicheFrais.class);
+		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
+		return query.list();
+	}
+	
+	public static List<Region> getLesRegions() {
+		Query<Region> query = s.createQuery("from Region", Region.class);
 		return query.list();
 	}
 	
