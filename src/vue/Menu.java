@@ -35,11 +35,13 @@ public class Menu {
         btnDeconnexion = new JButton("Déconnexion");
         if (util.getRole().getIdRole().equals("s")) { 
         	panelBoutons.add(btnGestionVisiteurs);
-        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs());
+        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }
         
         if (util.getRole().getIdRole().equals("r")) {
             panelBoutons.add(btnConsulterStats);
+            btnConsulterStats.addActionListener(e -> new fichefrais());
+
         }
         
         if (util.getRole().getIdRole().equals("d")) {
