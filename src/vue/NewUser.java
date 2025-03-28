@@ -7,14 +7,14 @@ import persistance.AccesData;
 
 import java.awt.*;
 
-public class NouvelleFenetre extends JDialog {
+public class NewUser extends JDialog {
 
     // Variable statique pour suivre si la fenêtre est déjà ouverte
-    private static NouvelleFenetre instance = null;
+    private static NewUser instance = null;
 
     public static void ouvrirFenetre(JFrame parent, String firstCellValue) {
         if (instance == null || !instance.isVisible()) {
-            instance = new NouvelleFenetre(parent);
+            instance = new NewUser(parent);
         } else {
             // Optionnel : Ramener la fenêtre existante au premier plan
             instance.toFront();
@@ -22,7 +22,7 @@ public class NouvelleFenetre extends JDialog {
     }
 
 
-    private NouvelleFenetre(JFrame parent) {
+    private NewUser(JFrame parent) {
     	
     	
         super(parent, "Nouvelle Fenêtre", true); // Le troisième paramètre 'true' active la modalité
