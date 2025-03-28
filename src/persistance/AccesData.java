@@ -3,6 +3,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import metier.FicheFrais;
 import metier.Region;
@@ -25,6 +29,7 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 
+	
 	
 	public static List<FicheFrais> getLesFicheFrais() {
 		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
@@ -112,6 +117,43 @@ private static Session s = HibernateSession.getSession();
 	    }
 	    return b;
 	}
+	
+	public static Boolean deleteVisiteur(String utilisateurId) {
+		Connection conn = null;
+        PreparedStatement pstmt = null;
+        Boolean success = false;
+
+        try {
+            // Obtenir la connexion à partir de AccesBD
+            conn = AccesBD.getInstance();
+
+            // Créer la déclaration de suppression
+            String sql = "DELETE FROM utilisateur WHERE idUtilisateur = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, utilisateurId);
+
+            // Exécuter la déclaration
+            int affectedRows = pstmt.executeUpdate();
+
+            // Vérifier si des lignes ont été affectées
+            if (affectedRows > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            // Récupérer et afficher le message d'erreur SQL
+            System.out.println(e.getMessage());
+        } finally {
+            // Fermer les ressources
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) AccesBD.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return success;
+    }
 }
 	
 	
