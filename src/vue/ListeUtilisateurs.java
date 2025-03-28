@@ -150,7 +150,7 @@ public class ListeUtilisateurs {
                         Object firstCellValue = table.getValueAt(selectedRow, 0);
                         if (firstCellValue != null) {
                             // Passez 'frame' comme parent ici
-                            NouvelleFenetre.ouvrirFenetre(frame, firstCellValue.toString());
+                        	FicheUtilisateur.ouvrirFenetre(frame, firstCellValue.toString());
                         }
                     }
                 }
