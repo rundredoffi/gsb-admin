@@ -26,6 +26,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
+import metier.Region;
 import metier.Utilisateur;
 import persistance.AccesData;
 
@@ -59,6 +60,17 @@ public class visiteurs {
         String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
+        List<Region> regions = AccesData.getLesRegions();
+
+        String[] regionNames = new String[regions.size()];
+
+        for (int i = 0; i < regions.size(); i++) {
+            regionNames[i] = regions.get(i).getLibelleRegion();
+        }
+
+        JComboBox<String> regionComboBox = new JComboBox<>(regionNames);
+        
+        
         List<Utilisateur> util = AccesData.getLesUtilisateur();
         for (Utilisateur u : util) {
             Object[] rowData = {
@@ -123,12 +135,8 @@ public class visiteurs {
         frame.setJMenuBar(menuBar);
 
 
-        // Liste des régions pour le JComboBox
-        String[] regions = {"Région 1", "Région 2", "Région 3", "Région 4"};  // Remplacez par les vraies régions
-        JComboBox<String> regionComboBox = new JComboBox<>(regions);
+       
 
-        // Appliquer le JComboBox comme éditeur de cellules pour la colonne "Region" (index 10)
-        table.getColumnModel().getColumn(10).setCellEditor(new DefaultCellEditor(regionComboBox));
         
         // Action pour le bouton Retour
         btnRetour.addActionListener(new ActionListener() {
