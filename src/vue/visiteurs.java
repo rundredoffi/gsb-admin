@@ -13,7 +13,6 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -199,8 +198,9 @@ public class visiteurs {
         @Override
         public java.awt.Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText((value == null) ? "" : value.toString());
-            setBackground(Color.RED);
-            setForeground(Color.WHITE);
+            setForeground(Color.RED);
+            setBorderPainted(false);
+            setContentAreaFilled(false);
             return this;
         }
     }
@@ -222,8 +222,9 @@ public class visiteurs {
             this.row = row;
             label = (value == null) ? "" : value.toString();
             button.setText(label);
-            button.setBackground(Color.RED);
-            button.setForeground(Color.WHITE);
+            button.setForeground(Color.RED);
+            button.setBorderPainted(false);
+            button.setContentAreaFilled(false);
             isPushed = true;
             return button;
         }
