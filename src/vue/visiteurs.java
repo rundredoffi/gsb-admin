@@ -54,7 +54,7 @@ public class visiteurs {
         frame.setLayout(new BorderLayout()); // Utilisation de BorderLayout pour la disposition
 
         // Création du modèle de table avec des colonnes
-        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche"};
+        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         List<Utilisateur> util = AccesData.getLesUtilisateur();
@@ -70,6 +70,8 @@ public class visiteurs {
                 u.getTelfixe(),
                 u.getTelPortable(),
                 u.getDateEmbauche(),
+                u.getRegion().getLibelleRegion(),
+
             };
             tableModel.addRow(rowData);
         }
@@ -96,6 +98,21 @@ public class visiteurs {
         btnNewButton = new JButton("Retour");
         buttonPanel.add(btnNewButton);
 
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object firstCellValue = table.getValueAt(selectedRow, 0);
+                        if (firstCellValue != null) {
+                            // Passez 'frame' comme parent ici
+                            NouvelleFenetre.ouvrirFenetre(frame, firstCellValue.toString());
+                        }
+                    }
+                }
+            }
+        });
        
      
         

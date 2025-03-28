@@ -61,6 +61,26 @@ private static Session s = HibernateSession.getSession();
 	public static List<FicheFrais> getLesFichesFrais() {
 		return s.createQuery("from FicheFrais").list();
 	}
+	
+	public static Utilisateur getUtilisateurByID(String id) {
+	    Session session = null;
+	    Utilisateur utilisateur = null;  
+	    try {
+	        String hql = "FROM Utilisateur u WHERE u.id = :id";
+	        Query<Utilisateur> query = s.createQuery(hql, Utilisateur.class);
+	        query.setParameter("id", id);
+
+	        utilisateur = query.uniqueResult();  
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (session != null) {
+	            session.close();  
+	        }
+	    }
+
+	    return utilisateur;  
+	}
 }
 	
 	
