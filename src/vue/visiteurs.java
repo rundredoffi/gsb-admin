@@ -99,21 +99,8 @@ public class visiteurs {
         btnSave = new JButton("Enregistrer");
         buttonPanel.add(btnSave);
 
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        Object firstCellValue = table.getValueAt(selectedRow, 0);
-                        if (firstCellValue != null) {
-                            // Passez 'frame' comme parent ici
-                            NewUser.ouvrirFenetre(frame, firstCellValue.toString());
-                        }
-                    }
-                }
-            }
-        });
+       
+                      
        
      
         
@@ -182,6 +169,14 @@ public class visiteurs {
             }
         });
         
+        btnNewVisiteur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                NewUser.ouvrirFenetre(frame);
+            }
+        });
+        
+        
+
       
 
         // Affichage de la fenêtre
