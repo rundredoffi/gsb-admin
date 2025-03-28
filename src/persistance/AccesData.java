@@ -13,19 +13,21 @@ import metier.Utilisateur;
 
 public class AccesData {
 
-	
 private static Session s = HibernateSession.getSession();
 
 	public static List<Utilisateur> getLesUtilisateur() {
-		return s.createQuery("from Utilisateur").list();
+		Query<Utilisateur> query = s.createQuery("from Utilisateur", Utilisateur.class);
+        return query.list();
 	}
 	
 	public static List<Region> getLesRegions() {
-		return s.createQuery("from Region").list();
+		Query<Region> query = s.createQuery("from Region", Region.class);
+		return query.list();
 	}
 	
 	public static List<FicheFrais> getLesFicheFrais() {
-		return s.createQuery("from fichefrais").list();
+		Query<FicheFrais> query = s.createQuery("from fichefrais", FicheFrais.class);
+		return query.list();
 	}
 	
 	
@@ -51,11 +53,13 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static List<Utilisateur> getLesVisiteurs() {
-		return s.createQuery("from Utilisateur where idRole='v'").list();
+		Query<Utilisateur> query = s.createQuery("from Utilisateur where idRole='v'", Utilisateur.class);
+		return query.list();
 	}
 	
 	public static List<FicheFrais> getLesFichesFrais() {
-		return s.createQuery("from FicheFrais").list();
+		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
+		return query.list();
 	}
 	
 	public static Utilisateur getUtilisateurByID(String id) {
