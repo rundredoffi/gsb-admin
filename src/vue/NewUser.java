@@ -10,8 +10,6 @@ import metier.FicheFrais;
 import persistance.AccesData;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -174,14 +172,23 @@ public class NewUser extends JDialog {
         btnAjoutUtilisateur.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Date maDate = new Date();
-                Region maRegion = (Region) regionComboBox.getSelectedItem();
-                Role monRole = (Role) roleComboBox.getSelectedItem();
-                ArrayList<FicheFrais> mesFichesFrais = new ArrayList<>();
-                Utilisateur monUtilisateur = new Utilisateur(idVisiteurField.getText(), nomField.getText(), prenomField.getText(), loginField.getText(), passwordField.getText(), adresseField.getText(), codePostalField.getText(), villeField.getText(), maDate, emailField.getText(), numFixeField.getText(), numPortableField.getText(), maRegion, monRole, mesFichesFrais);
-                System.out.println("Utilisateur créé : " + monUtilisateur.getNom() + " " + monUtilisateur.getPrenom());
-                Boolean b = AccesData.insertionVisiteur(monUtilisateur);
-                
+                if (areFieldsValid()) {
+                    Date maDate = new Date();
+                    Region maRegion = (Region) regionComboBox.getSelectedItem();
+                    Role monRole = (Role) roleComboBox.getSelectedItem();
+                    ArrayList<FicheFrais> mesFichesFrais = new ArrayList<>();
+                    Utilisateur monUtilisateur = new Utilisateur(idVisiteurField.getText(), nomField.getText(), prenomField.getText(), loginField.getText(), passwordField.getText(), adresseField.getText(), codePostalField.getText(), villeField.getText(), maDate, emailField.getText(), numFixeField.getText(), numPortableField.getText(), maRegion, monRole, mesFichesFrais);
+                    Boolean isSuccess = AccesData.insertionVisiteur(monUtilisateur);
+
+                    if (isSuccess) {
+                        JOptionPane.showMessageDialog(panel, "L'utilisateur " + monUtilisateur.getNom() + " " + monUtilisateur.getPrenom() + " a été créé avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        dispose(); // Fermer la fenêtre de création d'utilisateur
+                    } else {
+                        JOptionPane.showMessageDialog(panel, "Une erreur est survenue lors de la création de l'utilisateur.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(panel, "Veuillez remplir tous les champs obligatoires.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         btnAjoutUtilisateur.setBounds(147, 549, 140, 34);
@@ -191,6 +198,13 @@ public class NewUser extends JDialog {
         remplirComboBoxRoles();
 
         setVisible(true);
+    }
+
+    private boolean areFieldsValid() {
+        return !nomField.getText().isEmpty() && !prenomField.getText().isEmpty() && !loginField.getText().isEmpty() && !passwordField.getText().isEmpty()
+                && !adresseField.getText().isEmpty() && !codePostalField.getText().isEmpty() && !villeField.getText().isEmpty()
+                && !emailField.getText().isEmpty() && !numFixeField.getText().isEmpty() && !numPortableField.getText().isEmpty()
+                && regionComboBox.getSelectedItem() != null && roleComboBox.getSelectedItem() != null;
     }
 
     private void remplirComboBoxRegions() {
