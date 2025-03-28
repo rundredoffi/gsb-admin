@@ -30,6 +30,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import metier.FicheFrais;
+import metier.Region;
 import metier.Utilisateur;
 import persistance.AccesData;
 import javax.swing.JComboBox;
@@ -43,6 +44,10 @@ public class fichefrais {
     private JLabel TextError;
     private JButton SelectXMLButton;
     private JMenuBar menuBar;
+    private List<Region> regions;
+    private List<String> mois;
+
+
 
     public fichefrais() {
         // Création de la fenêtre
@@ -50,15 +55,22 @@ public class fichefrais {
         frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.getContentPane().setLayout(new BorderLayout()); // Utilisation de BorderLayout pour la disposition
+        frame.getContentPane().setLayout(new BorderLayout()); 
 
         // Création du panneau pour les JComboBox
         JPanel comboBoxPanel = new JPanel();
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+        
+        regions = AccesData.getLesRegions();
+        String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
+
+        mois = AccesData.getLesMois();
+        
+        
         // Création des JComboBox
-        String[] comboBoxItems1 = {"Item 1-1", "Item 1-2", "Item 1-3"};
-        JComboBox<String> comboBox1 = new JComboBox<>(comboBoxItems1);
+        
+        JComboBox<String> comboBox1 = new JComboBox<>(regionNames);
 
         String[] comboBoxItems2 = {"Item 2-1", "Item 2-2", "Item 2-3"};
         JComboBox<String> comboBox2 = new JComboBox<>(comboBoxItems2);
