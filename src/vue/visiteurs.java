@@ -31,7 +31,10 @@ public class visiteurs {
     private JTable table;
     private JPanel buttonPanel; // Panneau pour les boutons
     private JButton InsererBDD;
-    private JButton btnNewButton;
+    private JButton btnNewVisiteur;
+    private JButton btnRetour;
+    private JButton btnSave;
+
     private JLabel TextError;
     private JButton SelectXMLButton;
     private JMenuBar menuBar;
@@ -87,8 +90,14 @@ public class visiteurs {
         frame.add(buttonPanel, BorderLayout.SOUTH); // Ajouter le panneau des boutons en bas
 
         // Ajout des boutons dans le panneau
-        btnNewButton = new JButton("Retour");
-        buttonPanel.add(btnNewButton);
+        btnNewVisiteur = new JButton("Nouveau Visiteur");
+        buttonPanel.add(btnNewVisiteur);
+        
+        btnRetour = new JButton("Retour");
+        buttonPanel.add(btnRetour);
+        
+        btnSave = new JButton("Enregistrer");
+        buttonPanel.add(btnSave);
 
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -167,7 +176,7 @@ public class visiteurs {
 //        
         
         // Action pour le bouton Retour
-        btnNewButton.addActionListener(new ActionListener() {
+        btnRetour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false); // Masquer la fenêtre actuelle
             }
