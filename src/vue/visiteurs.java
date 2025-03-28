@@ -2,25 +2,17 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,9 +31,7 @@ public class visiteurs {
     private JTable table;
     private JPanel buttonPanel; // Panneau pour les boutons
     private JButton InsererBDD;
-    private JButton btnRetour;
-    private JButton btnEnregistrer;
-    private JButton btnNewVisiteur;
+    private JButton btnNewButton;
     private JLabel TextError;
     private JButton SelectXMLButton;
     private JMenuBar menuBar;
@@ -56,7 +46,7 @@ public class visiteurs {
         frame.setLayout(new BorderLayout()); // Utilisation de BorderLayout pour la disposition
 
         // Création du modèle de table avec des colonnes
-        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche"};
+        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         List<Utilisateur> util = AccesData.getLesUtilisateur();
@@ -72,6 +62,8 @@ public class visiteurs {
                 u.getTelfixe(),
                 u.getTelPortable(),
                 u.getDateEmbauche(),
+                u.getRegion().getLibelleRegion(),
+
             };
             tableModel.addRow(rowData);
         }
@@ -95,12 +87,26 @@ public class visiteurs {
         frame.add(buttonPanel, BorderLayout.SOUTH); // Ajouter le panneau des boutons en bas
 
         // Ajout des boutons dans le panneau
-        btnNewVisiteur = new JButton("Nouveau Visiteur");
-        buttonPanel.add(btnNewVisiteur);
-        btnRetour = new JButton("Retour");
-        buttonPanel.add(btnRetour);
-        btnEnregistrer = new JButton("Enregistrer");
-        buttonPanel.add(btnEnregistrer);
+        btnNewButton = new JButton("Retour");
+        buttonPanel.add(btnNewButton);
+
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object firstCellValue = table.getValueAt(selectedRow, 0);
+                        if (firstCellValue != null) {
+                            // Passez 'frame' comme parent ici
+                            NouvelleFenetre.ouvrirFenetre(frame, firstCellValue.toString());
+                        }
+                    }
+                }
+            }
+        });
+       
+     
         
         
         // Créer une barre de menu (JMenuBar)
@@ -128,22 +134,40 @@ public class visiteurs {
         // Assigner la barre de menu à la fenêtre
         frame.setJMenuBar(menuBar);
 
-        // Action pour le bouton Retour
-        btnNewVisiteur.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre actuelle
-            }
-        });
+
+        // Action pour le bouton "Matchs"
+//        matchItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//            }
+//        });
+
+        // Action pour le bouton "Stats"
+//        statItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//                new stats(); // Ouvrir la nouvelle fenêtre "Stats"
+//            }
+//        });
+
+        // Action pour le bouton "Joueurs"
+//        joueurItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//            }
+//        });
         
-     // Action pour le bouton Retour
-        btnEnregistrer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre actuelle
-            }
-        });
+        
+//        exitItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                System.exit(0);  // Quitter l'application
+//            }
+//        });
+//        
+//        
         
         // Action pour le bouton Retour
-        btnRetour.addActionListener(new ActionListener() {
+        btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false); // Masquer la fenêtre actuelle
             }

@@ -3,17 +3,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import java.util.List;
-
-import org.hibernate.Session;
-
 import metier.FicheFrais;
 import metier.Region;
 import metier.Utilisateur;
 
-import org.hibernate.query.Query;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 
 public class AccesData {
 
@@ -60,6 +54,26 @@ private static Session s = HibernateSession.getSession();
 	
 	public static List<FicheFrais> getLesFichesFrais() {
 		return s.createQuery("from FicheFrais").list();
+	}
+	
+	public static Utilisateur getUtilisateurByID(String id) {
+	    Session session = null;
+	    Utilisateur utilisateur = null;  
+	    try {
+	        String hql = "FROM Utilisateur u WHERE u.id = :id";
+	        Query<Utilisateur> query = s.createQuery(hql, Utilisateur.class);
+	        query.setParameter("id", id);
+
+	        utilisateur = query.uniqueResult();  
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (session != null) {
+	            session.close();  
+	        }
+	    }
+
+	    return utilisateur;  
 	}
 }
 	
