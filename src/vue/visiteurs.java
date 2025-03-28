@@ -39,7 +39,9 @@ public class visiteurs {
     private JTable table;
     private JPanel buttonPanel; // Panneau pour les boutons
     private JButton InsererBDD;
-    private JButton btnNewButton;
+    private JButton btnRetour;
+    private JButton btnEnregistrer;
+    private JButton btnNewVisiteur;
     private JLabel TextError;
     private JButton SelectXMLButton;
     private JMenuBar menuBar;
@@ -93,11 +95,12 @@ public class visiteurs {
         frame.add(buttonPanel, BorderLayout.SOUTH); // Ajouter le panneau des boutons en bas
 
         // Ajout des boutons dans le panneau
-        btnNewButton = new JButton("Retour");
-        buttonPanel.add(btnNewButton);
-
-       
-     
+        btnNewVisiteur = new JButton("Nouveau Visiteur");
+        buttonPanel.add(btnNewVisiteur);
+        btnRetour = new JButton("Retour");
+        buttonPanel.add(btnRetour);
+        btnEnregistrer = new JButton("Enregistrer");
+        buttonPanel.add(btnEnregistrer);
         
         
         // Créer une barre de menu (JMenuBar)
@@ -125,40 +128,22 @@ public class visiteurs {
         // Assigner la barre de menu à la fenêtre
         frame.setJMenuBar(menuBar);
 
-
-        // Action pour le bouton "Matchs"
-//        matchItem.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                frame.setVisible(false); // Masquer la fenêtre d'accueil
-//            }
-//        });
-
-        // Action pour le bouton "Stats"
-//        statItem.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                frame.setVisible(false); // Masquer la fenêtre d'accueil
-//                new stats(); // Ouvrir la nouvelle fenêtre "Stats"
-//            }
-//        });
-
-        // Action pour le bouton "Joueurs"
-//        joueurItem.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                frame.setVisible(false); // Masquer la fenêtre d'accueil
-//            }
-//        });
+        // Action pour le bouton Retour
+        btnNewVisiteur.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false); // Masquer la fenêtre actuelle
+            }
+        });
         
-        
-//        exitItem.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                System.exit(0);  // Quitter l'application
-//            }
-//        });
-//        
-//        
+     // Action pour le bouton Retour
+        btnEnregistrer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false); // Masquer la fenêtre actuelle
+            }
+        });
         
         // Action pour le bouton Retour
-        btnNewButton.addActionListener(new ActionListener() {
+        btnRetour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false); // Masquer la fenêtre actuelle
             }
