@@ -17,8 +17,8 @@ public class FicheUtilisateur extends JDialog {
     private JTextField emailField;
     private JTextField numFixeField;
     private JTextField numPortableField;
-    private JTextField textField;
-    private JTextField textField_1;
+    private JTextField RoleField;
+    private JTextField RegionField;
     private JLabel lblNewLabel;
     private JLabel lblNewLabel_1;
     private JLabel lblNewLabel_3;
@@ -36,7 +36,7 @@ public class FicheUtilisateur extends JDialog {
     }
 
     private FicheUtilisateur(JFrame parent,String firstCellValue) {
-        super(parent, "Nouvelle Fenêtre", true);
+        super(parent, "Fiche utilisateur : " + firstCellValue, true);
         setSize(450, 650);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -131,17 +131,17 @@ public class FicheUtilisateur extends JDialog {
 
         
         
-        textField = new JTextField(util.getRole().getLibelleRole());
-        textField.setEditable(false);
-        textField.setColumns(10);
-        textField.setBounds(26, 331, 165, 20);
-        panel.add(textField);
+        RoleField = new JTextField(util.getRole().getLibelleRole());
+        RoleField.setEditable(false);
+        RoleField.setColumns(10);
+        RoleField.setBounds(26, 331, 165, 20);
+        panel.add(RoleField);
         
-        textField_1 = new JTextField();
-        textField_1.setEditable(false);
-        textField_1.setColumns(10);
-        textField_1.setBounds(246, 402, 165, 20);
-        panel.add(textField_1);
+        RegionField = new JTextField(util.getRegion().getLibelleRegion());
+        RegionField.setEditable(false);
+        RegionField.setColumns(10);
+        RegionField.setBounds(246, 402, 165, 20);
+        panel.add(RegionField);
         
         lblNewLabel = new JLabel("Ville :");
         lblNewLabel.setBounds(26, 241, 165, 14);
