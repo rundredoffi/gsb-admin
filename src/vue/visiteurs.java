@@ -20,57 +20,45 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.JOptionPane;
 
 import metier.Region;
 import metier.Utilisateur;
 import persistance.AccesData;
 
-
-
 public class visiteurs {
     private JFrame frame;
     private JTable table;
-    private JPanel buttonPanel; 
-    private JButton InsererBDD;
+    private JPanel buttonPanel;
     private JButton btnNewVisiteur;
     private JButton btnRetour;
     private JButton btnSave;
-    private JLabel TextError;
-    private JButton SelectXMLButton;
     private JMenuBar menuBar;
-    private List<Utilisateur> utilisateursModifies; 
-    private static final int[] MODIFIABLE_COLUMNS = {3, 4, 5, 6, 7, 8, 10};  // Indices des colonnes modifiables
-
-
+    private List<Utilisateur> utilisateursModifies;
+    private List<Region> regions;
+    private static final int[] MODIFIABLE_COLUMNS = {3, 4, 5, 6, 7, 8, 10}; // Indices des colonnes modifiables
 
     public visiteurs() {
-    	utilisateursModifies = new ArrayList<>();
+        utilisateursModifies = new ArrayList<>();
         frame = new JFrame("Fenêtre Visiteurs");
         frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setLayout(new BorderLayout()); // Utilisation de BorderLayout pour la disposition
+        frame.setLayout(new BorderLayout());
 
         // Création du modèle de table avec des colonnes
         String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
-        List<Region> regions = AccesData.getLesRegions();
-
-        String[] regionNames = new String[regions.size()];
-
-        for (int i = 0; i < regions.size(); i++) {
-            regionNames[i] = regions.get(i).getLibelleRegion();
-        }
+        regions = AccesData.getLesRegions();
+        String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
         JComboBox<String> regionComboBox = new JComboBox<>(regionNames);
-        
-        
+
         List<Utilisateur> util = AccesData.getLesUtilisateur();
         for (Utilisateur u : util) {
             Object[] rowData = {
@@ -85,7 +73,6 @@ public class visiteurs {
                 u.getTelPortable(),
                 u.getDateEmbauche(),
                 u.getRegion().getLibelleRegion(),
-
             };
             tableModel.addRow(rowData);
         }
@@ -96,120 +83,97 @@ public class visiteurs {
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.setGridColor(Color.LIGHT_GRAY);
         table.getTableHeader().setReorderingAllowed(false);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  // Permet une seule ligne sélectionnée à la fois
+        TableColumn regionColumn = table.getColumnModel().getColumn(10);
+        regionColumn.setCellEditor(new DefaultCellEditor(regionComboBox));
 
-        // Ajout de la table dans un JScrollPane
         JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER); // Ajouter la table au centre de la fenêtre
+        frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Création du panneau pour les boutons (placé en bas)
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout pour centrer les boutons
-        frame.add(buttonPanel, BorderLayout.SOUTH); // Ajouter le panneau des boutons en bas
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Ajout des boutons dans le panneau
         btnNewVisiteur = new JButton("Nouveau Visiteur");
         buttonPanel.add(btnNewVisiteur);
-        
+
         btnRetour = new JButton("Retour");
         buttonPanel.add(btnRetour);
-        
+
         btnSave = new JButton("Enregistrer");
         buttonPanel.add(btnSave);
 
-       
-                      
-       
-     
-        
-        
         menuBar = new JMenuBar();
-
         JMenu fileMenu = new JMenu("Menu");
-
-        
-
         menuBar.add(fileMenu);
-
         frame.setJMenuBar(menuBar);
 
-
-       
-
-        
-        // Action pour le bouton Retour
         btnRetour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); 
+                frame.setVisible(false);
             }
         });
-        
+
         btnNewVisiteur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 NewUser.ouvrirFenetre(frame);
             }
         });
-        
-      
-        
+
+        btnSave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (Utilisateur utilisateur : utilisateursModifies) {
+                    AccesData.updateVisiteur(utilisateur);
+                }
+                utilisateursModifies.clear();
+                JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+            }
+        });
 
         table.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 int row = e.getFirstRow();
                 int column = e.getColumn();
-                DefaultTableModel model = (DefaultTableModel) e.getSource();
-                Object newValue = model.getValueAt(row, column);
+                if (column != TableModelEvent.ALL_COLUMNS) {
+                    DefaultTableModel model = (DefaultTableModel) e.getSource();
+                    Object newValue = model.getValueAt(row, column);
 
-                if (isModifiableColumn(column)) {
-                    String userId = (String) model.getValueAt(row, 0); 
-                    Utilisateur utilisateur = AccesData.getUtilisateurByID(userId);
+                    if (isModifiableColumn(column)) {
+                        String userId = (String) model.getValueAt(row, 0);
+                        Utilisateur utilisateur = AccesData.getUtilisateurByID(userId);
 
-                    switch (column) {
-                        case 3: // Adresse
-                            utilisateur.setAdresse(newValue.toString());
-                            break;
-                        case 4: // CP
-                            utilisateur.setCp(newValue.toString());
-                            break;
-                        case 5: // Ville
-                            utilisateur.setVille(newValue.toString());
-                            break;
-                        case 6: // Email
-                            utilisateur.setEmail(newValue.toString());
-                            break;
-                        case 7: // TelFixe
-                            utilisateur.setTelfixe(newValue.toString());
-                            break;
-                        case 8: // TelPortable
-                            utilisateur.setTelPortable(newValue.toString());
-                            break;
-                        case 10: 
-//                        	Region reg = new Region(newValue.toString())
-//                            utilisateur.setRegion());
-                        	
-                            break;
-                        default:
-                            break;
-                    }
+                        switch (column) {
+                            case 3: utilisateur.setAdresse(newValue.toString()); break;
+                            case 4: utilisateur.setCp(newValue.toString()); break;
+                            case 5: utilisateur.setVille(newValue.toString()); break;
+                            case 6: utilisateur.setEmail(newValue.toString()); break;
+                            case 7: utilisateur.setTelfixe(newValue.toString()); break;
+                            case 8: utilisateur.setTelPortable(newValue.toString()); break;
+                            case 10: 
+                                String selectedRegion = newValue.toString();
+                                for (Region region : regions) {
+                                    if (region.getLibelleRegion().equals(selectedRegion)) {
+                                        utilisateur.setRegion(region);
+                                        break;
+                                    }
+                                }
+                                break;
+                            default: break;
+                        }
 
-                    // Ajouter l'utilisateur modifié à la liste
-                    if (!utilisateursModifies.contains(utilisateur)) {
-                        utilisateursModifies.add(utilisateur);
+                        if (!utilisateursModifies.contains(utilisateur)) {
+                            utilisateursModifies.add(utilisateur);
+                        }
                     }
                 }
             }
         });
-        
-        
-       
-      
 
-        // Affichage de la fenêtre
         frame.setVisible(true);
     }
-    
+
     private boolean isModifiableColumn(int column) {
         for (int modifiableColumn : MODIFIABLE_COLUMNS) {
             if (column == modifiableColumn) {
@@ -218,5 +182,4 @@ public class visiteurs {
         }
         return false;
     }
-    
 }
