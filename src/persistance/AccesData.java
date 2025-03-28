@@ -29,12 +29,6 @@ private static Session s = HibernateSession.getSession();
 		return query.list();
 	}
 	
-	public static List<Region> getLesRegions() {
-		Query<Region> query = s.createQuery("from Region", Region.class);
-		return query.list();
-	}
-	
-	
 	public static Utilisateur getUtilisateurByLoginAndMdp(String login, String motDePasse) {
 	    Session session = null;
 	    Utilisateur utilisateur = null;  
