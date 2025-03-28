@@ -6,11 +6,11 @@ import javax.swing.*;
 
 import metier.Utilisateur;
 
-public class menu {
+public class Menu {
     private JFrame frame;
     private JButton btnDeconnexion;
 
-    public menu(Utilisateur util) {
+    public Menu(Utilisateur util) {
         initialize(util);
         frame.setVisible(true);
     }
@@ -35,8 +35,7 @@ public class menu {
         btnDeconnexion = new JButton("Déconnexion");
         if (util.getRole().getIdRole().equals("s")) { 
         	panelBoutons.add(btnGestionVisiteurs);
-        	panelBoutons.add(btnConsulterFicheVisiteurs);
-        	btnGestionVisiteurs.addActionListener(e -> new visiteurs());
+        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs());
         }
         
         if (util.getRole().getIdRole().equals("r")) {

@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -32,7 +34,7 @@ import metier.Region;
 import metier.Utilisateur;
 import persistance.AccesData;
 
-public class visiteurs {
+public class ListeUtilisateurs {
     private JFrame frame;
     private JTable table;
     private JPanel buttonPanel;
@@ -44,7 +46,7 @@ public class visiteurs {
     private List<Region> regions;
     private static final int[] MODIFIABLE_COLUMNS = {3, 4, 5, 6, 7, 8, 10}; // Indices des colonnes modifiables
 
-    public visiteurs() {
+    public ListeUtilisateurs() {
         utilisateursModifies = new ArrayList<>();
         frame = new JFrame("Fenêtre Visiteurs");
         frame.setSize(1000, 700);
@@ -124,7 +126,7 @@ public class visiteurs {
 
         btnNewVisiteur.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                NewUser.ouvrirFenetre(frame);
+                CreateUtilisateur.ouvrirFenetre(frame);
             }
         });
 
@@ -135,6 +137,23 @@ public class visiteurs {
                 }
                 utilisateursModifies.clear();
                 JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+            }
+        });
+        
+     // Ajout d'un listener pour détecter la sélection
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object firstCellValue = table.getValueAt(selectedRow, 0);
+                        if (firstCellValue != null) {
+                            // Passez 'frame' comme parent ici
+                            NouvelleFenetre.ouvrirFenetre(frame, firstCellValue.toString());
+                        }
+                    }
+                }
             }
         });
 
@@ -228,6 +247,8 @@ public class visiteurs {
             isPushed = true;
             return button;
         }
+        
+        
 
         @Override
         public Object getCellEditorValue() {
@@ -241,6 +262,8 @@ public class visiteurs {
                         } else {
                             JOptionPane.showMessageDialog(button, "Échec de la suppression");
                         }
+                    } else {
+                        System.err.println("Invalid row index: " + row);
                     }
                 }
             }
@@ -252,5 +275,4 @@ public class visiteurs {
         public void actionPerformed(ActionEvent e) {
             fireEditingStopped();
         }
-    }
-}
+    }}
