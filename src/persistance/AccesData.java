@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 import java.util.List;
 import metier.FicheFrais;
 import metier.Region;
+import metier.Role;
 import metier.Utilisateur;
 
 
@@ -24,7 +25,10 @@ private static Session s = HibernateSession.getSession();
 		return query.list();
 	}
 	
-
+	public static List<Role> getLesRoles() {
+		Query<Role> query = s.createQuery("from Role", Role.class);
+		return query.list();
+	}
 	
 	public static List<FicheFrais> getLesFicheFrais() {
 		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
