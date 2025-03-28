@@ -25,6 +25,9 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableCellEditor;
+import javax.swing.AbstractCellEditor;
 
 import metier.Region;
 import metier.Utilisateur;
@@ -51,7 +54,7 @@ public class visiteurs {
         frame.setLayout(new BorderLayout());
 
         // Création du modèle de table avec des colonnes
-        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
+        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region", "Supprimer"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         regions = AccesData.getLesRegions();
@@ -73,6 +76,7 @@ public class visiteurs {
                 u.getTelPortable(),
                 u.getDateEmbauche(),
                 u.getRegion().getLibelleRegion(),
+                "❌"
             };
             tableModel.addRow(rowData);
         }
@@ -87,6 +91,10 @@ public class visiteurs {
 
         TableColumn regionColumn = table.getColumnModel().getColumn(10);
         regionColumn.setCellEditor(new DefaultCellEditor(regionComboBox));
+
+        TableColumn deleteColumn = table.getColumnModel().getColumn(11);
+        deleteColumn.setCellRenderer(new ButtonRenderer());
+        deleteColumn.setCellEditor(new ButtonEditor());
 
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -181,5 +189,65 @@ public class visiteurs {
             }
         }
         return false;
+    }
+
+    class ButtonRenderer extends JButton implements TableCellRenderer {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public java.awt.Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText((value == null) ? "" : value.toString());
+            setBackground(Color.RED);
+            setForeground(Color.WHITE);
+            return this;
+        }
+    }
+
+    class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+        private JButton button;
+        private String label;
+        private boolean isPushed;
+        private int row;
+
+        public ButtonEditor() {
+            button = new JButton();
+            button.setOpaque(true);
+            button.addActionListener(this);
+        }
+
+        @Override
+        public java.awt.Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            this.row = row;
+            label = (value == null) ? "" : value.toString();
+            button.setText(label);
+            button.setBackground(Color.RED);
+            button.setForeground(Color.WHITE);
+            isPushed = true;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            if (isPushed) {
+                int confirm = JOptionPane.showConfirmDialog(button, "Êtes-vous sûr de vouloir supprimer cet utilisateur ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    String utilisateurId = (String) table.getValueAt(row, 0);
+                    if (AccesData.deleteVisiteur(utilisateurId)) {
+                        ((DefaultTableModel) table.getModel()).removeRow(row);
+                    } else {
+                        JOptionPane.showMessageDialog(button, "Échec de la suppression");
+                    }
+                }
+            }
+            isPushed = false;
+            return label;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            fireEditingStopped();
+        }
     }
 }
