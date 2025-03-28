@@ -1,20 +1,13 @@
 package vue;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import vue.visiteurs;
+
 import javax.swing.*;
 
 import metier.Utilisateur;
-import persistance.AccesData;
 
 public class menu {
     private JFrame frame;
-    private JButton btnMatchs;
-    private JButton btnStats;
-    private JButton btnJoueurs;
     private JButton btnDeconnexion;
 
     public menu(Utilisateur util) {

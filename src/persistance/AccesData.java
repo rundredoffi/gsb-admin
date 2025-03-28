@@ -3,17 +3,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import java.util.List;
-
-import org.hibernate.Session;
-
 import metier.FicheFrais;
 import metier.Region;
 import metier.Utilisateur;
 
-import org.hibernate.query.Query;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 
 public class AccesData {
 
