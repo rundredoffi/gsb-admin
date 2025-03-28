@@ -46,7 +46,7 @@ public class ListeUtilisateurs {
     private List<Region> regions;
     private static final int[] MODIFIABLE_COLUMNS = {3, 4, 5, 6, 7, 8, 10}; // Indices des colonnes modifiables
 
-    public ListeUtilisateurs() {
+    public ListeUtilisateurs(Utilisateur utilConnecte) {
         utilisateursModifies = new ArrayList<>();
         frame = new JFrame("Fenêtre Visiteurs");
         frame.setSize(1000, 700);
@@ -62,6 +62,9 @@ public class ListeUtilisateurs {
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
         JComboBox<String> regionComboBox = new JComboBox<>(regionNames);
+        if(!utilConnecte.getRole().getIdRole().equals("s")) {
+        	regionComboBox.setEditable(false);
+        }
 
         List<Utilisateur> util = AccesData.getLesUtilisateur();
         for (Utilisateur u : util) {
@@ -104,14 +107,32 @@ public class ListeUtilisateurs {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
-        btnNewVisiteur = new JButton("Nouveau Visiteur");
-        buttonPanel.add(btnNewVisiteur);
+        if(utilConnecte.getRole().getIdRole().equals("s")) {
+        	btnNewVisiteur = new JButton("Nouveau Visiteur");
+            buttonPanel.add(btnNewVisiteur);
+            btnNewVisiteur.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    CreateUtilisateur.ouvrirFenetre(frame);
+                }
+            });
+        }
 
         btnRetour = new JButton("Retour");
         buttonPanel.add(btnRetour);
 
-        btnSave = new JButton("Enregistrer");
-        buttonPanel.add(btnSave);
+        if(utilConnecte.getRole().getIdRole().equals("s")) {
+        	btnSave = new JButton("Enregistrer");
+            buttonPanel.add(btnSave);
+            btnSave.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    for (Utilisateur utilisateur : utilisateursModifies) {
+                        AccesData.updateVisiteur(utilisateur);
+                    }
+                    utilisateursModifies.clear();
+                    JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+                }
+            });
+        }
 
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Menu");
@@ -124,21 +145,9 @@ public class ListeUtilisateurs {
             }
         });
 
-        btnNewVisiteur.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                CreateUtilisateur.ouvrirFenetre(frame);
-            }
-        });
 
-        btnSave.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (Utilisateur utilisateur : utilisateursModifies) {
-                    AccesData.updateVisiteur(utilisateur);
-                }
-                utilisateursModifies.clear();
-                JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
-            }
-        });
+
+        
         
      // Ajout d'un listener pour détecter la sélection
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

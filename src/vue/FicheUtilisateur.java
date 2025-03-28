@@ -1,20 +1,8 @@
 package vue;
 
 import javax.swing.*;
-
-import metier.Region;
-import metier.Role;
 import metier.Utilisateur;
-import metier.FicheFrais;
-
 import persistance.AccesData;
-
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class FicheUtilisateur extends JDialog {
 
