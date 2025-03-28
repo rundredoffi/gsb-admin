@@ -44,7 +44,7 @@ public class visiteurs {
 
     public visiteurs() {
         // Création de la fenêtre
-        frame = new JFrame("Fenêtre Joueurs");
+        frame = new JFrame("Fenêtre Visiteurs");
         frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -104,17 +104,17 @@ public class visiteurs {
         JMenu fileMenu = new JMenu("Menu");
 
         // Créer des éléments de menu (JMenuItem)
-        JMenuItem matchItem = new JMenuItem("Match");
-        JMenuItem statItem = new JMenuItem("Stats");
-        JMenuItem joueurItem = new JMenuItem("Joueurs");
-        JMenuItem exitItem = new JMenuItem("Quitter");
+//        JMenuItem matchItem = new JMenuItem("Match");
+//        JMenuItem statItem = new JMenuItem("Stats");
+//        JMenuItem joueurItem = new JMenuItem("Joueurs");
+//        JMenuItem exitItem = new JMenuItem("Quitter");
 
         // Ajouter les éléments au menu "Fichier"
-        fileMenu.add(matchItem);
-        fileMenu.add(statItem);
-        fileMenu.add(joueurItem);
-        fileMenu.addSeparator();  // Séparateur entre les éléments de menu
-        fileMenu.add(exitItem);
+//        fileMenu.add(matchItem);
+//        fileMenu.add(statItem);
+//        fileMenu.add(joueurItem);
+//        fileMenu.addSeparator();  // Séparateur entre les éléments de menu
+//        fileMenu.add(exitItem);
 
         // Ajouter le menu "Fichier" à la barre de menu
         menuBar.add(fileMenu);
@@ -124,35 +124,35 @@ public class visiteurs {
 
 
         // Action pour le bouton "Matchs"
-        matchItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre d'accueil
-            }
-        });
+//        matchItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//            }
+//        });
 
         // Action pour le bouton "Stats"
-        statItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre d'accueil
-                new stats(); // Ouvrir la nouvelle fenêtre "Stats"
-            }
-        });
+//        statItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//                new stats(); // Ouvrir la nouvelle fenêtre "Stats"
+//            }
+//        });
 
         // Action pour le bouton "Joueurs"
-        joueurItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre d'accueil
-            }
-        });
+//        joueurItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                frame.setVisible(false); // Masquer la fenêtre d'accueil
+//            }
+//        });
         
         
-        exitItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);  // Quitter l'application
-            }
-        });
-        
-        
+//        exitItem.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                System.exit(0);  // Quitter l'application
+//            }
+//        });
+//        
+//        
         
         // Action pour le bouton Retour
         btnNewButton.addActionListener(new ActionListener() {
