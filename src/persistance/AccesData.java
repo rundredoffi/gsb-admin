@@ -146,15 +146,8 @@ private static Session s = HibernateSession.getSession();
         } catch (SQLException e) {
             // Récupérer et afficher le message d'erreur SQL
             System.out.println(e.getMessage());
-        } finally {
-            // Fermer les ressources
-            try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) AccesBD.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        }           
+        
 
         return success;
     }

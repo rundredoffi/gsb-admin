@@ -234,11 +234,13 @@ public class visiteurs {
             if (isPushed) {
                 int confirm = JOptionPane.showConfirmDialog(button, "Êtes-vous sûr de vouloir supprimer cet utilisateur ?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    String utilisateurId = (String) table.getValueAt(row, 0);
-                    if (AccesData.deleteVisiteur(utilisateurId)) {
-                        ((DefaultTableModel) table.getModel()).removeRow(row);
-                    } else {
-                        JOptionPane.showMessageDialog(button, "Échec de la suppression");
+                    if (row >= 0 && row < table.getRowCount()) { // Ensure row index is within valid range
+                        String utilisateurId = (String) table.getValueAt(row, 0);
+                        if (AccesData.deleteVisiteur(utilisateurId)) {
+                            ((DefaultTableModel) table.getModel()).removeRow(row);
+                        } else {
+                            JOptionPane.showMessageDialog(button, "Échec de la suppression");
+                        }
                     }
                 }
             }
