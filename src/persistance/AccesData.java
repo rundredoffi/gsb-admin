@@ -24,6 +24,12 @@ private static Session s = HibernateSession.getSession();
         return query.list();
 	}
 	
+	public static List<String> getLesMois() {
+	    Query<String> query = s.createQuery("select distinct f.id.mois from FicheFrais f", String.class);
+	    return query.list();
+	}
+	
+	
 	public static List<Region> getLesRegions() {
 		Query<Region> query = s.createQuery("from Region", Region.class);
 		return query.list();
@@ -146,15 +152,8 @@ private static Session s = HibernateSession.getSession();
         } catch (SQLException e) {
             // Récupérer et afficher le message d'erreur SQL
             System.out.println(e.getMessage());
-        } finally {
-            // Fermer les ressources
-            try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) AccesBD.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        }           
+        
 
         return success;
     }

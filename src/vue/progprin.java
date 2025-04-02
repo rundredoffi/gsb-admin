@@ -11,7 +11,7 @@ public class progprin {
             public void onLoginSuccess(Utilisateur utilConnecte) {
                 System.out.println("Utilisateur connecté : " + utilConnecte.getPrenom() + " " + utilConnecte.getNom());
                 loginScreen.dispose(); // Fermer la fenêtre de login
-                new menu(utilConnecte);
+                new Menu(utilConnecte);
             }
         });
     }

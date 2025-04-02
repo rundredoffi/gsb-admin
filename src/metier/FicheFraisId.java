@@ -22,6 +22,8 @@ public class FicheFraisId implements Serializable {
 
     // Getters and setters
 
+    
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -33,7 +35,15 @@ public class FicheFraisId implements Serializable {
         return mois.equals(that.mois);
     }
 
-    @Override
+    public String getIdVisiteur() {
+		return idVisiteur;
+	}
+
+	public String getMois() {
+		return mois;
+	}
+
+	@Override
     public int hashCode() {
         int result = idVisiteur.hashCode();
         result = 31 * result + mois.hashCode();

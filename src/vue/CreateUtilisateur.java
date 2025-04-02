@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class NewUser extends JDialog {
+public class CreateUtilisateur extends JDialog {
 
-    private static NewUser instance = null;
+    private static CreateUtilisateur instance = null;
     private JTextField nomField;
     private JTextField prenomField;
     private JTextField loginField;
@@ -35,13 +35,13 @@ public class NewUser extends JDialog {
 
     public static void ouvrirFenetre(JFrame parent) {
         if (instance == null || !instance.isVisible()) {
-            instance = new NewUser(parent);
+            instance = new CreateUtilisateur(parent);
         } else {
             instance.toFront();
         }
     }
 
-    private NewUser(JFrame parent) {
+    private CreateUtilisateur(JFrame parent) {
         super(parent, "Nouvelle Fenêtre", true);
         setSize(450, 650);
         setLocationRelativeTo(parent);
