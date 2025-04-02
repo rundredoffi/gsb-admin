@@ -1,155 +1,89 @@
-package vue;
+package metier;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
+@Entity
+@Table(name = "fichefrais")
+public class FicheFrais {
+    @EmbeddedId
+    private FicheFraisId id;
 
-import metier.FicheFrais;
-import metier.Region;
-import metier.Utilisateur;
-import persistance.AccesData;
-import javax.swing.JComboBox;
+    @Column(name = "nbJustificatifs")
+    private int nbJustificatif;
 
-public class fichefrais {
-    private SimpleDateFormat dateFormatter;
-    private JFrame frame;
-    private JTable table;
-    private JPanel buttonPanel; // Panneau pour les boutons
-    private JButton InsererBDD;
-    private JButton btnNewButton;
-    private JLabel TextError;
-    private JButton SelectXMLButton;
-    private JMenuBar menuBar;
-    private List<Region> regions;
-    private List<String> mois;
+    @Column(name = "montantValide")
+    private int montantValide;
 
+    @Column(name = "dateModif")
+    private Date dateModif;
 
+    @ManyToOne
+    @JoinColumn(name = "idEtat")
+    private Etat etat;
 
-    public fichefrais() {
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        // Création de la fenêtre
-        frame = new JFrame("Fenêtre Visiteurs");
-        frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.getContentPane().setLayout(new BorderLayout()); 
-
-        // Création du panneau pour les JComboBox
-        JPanel comboBoxPanel = new JPanel();
-        comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-
-        
-        regions = AccesData.getLesRegions();
-        String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-
-        List<String> moisList = AccesData.getLesMois();
-        String[] moisArray = moisList.toArray(new String[0]);
-        
-        // Création des JComboBox
-        
-        JComboBox<String> comboBox1 = new JComboBox<>(regionNames);
-        JComboBox<String> comboBox2 = new JComboBox<>(moisArray);
-
-        
-
-        // Ajout des JComboBox au panneau
-        comboBoxPanel.add(comboBox1);
-        comboBoxPanel.add(comboBox2);
-
-        // Ajout du panneau des JComboBox à la partie nord de la fenêtre
-        frame.getContentPane().add(comboBoxPanel, BorderLayout.NORTH);
-
-        // Création du modèle de table avec des colonnes
-        String[] columnNames = {"idVisiteur ", "mois ", "nbJustificatifs", "montantValide", "dateMOdif", "idEtat "};
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
-        List<FicheFrais> ff = AccesData.getLesFicheFrais();
-        for (FicheFrais f : ff) {
-            Object[] rowData = {
-                f.getId().getIdVisiteur(),
-                f.getId().getMois(),
-                f.getNbJustificatif(),
-                f.getMontantValide(),
-                dateFormatter.format(f.getDateModif()),
-                f.getEtat().getLibelleEtat(),
-            };
-            tableModel.addRow(rowData);
-        }
-
-        table = new JTable(tableModel);
-        table.setFillsViewportHeight(true);
-        table.setRowHeight(30);
-        table.setFont(new Font("Arial", Font.PLAIN, 14));
-        table.setGridColor(Color.LIGHT_GRAY);
-        table.getTableHeader().setReorderingAllowed(false);
-
-        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);  // Permet une seule ligne sélectionnée à la fois
-
-        // Ajout de la table dans un JScrollPane
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-        // Création du panneau pour les boutons (placé en bas)
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10)); // FlowLayout pour centrer les boutons
-        frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH); // Ajouter le panneau des boutons en bas
-
-        // Ajout des boutons dans le panneau
-        btnNewButton = new JButton("Retour");
-        buttonPanel.add(btnNewButton);
-
-        // Créer une barre de menu (JMenuBar)
-        menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("Menu");
-        menuBar.add(fileMenu);
-        frame.setJMenuBar(menuBar);
-
-        // Action pour le bouton Retour
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre actuelle
-            }
-        });
-
-        // Affichage de la fenêtre
-        frame.setVisible(true);
+    public FicheFrais() {
     }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    fichefrais window = new fichefrais();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+    public FicheFrais(FicheFraisId id, int nbJustificatif, int montantValide, Date dateModif, Etat etat) {
+        this.id = id;
+        this.nbJustificatif = nbJustificatif;
+        this.montantValide = montantValide;
+        this.dateModif = dateModif;
+        this.etat = etat;
     }
+
+    // Getters and setters
+    
+
+    @Override
+    public String toString() {
+        return "FicheFrais [id=" + id + ", nbJustificatif=" + nbJustificatif + ", montantValide=" + montantValide
+                + ", dateModif=" + dateModif + ", etat=" + etat + "]";
+    }
+
+	public FicheFraisId getId() {
+		return id;
+	}
+
+	public void setId(FicheFraisId id) {
+		this.id = id;
+	}
+
+	public int getNbJustificatif() {
+		return nbJustificatif;
+	}
+
+	public void setNbJustificatif(int nbJustificatif) {
+		this.nbJustificatif = nbJustificatif;
+	}
+
+	public int getMontantValide() {
+		return montantValide;
+	}
+
+	public void setMontantValide(int montantValide) {
+		this.montantValide = montantValide;
+	}
+
+	public Date getDateModif() {
+		return dateModif;
+	}
+
+	public void setDateModif(Date dateModif) {
+		this.dateModif = dateModif;
+	}
+
+	public Etat getEtat() {
+		return etat;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
 }
