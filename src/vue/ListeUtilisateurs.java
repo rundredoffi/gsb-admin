@@ -55,7 +55,10 @@ public class ListeUtilisateurs {
         frame.setLayout(new BorderLayout());
 
         // Création du modèle de table avec des colonnes
-        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region", "Supprimer"};
+        String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
+        if (utilConnecte.getRole().getIdRole().equals("s")) {
+            columnNames = new String[]{"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region", "Supprimer"};
+        }
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         regions = AccesData.getLesRegions();
@@ -79,13 +82,23 @@ public class ListeUtilisateurs {
                 u.getTelfixe(),
                 u.getTelPortable(),
                 u.getDateEmbauche(),
-                u.getRegion().getLibelleRegion(),
-                "❌"
+                u.getRegion().getLibelleRegion()
             };
+            if (utilConnecte.getRole().getIdRole().equals("s")) {
+                rowData = new Object[]{u.getIdUtilisateur(), u.getNom(), u.getPrenom(), u.getAdresse(), u.getCp(), u.getVille(), u.getEmail(), u.getTelfixe(), u.getTelPortable(), u.getDateEmbauche(), u.getRegion().getLibelleRegion(), "❌"};
+            }
             tableModel.addRow(rowData);
         }
 
-        table = new JTable(tableModel);
+        table = new JTable(tableModel) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (!utilConnecte.getRole().getIdRole().equals("s")) {
+                    return false;
+                }
+                return isModifiableColumn(column);
+            }
+        };
         table.setFillsViewportHeight(true);
         table.setRowHeight(30);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -95,13 +108,6 @@ public class ListeUtilisateurs {
 
         TableColumn regionColumn = table.getColumnModel().getColumn(10);
         regionColumn.setCellEditor(new DefaultCellEditor(regionComboBox));
-
-        if(utilConnecte.getRole().getIdRole().equals("s")) {
-        	TableColumn deleteColumn = table.getColumnModel().getColumn(11);
-            deleteColumn.setCellRenderer(new ButtonRenderer());
-            deleteColumn.setCellEditor(new ButtonEditor());
-        }
-
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
@@ -110,6 +116,7 @@ public class ListeUtilisateurs {
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         if(utilConnecte.getRole().getIdRole().equals("s")) {
+        	// Bouton de création d'un utilisateur
         	btnNewVisiteur = new JButton("Nouveau Visiteur");
             buttonPanel.add(btnNewVisiteur);
             btnNewVisiteur.addActionListener(new ActionListener() {
@@ -117,13 +124,8 @@ public class ListeUtilisateurs {
                     CreateUtilisateur.ouvrirFenetre(frame);
                 }
             });
-        }
-
-        btnRetour = new JButton("Retour");
-        buttonPanel.add(btnRetour);
-
-        if(utilConnecte.getRole().getIdRole().equals("s")) {
-        	btnSave = new JButton("Enregistrer");
+            // Bouton d'enregistrement des modifications des utilisateurs
+            btnSave = new JButton("Enregistrer");
             buttonPanel.add(btnSave);
             btnSave.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
@@ -134,8 +136,14 @@ public class ListeUtilisateurs {
                     JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
                 }
             });
+            // Colonne de suppresion des utilisateurs
+            TableColumn deleteColumn = table.getColumnModel().getColumn(11);
+            deleteColumn.setCellRenderer(new ButtonRenderer());
+            deleteColumn.setCellEditor(new ButtonEditor());
         }
 
+        btnRetour = new JButton("Retour");
+        buttonPanel.add(btnRetour);
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Menu");
         menuBar.add(fileMenu);
@@ -147,11 +155,7 @@ public class ListeUtilisateurs {
             }
         });
 
-
-
-        
-        
-     // Ajout d'un listener pour détecter la sélection
+        // Ajout d'un listener pour détecter la sélection
         table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -258,8 +262,6 @@ public class ListeUtilisateurs {
             isPushed = true;
             return button;
         }
-        
-        
 
         @Override
         public Object getCellEditorValue() {
@@ -286,4 +288,5 @@ public class ListeUtilisateurs {
         public void actionPerformed(ActionEvent e) {
             fireEditingStopped();
         }
-    }}
+    }
+}
