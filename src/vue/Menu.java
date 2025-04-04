@@ -1,7 +1,7 @@
 package vue;
 
 import java.awt.Font;
-
+import java.awt.Image;
 import javax.swing.*;
 
 import metier.Utilisateur;
@@ -19,10 +19,22 @@ public class Menu {
         frame = new JFrame("Menu Principal");
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.setLocationRelativeTo(null);
 
         JPanel panelTitre = new JPanel();
+        
+        // Load and resize the image
+        ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));
+        Image originalImage = originalIcon.getImage();
+        Image resizedImage = originalImage.getScaledInstance(50, 20, Image.SCALE_SMOOTH); // Change width and height as needed
+        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+
+        // Create a JLabel and set the resized image icon
+        JLabel lblImageGSB = new JLabel("");
+        lblImageGSB.setIcon(resizedIcon);
+        panelTitre.add(lblImageGSB);
+
         JLabel lblTitre = new JLabel("GSB - Bienvenue, " + util.getNom() + ", " + util.getRole().getLibelleRole());
         lblTitre.setFont(new Font("Serif", Font.BOLD, 18));
         panelTitre.add(lblTitre);
@@ -44,8 +56,6 @@ public class Menu {
             panelBoutons.add(btnConsulterFicheFrais);
             btnConsulterFicheFrais.addActionListener(e -> new ListeFicheFrais());
             btnConsulterStats.addActionListener(e -> new ListeStatsFiches());
-
-
         }
         
         if (util.getRole().getIdRole().equals("d")) {
@@ -54,13 +64,9 @@ public class Menu {
         	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }       
         
-     
         btnDeconnexion.addActionListener(e -> System.exit(0));
         panelBoutons.add(btnDeconnexion); 
         
         frame.getContentPane().add(panelBoutons);      
     }
-
-	
-      
 }
