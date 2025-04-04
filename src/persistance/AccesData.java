@@ -256,50 +256,35 @@ private static Session s = HibernateSession.getSession();
         return query.list();
     }
     
-    public static List<Object[]> GetMoyenneMontantFraisForfait (String month, int region) {
-        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisForfait");
-        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
-        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
-        query.setParameter("mois", month);
-        query.setParameter("region", region);
+    public static List<Object[]> getMoyenneMontantFraisForfait(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisForfait")
+                .registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN)
+                .registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN)
+                .setParameter("mois", month)
+                .setParameter("region", region);
         query.execute();
         return query.getResultList();
     }
-    
-    public static List<Object[]> GetMoyenneMontantFraisHorsForfait (String month, int region) {
-        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisHorsForfait");
-        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
-        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
-        query.setParameter("mois", month);
-        query.setParameter("region", region);
+
+    public static List<Object[]> getMoyenneMontantFraisHorsForfait(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisHorsForfait")
+                .registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN)
+                .registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN)
+                .setParameter("mois", month)
+                .setParameter("region", region);
         query.execute();
         return query.getResultList();
     }
-    
+
     public static List<Object[]> getCombinedMoyenneMontantFrais(String month, int region) {
-        List<Object[]> moyenneFraisForfait = GetMoyenneMontantFraisForfait(month, region);
-        List<Object[]> moyenneFraisHorsForfait = GetMoyenneMontantFraisHorsForfait(month, region);
+        List<Object[]> fraisForfaitStats = getMoyenneMontantFraisForfait(month, region);
+        List<Object[]> fraisHorsForfaitStats = getMoyenneMontantFraisHorsForfait(month, region);
 
-        // Combine the results into a single list
-        List<Object[]> combinedMoyenne = new ArrayList<>();
-        for (Object[] forfait : moyenneFraisForfait) {
-            String idUtilisateur = (String) forfait[0];
-            double montantFraisHorsForfait = 0;
-
-            for (Object[] horsForfait : moyenneFraisHorsForfait) {
-                if (horsForfait[0].equals(idUtilisateur)) {
-                    if (horsForfait.length > 1) {
-                        montantFraisHorsForfait = ((Number) horsForfait[1]).doubleValue();
-                    }
-                    break;
-                }
-            }
-
-            Object[] combined = Arrays.copyOf(forfait, forfait.length + 1);
-            combined[1] = montantFraisHorsForfait;
-            combinedMoyenne.add(combined);
+        // Assuming both lists have the same size and corresponding elements are in the same order.
+        for (int i = 0; i < fraisForfaitStats.size(); i++) {
+            fraisForfaitStats.get(i)[1] = fraisHorsForfaitStats.get(i)[1];
         }
 
-        return combinedMoyenne;
+        return fraisForfaitStats;
     }
 }

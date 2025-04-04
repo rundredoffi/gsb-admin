@@ -22,7 +22,7 @@ import metier.Region;
 import persistance.AccesData;
 
 public class ListeStatsRegion {
-	private JFrame frame;
+    private JFrame frame;
     private JTable table;
     private JPanel buttonPanel;
     private JButton btnNewButton;
@@ -56,7 +56,7 @@ public class ListeStatsRegion {
 
         frame.getContentPane().add(comboBoxPanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Moyenne_Frais_Hors_Forfait", "Moyenne_Frais_Forfait"};
+        String[] columnNames = {"Moyenne Frais Forfait"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         table = new JTable(tableModel);
@@ -106,28 +106,26 @@ public class ListeStatsRegion {
         String selectedMonth = (String) comboBox2.getSelectedItem();
         int selectedRegion = comboBox1.getSelectedIndex() + 1; // Assuming region IDs are 1-based
 
-        List<Object[]> stats = AccesData.getCombinedMoyenneMontantFrais(selectedMonth, selectedRegion);
+        // Appel d'une seule procédure stockée pour obtenir les résultats
+        List<Object[]> fraisForfaitStats = AccesData.getMoyenneMontantFraisForfait(selectedMonth, selectedRegion);
         tableModel.setRowCount(0); // Clear existing data
 
-        for (Object[] stat : stats) {
-            if (stat.length >= 6) {
-                Object[] rowData = {
-                    stat[0], // idUtilisateur
-                    stat[1], // Nom
-                    stat[2], // Prenom
-                    stat[3], // Montant Frais Forfait
-                    stat[4], // Montant Frais Hors Forfait
-                    stat[5]  // nbFraisHorsForfait
-                };
-                tableModel.addRow(rowData);
-            }
+        // Affichage des résultats dans la table et la console
+        for (Object[] stat : fraisForfaitStats) {
+            Object[] rowData = {
+                stat[0] // Moyenne Frais Forfait
+            };
+            tableModel.addRow(rowData);
+
+            // Print stats to console for debugging
+            System.out.printf("Moyenne Frais Forfait: %s%n", stat[0]);
         }
     }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                ListeStatsFiches window = new ListeStatsFiches();
+                ListeStatsRegion window = new ListeStatsRegion();
             } catch (Exception e) {
                 e.printStackTrace();
             }
