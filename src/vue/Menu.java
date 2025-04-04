@@ -42,7 +42,7 @@ public class Menu {
         if (util.getRole().getIdRole().equals("r")) {
             panelBoutons.add(btnConsulterStats);
             panelBoutons.add(btnConsulterFicheFrais);
-            btnConsulterFicheFrais.addActionListener(e -> new fichefrais());
+            btnConsulterFicheFrais.addActionListener(e -> new ListeFicheFrais());
             btnConsulterStats.addActionListener(e -> new stats());
 
 
