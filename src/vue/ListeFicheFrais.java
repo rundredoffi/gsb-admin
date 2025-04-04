@@ -11,6 +11,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -156,6 +158,13 @@ public class ListeFicheFrais {
         // Affichage de la fenêtre
         frame.setVisible(true);
     }
+    
+    private String reformatMois(String mois) {
+        // Convertir le mois au format yyyyMM en LocalDate
+        LocalDate date = LocalDate.parse(mois + "01", DateTimeFormatter.ofPattern("yyyyMMdd"));
+        // Reformater la date au format MM/yyyy
+        return date.format(DateTimeFormatter.ofPattern("MM/yyyy"));
+    }
 
     private void updateTableModel() {
         tableModel.setRowCount(0);
@@ -173,12 +182,12 @@ public class ListeFicheFrais {
         if (region != null) {
             List<FicheFrais> ff = AccesData.retrieveFicheFraisByRegion(region.getIdRegion());
             for (FicheFrais f : ff) {
-                System.out.println(MoisSelectedFormated);
+                
 
                 if (selectedMois == null || MoisSelectedFormated.equals(f.getId().getMois())) {
                     Object[] rowData = {
                         f.getId().getIdVisiteur(),
-                        f.getId().getMois(),
+                        reformatMois(f.getId().getMois()), 
                         f.getNbJustificatif(),
                         f.getMontantValide(),
                         dateFormatter.format(f.getDateModif()),

@@ -43,7 +43,7 @@ public class Menu {
             panelBoutons.add(btnConsulterStats);
             panelBoutons.add(btnConsulterFicheFrais);
             btnConsulterFicheFrais.addActionListener(e -> new ListeFicheFrais());
-            btnConsulterStats.addActionListener(e -> new stats());
+            btnConsulterStats.addActionListener(e -> new ListeStats());
 
 
         }
@@ -56,7 +56,8 @@ public class Menu {
         
      
         btnDeconnexion.addActionListener(e -> System.exit(0));
-        panelBoutons.add(btnDeconnexion);
+        panelBoutons.add(btnDeconnexion); 
+        
         frame.getContentPane().add(panelBoutons);      
     }
 

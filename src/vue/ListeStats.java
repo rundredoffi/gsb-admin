@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import metier.Region;
 import persistance.AccesData;
 
-public class stats {
+public class ListeStats {
     private JFrame frame;
     private JTable table;
     private JPanel buttonPanel;
@@ -30,7 +30,7 @@ public class stats {
     private JComboBox<String> comboBox2;
     private SimpleDateFormat dateFormatter;
 
-    public stats() {
+    public ListeStats() {
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         frame = new JFrame("Statistiques");
@@ -127,7 +127,7 @@ public class stats {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                stats window = new stats();
+                ListeStats window = new ListeStats();
             } catch (Exception e) {
                 e.printStackTrace();
             }
