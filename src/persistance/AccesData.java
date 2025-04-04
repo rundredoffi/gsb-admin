@@ -7,7 +7,12 @@ import org.hibernate.query.Query;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.persistence.StoredProcedureQuery;
+
 import metier.FicheFrais;
 import metier.Region;
 import metier.Role;
@@ -157,6 +162,85 @@ private static Session s = HibernateSession.getSession();
 
         return success;
     }
+	
+	public static List<Object[]> getStatsFFMontRegion(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("get_stats_ffmont_region");
+        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
+        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
+        query.setParameter("mois", month);
+        query.setParameter("region", region);
+        query.execute();
+        return query.getResultList();
+    }
+
+    public static List<Object[]> getStatsHFMontRegion(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("get_stats_hfmont_region");
+        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
+        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
+        query.setParameter("mois", month);
+        query.setParameter("region", region);
+        query.execute();
+        return query.getResultList();
+    }
+
+    public static List<Object[]> getStatsHfRegion(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("get_stats_hf_region");
+        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
+        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
+        query.setParameter("mois", month);
+        query.setParameter("region", region);
+        query.execute();
+        return query.getResultList();
+    }
+
+    public static List<Object[]> getCombinedStats(String month, int region) {
+        List<Object[]> statsFF = getStatsFFMontRegion(month, region);
+        List<Object[]> statsHF = getStatsHFMontRegion(month, region);
+        List<Object[]> statsHfRegion = getStatsHfRegion(month, region);
+
+       
+
+        // Combine the results into a single list
+        List<Object[]> combinedStats = new ArrayList<>();
+        for (Object[] ff : statsFF) {
+            String idUtilisateur = (String) ff[0];
+            boolean foundHF = false;
+            boolean foundHfRegion = false;
+            double montantFraisHorsForfait = 0;
+            int nbFraisHorsForfait = 0;
+
+            for (Object[] hf : statsHF) {
+                if (hf[0].equals(idUtilisateur)) {
+                    if (hf.length > 3) {
+                        montantFraisHorsForfait = ((Number) hf[3]).doubleValue();
+                    }
+                    foundHF = true;
+                    break;
+                }
+            }
+            for (Object[] hr : statsHfRegion) {
+                if (hr[0].equals(idUtilisateur)) {
+                    if (hr.length > 3) {
+                        nbFraisHorsForfait = ((Number) hr[3]).intValue();
+                    }
+                    foundHfRegion = true;
+                    break;
+                }
+            }
+
+            Object[] combined = Arrays.copyOf(ff, ff.length + 2);
+            combined[4] = montantFraisHorsForfait;
+            combined[5] = nbFraisHorsForfait;
+            combinedStats.add(combined);
+        }
+
+        return combinedStats;
+    }
+    
+    public static List<FicheFrais> retrieveFicheFraisByRegion(int regionId) {
+        String hql = "SELECT ff FROM FicheFrais ff JOIN Utilisateur u ON ff.id.idVisiteur = u.idUtilisateur WHERE u.region.idRegion = :regionId";
+        Query<FicheFrais> query = s.createQuery(hql, FicheFrais.class);
+        query.setParameter("regionId", regionId);
+        return query.list();
+    }
 }
-	
-	
