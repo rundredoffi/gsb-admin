@@ -255,4 +255,51 @@ private static Session s = HibernateSession.getSession();
         query.setParameter("regionId", regionId);
         return query.list();
     }
+    
+    public static List<Object[]> GetMoyenneMontantFraisForfait (String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisForfait");
+        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
+        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
+        query.setParameter("mois", month);
+        query.setParameter("region", region);
+        query.execute();
+        return query.getResultList();
+    }
+    
+    public static List<Object[]> GetMoyenneMontantFraisHorsForfait (String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisHorsForfait");
+        query.registerStoredProcedureParameter("mois", String.class, javax.persistence.ParameterMode.IN);
+        query.registerStoredProcedureParameter("region", Integer.class, javax.persistence.ParameterMode.IN);
+        query.setParameter("mois", month);
+        query.setParameter("region", region);
+        query.execute();
+        return query.getResultList();
+    }
+    
+    public static List<Object[]> getCombinedMoyenneMontantFrais(String month, int region) {
+        List<Object[]> moyenneFraisForfait = GetMoyenneMontantFraisForfait(month, region);
+        List<Object[]> moyenneFraisHorsForfait = GetMoyenneMontantFraisHorsForfait(month, region);
+
+        // Combine the results into a single list
+        List<Object[]> combinedMoyenne = new ArrayList<>();
+        for (Object[] forfait : moyenneFraisForfait) {
+            String idUtilisateur = (String) forfait[0];
+            double montantFraisHorsForfait = 0;
+
+            for (Object[] horsForfait : moyenneFraisHorsForfait) {
+                if (horsForfait[0].equals(idUtilisateur)) {
+                    if (horsForfait.length > 1) {
+                        montantFraisHorsForfait = ((Number) horsForfait[1]).doubleValue();
+                    }
+                    break;
+                }
+            }
+
+            Object[] combined = Arrays.copyOf(forfait, forfait.length + 1);
+            combined[1] = montantFraisHorsForfait;
+            combinedMoyenne.add(combined);
+        }
+
+        return combinedMoyenne;
+    }
 }
