@@ -43,7 +43,7 @@ public class Menu {
             panelBoutons.add(btnConsulterStats);
             panelBoutons.add(btnConsulterFicheFrais);
             btnConsulterFicheFrais.addActionListener(e -> new ListeFicheFrais());
-            btnConsulterStats.addActionListener(e -> new ListeStats());
+            btnConsulterStats.addActionListener(e -> new ListeStatsFiches());
 
 
         }
