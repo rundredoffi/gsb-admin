@@ -9,7 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -67,12 +70,23 @@ public class ListeFicheFrais {
         regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
+
         List<String> moisList = AccesData.getLesMois();
-        String[] moisArray = moisList.toArray(new String[0]);
+        List<String> dateMois = new ArrayList<String>();
+
+        moisList.forEach(monMois->{
+        	String year = monMois.substring(0, 4);
+            String month = monMois.substring(4, 6);
+            String formattedDate = month + "/" + year;
+            dateMois.add(formattedDate);
+
+        });
+        String[] moisArray = dateMois.toArray(new String[0]);
 
         // Création des JComboBox
         comboBox1 = new JComboBox<>(regionNames);
         comboBox2 = new JComboBox<>(moisArray);
+        
 
         // Ajout des JComboBox au panneau
         comboBoxPanel.add(comboBox1);
@@ -148,11 +162,20 @@ public class ListeFicheFrais {
         String selectedRegion = (String) comboBox1.getSelectedItem();
         String selectedMois = (String) comboBox2.getSelectedItem();
         Region region = regions.stream().filter(r -> r.getLibelleRegion().equals(selectedRegion)).findFirst().orElse(null);
+        //DateMoisSelected
+        String month = selectedMois.substring(0, 2);
+        String year = selectedMois.substring(3, 7);
 
+        // Formater la date dans le format MM/YYYY
+        String MoisSelectedFormated = year+ month ;
+        
+        
         if (region != null) {
             List<FicheFrais> ff = AccesData.retrieveFicheFraisByRegion(region.getIdRegion());
             for (FicheFrais f : ff) {
-                if (selectedMois == null || selectedMois.equals(f.getId().getMois())) {
+                System.out.println(MoisSelectedFormated);
+
+                if (selectedMois == null || MoisSelectedFormated.equals(f.getId().getMois())) {
                     Object[] rowData = {
                         f.getId().getIdVisiteur(),
                         f.getId().getMois(),
