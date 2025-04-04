@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import metier.Region;
 import persistance.AccesData;
+import utils.outils;
 
 public class ListeStatsFiches {
     private JFrame frame;
@@ -28,11 +29,8 @@ public class ListeStatsFiches {
     private JButton btnNewButton;
     private JComboBox<String> comboBox1;
     private JComboBox<String> comboBox2;
-    private SimpleDateFormat dateFormatter;
 
     public ListeStatsFiches() {
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-
         frame = new JFrame("Statistiques");
         frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,9 +42,7 @@ public class ListeStatsFiches {
 
         List<Region> regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-
-        List<String> moisList = AccesData.getLesMois();
-        String[] moisArray = moisList.toArray(new String[0]);
+        String[] moisArray = outils.getMoisFormat();
 
         comboBox1 = new JComboBox<>(regionNames);
         comboBox2 = new JComboBox<>(moisArray);
@@ -97,16 +93,14 @@ public class ListeStatsFiches {
         }
 
         frame.setVisible(true);
-
-        // Initial update with default selection
         updateStats(tableModel);
     }
 
     private void updateStats(DefaultTableModel tableModel) {
-        String selectedMonth = (String) comboBox2.getSelectedItem();
-        int selectedRegion = comboBox1.getSelectedIndex() + 1; // Assuming region IDs are 1-based
-
-        List<Object[]> stats = AccesData.getCombinedStats(selectedMonth, selectedRegion);
+        String selectedMois = (String) comboBox2.getSelectedItem();
+        int selectedRegion = comboBox1.getSelectedIndex() + 1;
+        String selectedMoisFormat = outils.formatageMoisSQL(selectedMois);
+        List<Object[]> stats = AccesData.getCombinedStats(selectedMoisFormat, selectedRegion);
         tableModel.setRowCount(0); // Clear existing data
 
         for (Object[] stat : stats) {

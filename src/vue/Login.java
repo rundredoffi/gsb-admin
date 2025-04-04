@@ -16,7 +16,8 @@ public class Login extends JFrame {
     private JButton loginButton;
     private JLabel messageLabel;
     private Utilisateur util;
-    private Boolean status;
+    @SuppressWarnings("unused")
+	private Boolean status;
     private List<LoginListener> listeners = new ArrayList<>();
     private LoadingScreen loadingScreen;
 

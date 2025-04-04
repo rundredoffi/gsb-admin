@@ -42,7 +42,6 @@ public class Menu {
 
         JPanel panelBoutons = new JPanel();
         JButton btnGestionVisiteurs = new JButton("Gérer les visiteurs");
-        JButton btnConsulterFicheVisiteurs = new JButton("Consulter les fiches des visiteurs");
         JButton btnConsulterFicheFrais = new JButton("Consulter les FicheFrais");
         JButton btnConsulterStats = new JButton("Consulter les statistiques");
         btnDeconnexion = new JButton("Déconnexion");
