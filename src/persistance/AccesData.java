@@ -45,6 +45,18 @@ private static Session s = HibernateSession.getSession();
 		return query.list();
 	}
 	
+	public static Role getRoleById(String idRole) {
+        Role role = null;
+        try {
+            String hql = "FROM Role r WHERE r.idRole = :idRole";
+            Query<Role> query = s.createQuery(hql, Role.class);
+            query.setParameter("idRole", idRole);
+            role = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return role;
+    }
 	
 	public static List<FicheFrais> getLesFicheFrais() {
 		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);

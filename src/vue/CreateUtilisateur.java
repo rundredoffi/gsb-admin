@@ -31,7 +31,6 @@ public class CreateUtilisateur extends JDialog {
     private JTextField numFixeField;
     private JTextField numPortableField;
     private JComboBox<Region> regionComboBox;
-    private JComboBox<Role> roleComboBox;
 
     public static void ouvrirFenetre(JFrame parent) {
         if (instance == null || !instance.isVisible()) {
@@ -125,48 +124,40 @@ public class CreateUtilisateur extends JDialog {
         panel.add(idVisiteurField);
         idVisiteurField.setColumns(10);
 
-        JLabel lblNewLabel_8 = new JLabel("Rôle :");
-        lblNewLabel_8.setBounds(26, 315, 165, 14);
-        panel.add(lblNewLabel_8);
-
         JLabel lblNewLabel_9 = new JLabel("Adresse Email : ");
-        lblNewLabel_9.setBounds(246, 315, 165, 14);
+        lblNewLabel_9.setBounds(26, 325, 165, 14);
         panel.add(lblNewLabel_9);
 
         emailField = new JTextField();
-        emailField.setBounds(246, 336, 165, 20);
+        emailField.setBounds(26, 346, 165, 20);
         panel.add(emailField);
         emailField.setColumns(10);
 
         JLabel lblNewLabel_10 = new JLabel("Numéro Teléphone Fixe :");
-        lblNewLabel_10.setBounds(26, 377, 165, 14);
+        lblNewLabel_10.setBounds(246, 321, 165, 14);
         panel.add(lblNewLabel_10);
 
         JLabel lblNewLabel_11 = new JLabel("Numéro Téléphone Portable : ");
-        lblNewLabel_11.setBounds(246, 377, 178, 14);
+        lblNewLabel_11.setBounds(26, 389, 178, 14);
         panel.add(lblNewLabel_11);
 
         numFixeField = new JTextField();
-        numFixeField.setBounds(26, 402, 165, 20);
+        numFixeField.setBounds(246, 346, 165, 20);
         panel.add(numFixeField);
         numFixeField.setColumns(10);
 
         numPortableField = new JTextField();
-        numPortableField.setBounds(246, 402, 165, 20);
+        numPortableField.setBounds(26, 414, 165, 20);
         panel.add(numPortableField);
         numPortableField.setColumns(10);
 
         JLabel lblNewLabel_12 = new JLabel("Région :");
-        lblNewLabel_12.setBounds(26, 448, 165, 14);
+        lblNewLabel_12.setBounds(246, 387, 165, 14);
         panel.add(lblNewLabel_12);
 
         regionComboBox = new JComboBox<>();
-        regionComboBox.setBounds(26, 473, 165, 22);
+        regionComboBox.setBounds(246, 412, 165, 22);
         panel.add(regionComboBox);
-
-        roleComboBox = new JComboBox<>();
-        roleComboBox.setBounds(26, 335, 165, 22);
-        panel.add(roleComboBox);
 
         JButton btnAjoutUtilisateur = new JButton("Ajouter Visiteur");
         btnAjoutUtilisateur.addMouseListener(new MouseAdapter() {
@@ -175,9 +166,8 @@ public class CreateUtilisateur extends JDialog {
                 if (areFieldsValid()) {
                     Date maDate = new Date();
                     Region maRegion = (Region) regionComboBox.getSelectedItem();
-                    Role monRole = (Role) roleComboBox.getSelectedItem();
                     ArrayList<FicheFrais> mesFichesFrais = new ArrayList<>();
-                    Utilisateur monUtilisateur = new Utilisateur(idVisiteurField.getText(), nomField.getText(), prenomField.getText(), loginField.getText(), passwordField.getText(), adresseField.getText(), codePostalField.getText(), villeField.getText(), maDate, emailField.getText(), numFixeField.getText(), numPortableField.getText(), maRegion, monRole, mesFichesFrais);
+                    Utilisateur monUtilisateur = new Utilisateur(idVisiteurField.getText(), nomField.getText(), prenomField.getText(), loginField.getText(), passwordField.getText(), adresseField.getText(), codePostalField.getText(), villeField.getText(), maDate, emailField.getText(), numFixeField.getText(), numPortableField.getText(), maRegion, AccesData.getRoleById("v"), mesFichesFrais);
                     Boolean isSuccess = AccesData.insertionVisiteur(monUtilisateur);
 
                     if (isSuccess) {
@@ -195,7 +185,6 @@ public class CreateUtilisateur extends JDialog {
         panel.add(btnAjoutUtilisateur);
 
         remplirComboBoxRegions();
-        remplirComboBoxRoles();
 
         setVisible(true);
     }
@@ -204,7 +193,7 @@ public class CreateUtilisateur extends JDialog {
         return !nomField.getText().isEmpty() && !prenomField.getText().isEmpty() && !loginField.getText().isEmpty() && !passwordField.getText().isEmpty()
                 && !adresseField.getText().isEmpty() && !codePostalField.getText().isEmpty() && !villeField.getText().isEmpty()
                 && !emailField.getText().isEmpty() && !numFixeField.getText().isEmpty() && !numPortableField.getText().isEmpty()
-                && regionComboBox.getSelectedItem() != null && roleComboBox.getSelectedItem() != null;
+                && regionComboBox.getSelectedItem() != null;
     }
 
     private void remplirComboBoxRegions() {
@@ -218,23 +207,6 @@ public class CreateUtilisateur extends JDialog {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 if (value instanceof Region) {
                     setText(((Region) value).getLibelleRegion());
-                }
-                return this;
-            }
-        });
-    }
-
-    private void remplirComboBoxRoles() {
-        List<Role> roles = AccesData.getLesRoles();
-        for (Role role : roles) {
-            roleComboBox.addItem(role);
-        }
-        roleComboBox.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Role) {
-                    setText(((Role) value).getLibelleRole());
                 }
                 return this;
             }
