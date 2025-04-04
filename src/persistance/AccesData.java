@@ -25,8 +25,8 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static List<String> getLesMois() {
-		Query<String> query = s.createQuery("select distinct mois from FicheFrais", String.class);
-        return query.list();
+	    Query<String> query = s.createQuery("select distinct ff.id.mois from FicheFrais ff", String.class);
+	    return query.list();
 	}
 	
 	

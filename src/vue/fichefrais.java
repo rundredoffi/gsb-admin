@@ -65,15 +65,16 @@ public class fichefrais {
         regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
-        mois = AccesData.getLesMois();
-        
+        List<String> moisList = AccesData.getLesMois();
+        String[] moisArray = moisList.toArray(new String[0]);
+
         
         // Création des JComboBox
         
         JComboBox<String> comboBox1 = new JComboBox<>(regionNames);
+        JComboBox<String> comboBox2 = new JComboBox<>(moisArray);
 
-        String[] comboBoxItems2 = {"Item 2-1", "Item 2-2", "Item 2-3"};
-        JComboBox<String> comboBox2 = new JComboBox<>(comboBoxItems2);
+      
 
         // Ajout des JComboBox au panneau
         comboBoxPanel.add(comboBox1);
@@ -83,7 +84,7 @@ public class fichefrais {
         frame.getContentPane().add(comboBoxPanel, BorderLayout.NORTH);
 
         // Création du modèle de table avec des colonnes
-        String[] columnNames = {"idVisiteur ", "mois ", "montantValide", "dateModif", "idEtat "};
+        String[] columnNames = {"idVisiteur ", "mois ", "nbJustificatif", "montantValide", "dateModif", "idEtat "};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         List<FicheFrais> ff = AccesData.getLesFicheFrais();
@@ -91,9 +92,10 @@ public class fichefrais {
             Object[] rowData = {
                 f.getId(),
                 f.getDateModif(),
-                f.getEtat(),
-                f.getMontantValide(),
                 f.getNbJustificatif(),
+                f.getMontantValide(),
+                f.getDateModif(),
+                f.getEtat().getLibelleEtat()
             };
             tableModel.addRow(rowData);
         }
