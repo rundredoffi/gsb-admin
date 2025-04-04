@@ -30,7 +30,6 @@ public class Menu {
 
         JPanel panelBoutons = new JPanel();
         JButton btnGestionVisiteurs = new JButton("Gérer les visiteurs");
-        JButton btnConsulterFicheVisiteurs = new JButton("Consulter les fiches des visiteurs");
         JButton btnConsulterFicheFrais = new JButton("Consulter les FicheFrais");
         JButton btnConsulterStats = new JButton("Consulter les statistiques");
         btnDeconnexion = new JButton("Déconnexion");
@@ -44,8 +43,6 @@ public class Menu {
             panelBoutons.add(btnConsulterFicheFrais);
             btnConsulterFicheFrais.addActionListener(e -> new ListeFicheFrais());
             btnConsulterStats.addActionListener(e -> new ListeStatsFiches());
-
-
         }
         
         if (util.getRole().getIdRole().equals("d")) {
@@ -54,7 +51,6 @@ public class Menu {
         	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }       
         
-     
         btnDeconnexion.addActionListener(e -> System.exit(0));
         panelBoutons.add(btnDeconnexion); 
         

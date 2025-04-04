@@ -9,31 +9,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import metier.FicheFrais;
@@ -45,13 +33,9 @@ public class ListeFicheFrais {
     private JFrame frame;
     private JTable table;
     private JPanel buttonPanel; // Panneau pour les boutons
-    private JButton InsererBDD;
     private JButton btnNewButton;
-    private JLabel TextError;
-    private JButton SelectXMLButton;
     private JMenuBar menuBar;
     private List<Region> regions;
-    private List<String> mois;
     private SimpleDateFormat dateFormatter;
     private JComboBox<String> comboBox1;
     private JComboBox<String> comboBox2;
@@ -185,7 +169,7 @@ public class ListeFicheFrais {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ListeFicheFrais window = new ListeFicheFrais();
+                    new ListeFicheFrais();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
