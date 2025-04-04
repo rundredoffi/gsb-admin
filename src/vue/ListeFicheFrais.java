@@ -54,7 +54,7 @@ public class ListeFicheFrais {
     public ListeFicheFrais() {
         dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
         // Création de la fenêtre
-        frame = new JFrame("Fenêtre Visiteurs");
+        frame = new JFrame("Fenêtre ListeFicheFrais");
         frame.setSize(1000, 700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
