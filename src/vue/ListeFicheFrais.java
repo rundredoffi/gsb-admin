@@ -39,6 +39,7 @@ import javax.swing.table.DefaultTableModel;
 import metier.FicheFrais;
 import metier.Region;
 import persistance.AccesData;
+import utils.outils;
 
 public class ListeFicheFrais {
     private JFrame frame;
@@ -71,19 +72,7 @@ public class ListeFicheFrais {
 
         regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-
-
-        List<String> moisList = AccesData.getLesMois();
-        List<String> dateMois = new ArrayList<String>();
-
-        moisList.forEach(monMois->{
-        	String year = monMois.substring(0, 4);
-            String month = monMois.substring(4, 6);
-            String formattedDate = month + "/" + year;
-            dateMois.add(formattedDate);
-
-        });
-        String[] moisArray = dateMois.toArray(new String[0]);
+        String[] moisArray = outils.getMoisFormat();
 
         // Création des JComboBox
         comboBox1 = new JComboBox<>(regionNames);
@@ -171,19 +160,12 @@ public class ListeFicheFrais {
         String selectedRegion = (String) comboBox1.getSelectedItem();
         String selectedMois = (String) comboBox2.getSelectedItem();
         Region region = regions.stream().filter(r -> r.getLibelleRegion().equals(selectedRegion)).findFirst().orElse(null);
-        //DateMoisSelected
-        String month = selectedMois.substring(0, 2);
-        String year = selectedMois.substring(3, 7);
-
-        // Formater la date dans le format MM/YYYY
-        String MoisSelectedFormated = year+ month ;
+        String MoisSelectedFormated = outils.formatageMoisSQL(selectedMois);
         
         
         if (region != null) {
             List<FicheFrais> ff = AccesData.retrieveFicheFraisByRegion(region.getIdRegion());
             for (FicheFrais f : ff) {
-                
-
                 if (selectedMois == null || MoisSelectedFormated.equals(f.getId().getMois())) {
                     Object[] rowData = {
                         f.getId().getIdVisiteur(),
