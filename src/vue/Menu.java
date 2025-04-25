@@ -4,11 +4,16 @@ import java.awt.Font;
 import java.awt.Image;
 import javax.swing.*;
 
+import listeners.LoginListener;
 import metier.Utilisateur;
 
-public class Menu {
+public class Menu extends JFrame implements LoginListener {
     private JFrame frame;
     private JButton btnDeconnexion;
+
+    public Menu() {
+        // Constructor without parameters to instantiate Menu from LoginListener
+    }
 
     public Menu(Utilisateur util) {
         initialize(util);
@@ -46,8 +51,8 @@ public class Menu {
         JButton btnConsulterStats = new JButton("Consulter les statistiques");
         btnDeconnexion = new JButton("Déconnexion");
         if (util.getRole().getIdRole().equals("s")) { 
-        	panelBoutons.add(btnGestionVisiteurs);
-        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
+            panelBoutons.add(btnGestionVisiteurs);
+            btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }
         
         if (util.getRole().getIdRole().equals("r")) {
@@ -58,14 +63,23 @@ public class Menu {
         }
         
         if (util.getRole().getIdRole().equals("d")) {
-        	btnGestionVisiteurs.setText("Consulter les fiches visiteur");
+            btnGestionVisiteurs.setText("Consulter les fiches visiteur");
             panelBoutons.add(btnGestionVisiteurs);
-        	btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
+            btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
         }       
         
-        btnDeconnexion.addActionListener(e -> System.exit(0));
+        // Change the action to call the logout method
+        btnDeconnexion.addActionListener(e -> Logout.logout(frame));
         panelBoutons.add(btnDeconnexion); 
         
         frame.getContentPane().add(panelBoutons);      
+    }
+
+    @Override
+    public void onLoginSuccess(Utilisateur utilisateur, JFrame loginFrame) {
+        SwingUtilities.invokeLater(() -> {
+            new Menu(utilisateur).setVisible(true);
+            loginFrame.dispose();
+        });
     }
 }
