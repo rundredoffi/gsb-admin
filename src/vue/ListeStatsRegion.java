@@ -43,9 +43,11 @@ public class ListeStatsRegion {
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         List<Region> regions = AccesData.getLesRegions();
+        System.out.println("Regions récupérées : " + regions);  // Print pour vérifier les regions
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
         List<String> moisList = AccesData.getLesMois();
+        System.out.println("Mois récupérés : " + moisList);  // Print pour vérifier les mois
         String[] moisArray = moisList.toArray(new String[0]);
 
         comboBox1 = new JComboBox<>(regionNames);
@@ -56,7 +58,7 @@ public class ListeStatsRegion {
 
         frame.getContentPane().add(comboBoxPanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Moyenne Frais Forfait"};
+        String[] columnNames = {"Moyenne Frais Forfait", "Moyenne Frais Hors Forfait"};
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         table = new JTable(tableModel);
@@ -106,19 +108,28 @@ public class ListeStatsRegion {
         String selectedMonth = (String) comboBox2.getSelectedItem();
         int selectedRegion = comboBox1.getSelectedIndex() + 1; // Assuming region IDs are 1-based
 
-        // Appel d'une seule procédure stockée pour obtenir les résultats
-        List<Object[]> fraisForfaitStats = AccesData.getMoyenneMontantFraisForfait(selectedMonth, selectedRegion);
-        tableModel.setRowCount(0); // Clear existing data
+        System.out.println("Mois sélectionné : " + selectedMonth);
+        System.out.println("ID de la région sélectionnée : " + selectedRegion);
 
-        // Affichage des résultats dans la table et la console
-        for (Object[] stat : fraisForfaitStats) {
+        // Appel de la méthode combinée pour obtenir les résultats
+        List<Object[]> fraisForfaitStats = AccesData.getCombinedMoyenneMontantFrais(selectedMonth, selectedRegion);
+        
+        // Si fraisForfaitStats est une seule ligne avec une seule valeur
+        if (fraisForfaitStats != null && !fraisForfaitStats.isEmpty()) {
+            // Efface les lignes précédentes
+            tableModel.setRowCount(0); 
+
+            // Ajoute les nouvelles données dans la table
             Object[] rowData = {
-                stat[0] // Moyenne Frais Forfait
+                fraisForfaitStats.get(0)[0], // Moyenne Frais Forfait
+                fraisForfaitStats.get(0)[1]  // Moyenne Frais Hors Forfait
             };
             tableModel.addRow(rowData);
 
             // Print stats to console for debugging
-            System.out.printf("Moyenne Frais Forfait: %s%n", stat[0]);
+            System.out.printf("Moyenne Frais Forfait: %s, Moyenne Frais Hors Forfait: %s%n", fraisForfaitStats.get(0)[0], fraisForfaitStats.get(0)[1]);
+        } else {
+            System.out.println("Aucune donnée retournée pour les paramètres sélectionnés.");
         }
     }
 
