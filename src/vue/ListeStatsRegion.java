@@ -103,6 +103,7 @@ public class ListeStatsRegion {
         // Initial update with default selection
         updateStats(tableModel);
     }
+    
 
     private void updateStats(DefaultTableModel tableModel) {
         String selectedMonth = (String) comboBox2.getSelectedItem();
@@ -133,6 +134,9 @@ public class ListeStatsRegion {
         }
     }
 
+    
+    
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {

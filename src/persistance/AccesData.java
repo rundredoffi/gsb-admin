@@ -258,23 +258,22 @@ private static Session s = HibernateSession.getSession();
     
     public static Object getMoyenneMontantFraisForfait(String month, int region) {
         StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisForfait")
-                .registerStoredProcedureParameter("p_mois", String.class, javax.persistence.ParameterMode.IN)
-                .registerStoredProcedureParameter("p_region", Integer.class, javax.persistence.ParameterMode.IN)
-                .setParameter("p_mois", month)
-                .setParameter("p_region", region);
+            .registerStoredProcedureParameter("p_mois", String.class, javax.persistence.ParameterMode.IN)
+            .registerStoredProcedureParameter("p_region", Integer.class, javax.persistence.ParameterMode.IN)
+            .setParameter("p_mois", month)
+            .setParameter("p_region", region);
 
-        // Exécuter la requête et obtenir une liste de résultats
+        System.out.printf("Appel de la procédure avec mois : %s, région : %d%n", month, region);
+
         query.execute();
 
-        List<Object> resultList = query.getResultList(); // Utilisation de getResultList() au lieu de getSingleResult()
+        List<Object> resultList = query.getResultList();
+        System.out.println("Résultats retournés par la procédure : " + resultList);
 
-        // Vérifier si la liste de résultats est vide
         if (resultList.isEmpty()) {
-            return null;  // Retourne null si aucun résultat
+            return null;
         }
-
-        // Si des résultats sont trouvés, retourne le premier résultat
-        return resultList.get(0); // Ou bien, adapte cette partie selon ce que tu attends comme résultat
+        return resultList.get(0);
     }
 
     public static Object getMoyenneMontantFraisHorsForfait(String month, int region) {
