@@ -10,6 +10,7 @@ import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -38,6 +39,9 @@ public class ListeStatsRegion {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout());
+        
+        ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        frame.setIconImage(originalIcon.getImage());
 
         JPanel comboBoxPanel = new JPanel();
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
