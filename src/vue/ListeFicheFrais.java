@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -50,6 +52,9 @@ public class ListeFicheFrais {
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout()); 
 
+        ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        frame.setIconImage(originalIcon.getImage());
+        
         // Création du panneau pour les JComboBox
         JPanel comboBoxPanel = new JPanel();
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));

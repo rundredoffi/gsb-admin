@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,6 +41,9 @@ public class ListeStatsFiches {
         JPanel comboBoxPanel = new JPanel();
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
+        ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        frame.setIconImage(originalIcon.getImage());
+        
         List<Region> regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
         String[] moisArray = outils.getMoisFormat();

@@ -29,9 +29,14 @@ public class Menu extends JFrame implements LoginListener {
 
         JPanel panelTitre = new JPanel();
         
+        
+        ImageIcon originalIconLogo = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        frame.setIconImage(originalIconLogo.getImage());
+              
         // Load and resize the image
         ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));
         Image originalImage = originalIcon.getImage();
+        
         Image resizedImage = originalImage.getScaledInstance(50, 20, Image.SCALE_SMOOTH); // Change width and height as needed
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
 

@@ -5,6 +5,8 @@ import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
 import persistance.HibernateSession;
+import vue.Menu;
+
 import org.hibernate.Session;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,6 +31,9 @@ public class Login extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
+        
+        ImageIcon originalIconLogo = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        setIconImage(originalIconLogo.getImage());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
