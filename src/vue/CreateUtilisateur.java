@@ -3,7 +3,6 @@ package vue;
 import javax.swing.*;
 
 import metier.Region;
-import metier.Role;
 import metier.Utilisateur;
 import metier.FicheFrais;
 

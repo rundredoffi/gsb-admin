@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;

@@ -5,8 +5,6 @@ import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
 import persistance.HibernateSession;
-import vue.Menu;
-
 import org.hibernate.Session;
 import java.awt.*;
 import java.awt.event.ActionEvent;
