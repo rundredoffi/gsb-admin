@@ -4,6 +4,10 @@ import javax.swing.*;
 import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
+import persistance.HibernateSession;
+import vue.Menu;
+
+import org.hibernate.Session;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +20,7 @@ public class Login extends JFrame {
     private JButton loginButton;
     private JLabel messageLabel;
     private Utilisateur util;
+    @SuppressWarnings("unused")
     private Boolean status;
     private List<LoginListener> listeners = new ArrayList<>();
     private LoadingScreen loadingScreen;
@@ -26,6 +31,9 @@ public class Login extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
+        
+        ImageIcon originalIconLogo = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        setIconImage(originalIconLogo.getImage());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -71,6 +79,8 @@ public class Login extends JFrame {
                 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
+                        // Initialiser la session Hibernate
+                        Session session = HibernateSession.getSession();
                         util = AccesData.getUtilisateurByLoginAndMdp(username, password);
                         return null;
                     }
@@ -85,7 +95,7 @@ public class Login extends JFrame {
                             if (util != null) {
                                 messageLabel.setText("Connexion réussie !");
                                 messageLabel.setForeground(Color.GREEN);
-                                notifyListeners();
+                                notifyListeners(util);
                             } else {
                                 messageLabel.setText("Identifiants incorrects.");
                                 messageLabel.setForeground(Color.RED);
@@ -104,9 +114,9 @@ public class Login extends JFrame {
         listeners.add(listener);
     }
 
-    private void notifyListeners() {
+    private void notifyListeners(Utilisateur utilisateur) {
         for (LoginListener listener : listeners) {
-            listener.onLoginSuccess(util);
+            listener.onLoginSuccess(utilisateur, this);
         }
     }
 }

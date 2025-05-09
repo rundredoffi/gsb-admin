@@ -30,7 +30,7 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static List<String> getLesMois() {
-	    Query<String> query = s.createQuery("select distinct f.id.mois from FicheFrais f", String.class);
+	    Query<String> query = s.createQuery("select distinct ff.id.mois from FicheFrais ff", String.class);
 	    return query.list();
 	}
 	
@@ -45,6 +45,18 @@ private static Session s = HibernateSession.getSession();
 		return query.list();
 	}
 	
+	public static Role getRoleById(String idRole) {
+        Role role = null;
+        try {
+            String hql = "FROM Role r WHERE r.idRole = :idRole";
+            Query<Role> query = s.createQuery(hql, Role.class);
+            query.setParameter("idRole", idRole);
+            role = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return role;
+    }
 	
 	public static List<FicheFrais> getLesFicheFrais() {
 		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
@@ -243,4 +255,69 @@ private static Session s = HibernateSession.getSession();
         query.setParameter("regionId", regionId);
         return query.list();
     }
-}
+    
+    public static Object getMoyenneMontantFraisForfait(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisForfait")
+            .registerStoredProcedureParameter("p_mois", String.class, javax.persistence.ParameterMode.IN)
+            .registerStoredProcedureParameter("p_region", Integer.class, javax.persistence.ParameterMode.IN)
+            .setParameter("p_mois", month)
+            .setParameter("p_region", region);
+
+        System.out.printf("Appel de la procédure avec mois : %s, région : %d%n", month, region);
+
+        query.execute();
+
+        List<Object> resultList = query.getResultList();
+        System.out.println("Résultats retournés par la procédure : " + resultList);
+
+        if (resultList.isEmpty()) {
+            return null;
+        }
+        return resultList.get(0);
+    }
+
+    public static Object getMoyenneMontantFraisHorsForfait(String month, int region) {
+        StoredProcedureQuery query = s.createStoredProcedureQuery("GetMoyenneMontantFraisHorsForfait")
+                .registerStoredProcedureParameter("p_mois", String.class, javax.persistence.ParameterMode.IN)
+                .registerStoredProcedureParameter("p_region", Integer.class, javax.persistence.ParameterMode.IN)
+                .setParameter("p_mois", month)
+                .setParameter("p_region", region);
+
+        // Exécuter la requête et obtenir une liste de résultats
+        query.execute();
+
+        List<Object> resultList = query.getResultList(); // Utilisation de getResultList() au lieu de getSingleResult()
+        System.out.println("Moyenne frais forfait : " + resultList);
+
+        // Vérifier si la liste de résultats est vide
+        if (resultList.isEmpty()) {
+            return null;  // Retourne null si aucun résultat
+        }
+
+        // Si des résultats sont trouvés, retourne le premier résultat
+        return resultList.get(0); // Ou bien, adapte cette partie selon ce que tu attends comme résultat
+    }
+
+    public static List<Object[]> getCombinedMoyenneMontantFrais(String month, int region) {
+        // Récupérer la moyenne des frais forfaits et des frais hors forfaits
+        Object fraisForfait = getMoyenneMontantFraisForfait(month, region);
+        Object fraisHorsForfait = getMoyenneMontantFraisHorsForfait(month, region);
+
+        // Liste pour stocker les résultats combinés
+        List<Object[]> combinedStats = new ArrayList<>();
+
+        // Vérifier si les deux valeurs sont valides (non nulles)
+        if (fraisForfait != null && fraisHorsForfait != null) {
+            // Créer un tableau avec les deux valeurs combinées
+            Object[] combined = new Object[2];
+            combined[0] = fraisForfait; // Ajouter la moyenne des frais forfaits
+            combined[1] = fraisHorsForfait; // Ajouter la moyenne des frais hors forfait
+            
+
+            // Ajouter les résultats combinés à la liste finale
+            combinedStats.add(combined);
+        }
+        System.out.println("Moyenne frais forfait : " + fraisForfait);
+        System.out.println("Moyenne frais hors forfait : " + fraisHorsForfait);
+        return combinedStats;
+    }}

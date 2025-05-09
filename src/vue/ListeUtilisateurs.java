@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -54,6 +55,9 @@ public class ListeUtilisateurs {
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 
+        ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
+        frame.setIconImage(originalIcon.getImage());
+        
         // Création du modèle de table avec des colonnes
         String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
         if (utilConnecte.getRole().getIdRole().equals("s")) {
