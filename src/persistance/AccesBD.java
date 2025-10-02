@@ -1,31 +1,54 @@
 package persistance;
 
 import java.sql.*;
+import java.util.Properties;
+import java.io.InputStream;
+import java.io.IOException;
 
 // classe permettant l'ouverture, la fermeture de la base 
 public class AccesBD {
 	// description des propriétés
-	protected  static Connection con=null;
-	private static String url;
-	public static Connection  getInstance() {
-		// accès direct sans source de données odbc
-		url="jdbc:mysql://mysql-skylink.alwaysdata.net/skylink_gsb-admin?verifyServerCertificate=false&useSSL=true&serverTimezone=UTC";
-		if (con==null)
-		{
-			try
-			{// chargement du driver, librairie mysql connector liée au projet
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				// connexion utilisateur root ou changer avec votre code utilisateur
-				con=DriverManager.getConnection(url,"skylink_gsb","Skylink!GSB!1456");
+	protected static Connection con = null;
+	private static Properties dbProperties = null;
+	
+	// Chargement des propriétés de base de données
+	private static Properties getDbProperties() {
+		if (dbProperties == null) {
+			dbProperties = new Properties();
+			try (InputStream input = AccesBD.class.getResourceAsStream("/resources/db.properties")) {
+				if (input == null) {
+					throw new IOException("Fichier de configuration db.properties introuvable");
+				}
+				dbProperties.load(input);
+			} catch (IOException e) {
+				System.err.println("Erreur lors du chargement de la configuration de base de données : " + e.getMessage());
+				// Valeurs par défaut ou gestion d'erreur
+				throw new RuntimeException("Configuration de base de données non disponible", e);
+			}
+		}
+		return dbProperties;
+	}
+	
+	public static Connection getInstance() {
+		if (con == null) {
+			try {
+				Properties props = getDbProperties();
+				String url = props.getProperty("db.url");
+				String username = props.getProperty("db.username");
+				String password = props.getProperty("db.password");
+				String driver = props.getProperty("db.driver");
+				
+				// chargement du driver
+				Class.forName(driver);
+				// connexion avec les identifiants du fichier de configuration
+				con = DriverManager.getConnection(url, username, password);
 			}
 			// ouverture de la connexion
-			catch (ClassNotFoundException e)
-			{
+			catch (ClassNotFoundException e) {
 				System.out.println(e.getMessage());
 				System.out.println("échec driver");
 			}
-			catch (SQLException e)
-			{
+			catch (SQLException e) {
 				System.out.println(e.getMessage());
 				System.out.println("échec de connexion bd ");
 			}

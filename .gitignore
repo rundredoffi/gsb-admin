@@ -1,2 +1,26 @@
+# Dossiers de build
 /bin/
 /target/
+
+# Fichiers de configuration contenant des informations sensibles
+src/resources/db.properties
+
+# Fichiers IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Fichiers OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Autres fichiers sensibles
+*.key
+*.pem
+*.p12
