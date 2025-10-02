@@ -309,7 +309,7 @@ public class ListeUtilisateurs {
                 if (confirm == JOptionPane.YES_OPTION) {
                     if (row >= 0 && row < table.getRowCount()) { // Ensure row index is within valid range
                         String utilisateurId = (String) table.getValueAt(row, 0);
-                        if (AccesData.deleteVisiteur(utilisateurId)) {
+                        if (Boolean.TRUE.equals(AccesData.deleteVisiteur(utilisateurId))) {
                             ((DefaultTableModel) table.getModel()).removeRow(row);
                         } else {
                             JOptionPane.showMessageDialog(button, "Échec de la suppression");
