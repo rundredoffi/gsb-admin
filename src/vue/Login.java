@@ -8,9 +8,7 @@ import persistance.AccesData;
 import persistance.HibernateSession;
 import utils.Logger;
 
-import org.hibernate.Session;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,15 +70,13 @@ public class Login extends JFrame {
 
             // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
             SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        // Initialiser la session Hibernate
-                        Session session = HibernateSession.getSession();
-                        util = AccesData.getUtilisateurByLoginAndMdp(username, password);
-                        return null;
-                    }
-
-                    @Override
+                @Override
+                protected Void doInBackground() throws Exception {
+                    // Initialiser la session Hibernate
+                    HibernateSession.getSession();
+                    util = AccesData.getUtilisateurByLoginAndMdp(username, password);
+                    return null;
+                }                    @Override
                     protected void done() {
                         try {
                             get();
