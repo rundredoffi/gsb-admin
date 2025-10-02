@@ -96,11 +96,6 @@ public class AccesData {
 		return query.list();
 	}
 	
-	public static List<FicheFrais> getLesFichesFrais() {
-		Query<FicheFrais> query = s.createQuery("from FicheFrais", FicheFrais.class);
-		return query.list();
-	}
-	
 	public static Utilisateur getUtilisateurByID(String id) {
 	    Session session = null;
 	    Utilisateur utilisateur = null;  
