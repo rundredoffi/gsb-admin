@@ -66,6 +66,7 @@ public class Utilisateur {
         super();
     }
 
+    @SuppressWarnings("java:S107") // Supprime l'avertissement "Constructor has too many parameters"
     public Utilisateur(String idUtilisateur, String nom, String prenom, String login, String mdp, String adresse, String cp, String ville,
                        Date dateEmbauche, String email, String telfixe, String telPortable, Region region, Role role,
                        List<FicheFrais> lesFicheFrais) {
