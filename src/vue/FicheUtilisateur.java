@@ -17,15 +17,15 @@ public class FicheUtilisateur extends JDialog {
     private JTextField emailField;
     private JTextField numFixeField;
     private JTextField numPortableField;
-    private JTextField RoleField;
-    private JTextField RegionField;
-    private JLabel lblNewLabel;
-    private JLabel lblNewLabel_1;
-    private JLabel lblNewLabel_3;
-    private JLabel lblNewLabel_4;
-    private JLabel lblNewLabel_5;
-    private JLabel lblNewLabel_6;
-    private JLabel lblNewLabel_7;
+    private JTextField roleField;
+    private JTextField regionField;
+    private JLabel lblVille;
+    private JLabel lblAdresse;
+    private JLabel lblCodePostal;
+    private JLabel lblIdentifiantVisiteur;
+    private JLabel lblLogin;
+    private JLabel lblNom;
+    private JLabel lblPrenom;
 
     public static void ouvrirFenetre(JFrame parent, String firstCellValue) {
         if (instance == null || !instance.isVisible()) {
@@ -39,7 +39,7 @@ public class FicheUtilisateur extends JDialog {
         super(parent, "Fiche utilisateur : " + firstCellValue, true);
         setSize(450, 650);
         setLocationRelativeTo(parent);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         JPanel panel = new JPanel();
@@ -91,13 +91,13 @@ public class FicheUtilisateur extends JDialog {
         panel.add(idVisiteurField);
         idVisiteurField.setColumns(10);
 
-        JLabel lblNewLabel_8 = new JLabel("Rôle :");
-        lblNewLabel_8.setBounds(26, 306, 165, 14);
-        panel.add(lblNewLabel_8);
+        JLabel lblRole = new JLabel("Rôle :");
+        lblRole.setBounds(26, 306, 165, 14);
+        panel.add(lblRole);
 
-        JLabel lblNewLabel_9 = new JLabel("Adresse Email : ");
-        lblNewLabel_9.setBounds(246, 245, 165, 14);
-        panel.add(lblNewLabel_9);
+        JLabel lblAdresseEmail = new JLabel("Adresse Email : ");
+        lblAdresseEmail.setBounds(246, 245, 165, 14);
+        panel.add(lblAdresseEmail);
 
         emailField = new JTextField(util.getEmail());
         emailField.setEditable(false);
@@ -105,13 +105,13 @@ public class FicheUtilisateur extends JDialog {
         panel.add(emailField);
         emailField.setColumns(10);
 
-        JLabel lblNewLabel_10 = new JLabel("Numéro Teléphone Fixe :");
-        lblNewLabel_10.setBounds(26, 377, 165, 14);
-        panel.add(lblNewLabel_10);
+        JLabel lblNumeroTelephoneFixe = new JLabel("Numéro Teléphone Fixe :");
+        lblNumeroTelephoneFixe.setBounds(26, 377, 165, 14);
+        panel.add(lblNumeroTelephoneFixe);
 
-        JLabel lblNewLabel_11 = new JLabel("Numéro Téléphone Portable : ");
-        lblNewLabel_11.setBounds(246, 306, 178, 14);
-        panel.add(lblNewLabel_11);
+        JLabel lblNumeroTelephonePortable = new JLabel("Numéro Téléphone Portable : ");
+        lblNumeroTelephonePortable.setBounds(246, 306, 178, 14);
+        panel.add(lblNumeroTelephonePortable);
 
         numFixeField = new JTextField(util.getTelfixe());
         numFixeField.setEditable(false);
@@ -125,51 +125,51 @@ public class FicheUtilisateur extends JDialog {
         panel.add(numPortableField);
         numPortableField.setColumns(10);
 
-        JLabel lblNewLabel_12 = new JLabel("Région :");
-        lblNewLabel_12.setBounds(246, 377, 165, 14);
-        panel.add(lblNewLabel_12);
+        JLabel lblRegion = new JLabel("Région :");
+        lblRegion.setBounds(246, 377, 165, 14);
+        panel.add(lblRegion);
 
         
         
-        RoleField = new JTextField(util.getRole().getLibelleRole());
-        RoleField.setEditable(false);
-        RoleField.setColumns(10);
-        RoleField.setBounds(26, 331, 165, 20);
-        panel.add(RoleField);
+        roleField = new JTextField(util.getRole().getLibelleRole());
+        roleField.setEditable(false);
+        roleField.setColumns(10);
+        roleField.setBounds(26, 331, 165, 20);
+        panel.add(roleField);
         
-        RegionField = new JTextField(util.getRegion().getLibelleRegion());
-        RegionField.setEditable(false);
-        RegionField.setColumns(10);
-        RegionField.setBounds(246, 402, 165, 20);
-        panel.add(RegionField);
+        regionField = new JTextField(util.getRegion().getLibelleRegion());
+        regionField.setEditable(false);
+        regionField.setColumns(10);
+        regionField.setBounds(246, 402, 165, 20);
+        panel.add(regionField);
         
-        lblNewLabel = new JLabel("Ville :");
-        lblNewLabel.setBounds(26, 241, 165, 14);
-        panel.add(lblNewLabel);
+        lblVille = new JLabel("Ville :");
+        lblVille.setBounds(26, 241, 165, 14);
+        panel.add(lblVille);
         
-        lblNewLabel_1 = new JLabel("Adresse :");
-        lblNewLabel_1.setBounds(246, 179, 165, 14);
-        panel.add(lblNewLabel_1);
+        lblAdresse = new JLabel("Adresse :");
+        lblAdresse.setBounds(246, 179, 165, 14);
+        panel.add(lblAdresse);
         
-        lblNewLabel_3 = new JLabel("Code Postal :");
-        lblNewLabel_3.setBounds(26, 179, 165, 14);
-        panel.add(lblNewLabel_3);
+        lblCodePostal = new JLabel("Code Postal :");
+        lblCodePostal.setBounds(26, 179, 165, 14);
+        panel.add(lblCodePostal);
         
-        lblNewLabel_4 = new JLabel("Identifiant visiteur :");
-        lblNewLabel_4.setBounds(26, 108, 165, 14);
-        panel.add(lblNewLabel_4);
+        lblIdentifiantVisiteur = new JLabel("Identifiant visiteur :");
+        lblIdentifiantVisiteur.setBounds(26, 108, 165, 14);
+        panel.add(lblIdentifiantVisiteur);
         
-        lblNewLabel_5 = new JLabel("Login :");
-        lblNewLabel_5.setBounds(246, 108, 165, 14);
-        panel.add(lblNewLabel_5);
+        lblLogin = new JLabel("Login :");
+        lblLogin.setBounds(246, 108, 165, 14);
+        panel.add(lblLogin);
         
-        lblNewLabel_6 = new JLabel("Nom  :");
-        lblNewLabel_6.setBounds(26, 34, 165, 14);
-        panel.add(lblNewLabel_6);
+        lblNom = new JLabel("Nom  :");
+        lblNom.setBounds(26, 34, 165, 14);
+        panel.add(lblNom);
         
-        lblNewLabel_7 = new JLabel("Prénom :");
-        lblNewLabel_7.setBounds(246, 34, 165, 14);
-        panel.add(lblNewLabel_7);
+        lblPrenom = new JLabel("Prénom :");
+        lblPrenom.setBounds(246, 34, 165, 14);
+        panel.add(lblPrenom);
 
        
 
@@ -181,6 +181,6 @@ public class FicheUtilisateur extends JDialog {
     @Override
     public void dispose() {
         super.dispose();
-        instance = null;
+        instance = null; // NOSONAR - Pattern singleton: reset de l'instance statique lors de la fermeture
     }
 }
