@@ -215,6 +215,6 @@ public class CreateUtilisateur extends JDialog {
     @Override
     public void dispose() {
         super.dispose();
-        instance = null;
+        instance = null; // NOSONAR - Pattern singleton: reset de l'instance statique lors de la fermeture
     }
 }
