@@ -1,11 +1,12 @@
 package vue;
 
 import javax.swing.*;
+import javax.swing.WindowConstants;
 import listeners.LoginListener;
 import metier.Utilisateur;
 import persistance.AccesData;
 import persistance.HibernateSession;
-import vue.Menu;
+import utils.Logger;
 
 import org.hibernate.Session;
 import java.awt.*;
@@ -20,15 +21,13 @@ public class Login extends JFrame {
     private JButton loginButton;
     private JLabel messageLabel;
     private Utilisateur util;
-    @SuppressWarnings("unused")
-    private Boolean status;
     private List<LoginListener> listeners = new ArrayList<>();
     private LoadingScreen loadingScreen;
 
     public Login() {
         setTitle("Connexion");
         setSize(440, 280);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
         
@@ -72,7 +71,6 @@ public class Login extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = userField.getText();
                 String password = new String(passField.getPassword());
-                status = true;
                 loadingScreen.show();
 
                 // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
@@ -89,7 +87,6 @@ public class Login extends JFrame {
                     protected void done() {
                         try {
                             get();
-                            status = false;
                             loadingScreen.hide();
 
                             if (util != null) {
@@ -105,14 +102,12 @@ public class Login extends JFrame {
                             Thread.currentThread().interrupt();
                             messageLabel.setText("Connexion interrompue.");
                             messageLabel.setForeground(Color.RED);
-                            status = false;
                             loadingScreen.hide();
                         } catch (Exception ex) {
                             messageLabel.setText("Erreur de connexion.");
                             messageLabel.setForeground(Color.RED);
-                            status = false;
                             loadingScreen.hide();
-                            System.err.println("Erreur lors de la connexion : " + ex.getMessage());
+                            Logger.error("Erreur lors de la connexion", ex);
                         }
                     }
                 };
