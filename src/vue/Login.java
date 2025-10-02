@@ -11,7 +11,6 @@ import utils.Logger;
 import org.hibernate.Session;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class Login extends JFrame {
     private JPasswordField passField;
     private JButton loginButton;
     private JLabel messageLabel;
-    private Utilisateur util;
-    private List<LoginListener> listeners = new ArrayList<>();
-    private LoadingScreen loadingScreen;
+    private transient Utilisateur util;
+    private transient List<LoginListener> listeners = new ArrayList<>();
+    private transient LoadingScreen loadingScreen;
 
     public Login() {
         setTitle("Connexion");
@@ -66,15 +65,13 @@ public class Login extends JFrame {
 
         loadingScreen = new LoadingScreen(this);
 
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = userField.getText();
-                String password = new String(passField.getPassword());
-                loadingScreen.show();
+        loginButton.addActionListener(e -> {
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+            loadingScreen.show();
 
-                // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            // Utiliser SwingWorker pour effectuer la tâche en arrière-plan
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
                         // Initialiser la session Hibernate
@@ -112,7 +109,6 @@ public class Login extends JFrame {
                     }
                 };
                 worker.execute();
-            }
         });
     }
 
