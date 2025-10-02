@@ -24,11 +24,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import metier.FicheFrais;
 import metier.Region;
 import persistance.AccesData;
+import utils.Logger;
 import utils.Outils;
 
 public class ListeFicheFrais {
@@ -48,7 +50,7 @@ public class ListeFicheFrais {
         // Création de la fenêtre
         frame = new JFrame("Fenêtre ListeFicheFrais");
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout()); 
 
@@ -149,13 +151,13 @@ public class ListeFicheFrais {
         String selectedRegion = (String) comboBox1.getSelectedItem();
         String selectedMois = (String) comboBox2.getSelectedItem();
         Region region = regions.stream().filter(r -> r.getLibelleRegion().equals(selectedRegion)).findFirst().orElse(null);
-        String MoisSelectedFormated = Outils.formatageMoisSQL(selectedMois);
+        String moisSelectedFormated = Outils.formatageMoisSQL(selectedMois);
         
         
         if (region != null) {
             List<FicheFrais> ff = AccesData.retrieveFicheFraisByRegion(region.getIdRegion());
             for (FicheFrais f : ff) {
-                if (selectedMois == null || MoisSelectedFormated.equals(f.getId().getMois())) {
+                if (selectedMois == null || moisSelectedFormated.equals(f.getId().getMois())) {
                     Object[] rowData = {
                         f.getId().getIdVisiteur(),
                         reformatMois(f.getId().getMois()), 
@@ -176,7 +178,7 @@ public class ListeFicheFrais {
                 try {
                     new ListeFicheFrais();
                 } catch (Exception e) {
-                    System.err.println("Erreur lors de l'initialisation de ListeFicheFrais : " + e.getMessage());
+                    Logger.error("Erreur lors de l'initialisation de ListeFicheFrais", e);
                     System.exit(1); // Quitter l'application en cas d'erreur critique
                 }
             }
