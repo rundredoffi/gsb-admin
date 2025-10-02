@@ -100,7 +100,18 @@ public class Login extends JFrame {
                                 messageLabel.setText("Identifiants incorrects.");
                                 messageLabel.setForeground(Color.RED);
                             }
+                        } catch (InterruptedException ex) {
+                            // Re-interrompre le thread courant
+                            Thread.currentThread().interrupt();
+                            messageLabel.setText("Connexion interrompue.");
+                            messageLabel.setForeground(Color.RED);
+                            status = false;
+                            loadingScreen.hide();
                         } catch (Exception ex) {
+                            messageLabel.setText("Erreur de connexion.");
+                            messageLabel.setForeground(Color.RED);
+                            status = false;
+                            loadingScreen.hide();
                             ex.printStackTrace();
                         }
                     }
