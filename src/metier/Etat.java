@@ -13,7 +13,7 @@ public class Etat {
 	@Column (name="idEtat")
 	private String idEtat;
 	@Column (name="libelleEtat")
-	private String LibelleEtat;
+	private String libelleEtat;
 	
 	public Etat() {
 		super();
@@ -22,7 +22,7 @@ public class Etat {
 	public Etat(String idEtat, String libelleEtat) {
 		super();
 		this.idEtat = idEtat;
-		this.LibelleEtat = libelleEtat;
+		this.libelleEtat = libelleEtat;
 	}
 	
 	public String getIdEtat() {
@@ -34,16 +34,16 @@ public class Etat {
 	}
 
 	public String getLibelleEtat() {
-		return LibelleEtat;
+		return libelleEtat;
 	}
 
 	public void setLibelleEtat(String libelleEtat) {
-		LibelleEtat = libelleEtat;
+		this.libelleEtat = libelleEtat;
 	}
 
 	@Override
 	public String toString() {
-		return "Etat [idEtat=" + idEtat + ", LibelleEtat=" + LibelleEtat + "]";
+		return "Etat [idEtat=" + idEtat + ", libelleEtat=" + libelleEtat + "]";
 	}
 
 }
