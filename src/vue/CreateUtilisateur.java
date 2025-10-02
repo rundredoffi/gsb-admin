@@ -60,22 +60,22 @@ public class CreateUtilisateur extends JDialog {
         lblNewLabel.setBounds(26, 34, 165, 14);
         panel.add(lblNewLabel);
 
-        JLabel lblNewLabel_1 = new JLabel("Prénom : ");
-        lblNewLabel_1.setBounds(246, 34, 165, 14);
-        panel.add(lblNewLabel_1);
+        JLabel lblPrenom = new JLabel("Prénom : ");
+        lblPrenom.setBounds(246, 34, 165, 14);
+        panel.add(lblPrenom);
 
         prenomField = new JTextField();
         prenomField.setBounds(246, 59, 165, 20);
         panel.add(prenomField);
         prenomField.setColumns(10);
 
-        JLabel lblNewLabel_2 = new JLabel("Login : ");
-        lblNewLabel_2.setBounds(246, 108, 165, 14);
-        panel.add(lblNewLabel_2);
+        JLabel lblLogin = new JLabel("Login : ");
+        lblLogin.setBounds(246, 108, 165, 14);
+        panel.add(lblLogin);
 
-        JLabel lblNewLabel_3 = new JLabel("Mot de passe : ");
-        lblNewLabel_3.setBounds(26, 177, 165, 14);
-        panel.add(lblNewLabel_3);
+        JLabel lblMotDePasse = new JLabel("Mot de passe : ");
+        lblMotDePasse.setBounds(26, 177, 165, 14);
+        panel.add(lblMotDePasse);
 
         loginField = new JTextField();
         loginField.setBounds(246, 133, 165, 20);
@@ -87,13 +87,13 @@ public class CreateUtilisateur extends JDialog {
         panel.add(passwordField);
         passwordField.setColumns(10);
 
-        JLabel lblNewLabel_4 = new JLabel("Adresse : ");
-        lblNewLabel_4.setBounds(246, 244, 165, 14);
-        panel.add(lblNewLabel_4);
+        JLabel lblAdresse = new JLabel("Adresse : ");
+        lblAdresse.setBounds(246, 244, 165, 14);
+        panel.add(lblAdresse);
 
-        JLabel lblNewLabel_5 = new JLabel("Code Postal : ");
-        lblNewLabel_5.setBounds(246, 177, 165, 14);
-        panel.add(lblNewLabel_5);
+        JLabel lblCodePostal = new JLabel("Code Postal : ");
+        lblCodePostal.setBounds(246, 177, 165, 14);
+        panel.add(lblCodePostal);
 
         adresseField = new JTextField();
         adresseField.setBounds(246, 275, 165, 20);
@@ -105,13 +105,13 @@ public class CreateUtilisateur extends JDialog {
         panel.add(codePostalField);
         codePostalField.setColumns(10);
 
-        JLabel lblNewLabel_6 = new JLabel("Ville : ");
-        lblNewLabel_6.setBounds(26, 244, 165, 14);
-        panel.add(lblNewLabel_6);
+        JLabel lblVille = new JLabel("Ville : ");
+        lblVille.setBounds(26, 244, 165, 14);
+        panel.add(lblVille);
 
-        JLabel lblNewLabel_7 = new JLabel("Identifiant visiteur");
-        lblNewLabel_7.setBounds(26, 108, 165, 14);
-        panel.add(lblNewLabel_7);
+        JLabel lblIdentifiantVisiteur = new JLabel("Identifiant visiteur");
+        lblIdentifiantVisiteur.setBounds(26, 108, 165, 14);
+        panel.add(lblIdentifiantVisiteur);
 
         villeField = new JTextField();
         villeField.setBounds(26, 275, 165, 20);
@@ -123,22 +123,22 @@ public class CreateUtilisateur extends JDialog {
         panel.add(idVisiteurField);
         idVisiteurField.setColumns(10);
 
-        JLabel lblNewLabel_9 = new JLabel("Adresse Email : ");
-        lblNewLabel_9.setBounds(26, 325, 165, 14);
-        panel.add(lblNewLabel_9);
+        JLabel lblAdresseEmail = new JLabel("Adresse Email : ");
+        lblAdresseEmail.setBounds(26, 325, 165, 14);
+        panel.add(lblAdresseEmail);
 
         emailField = new JTextField();
         emailField.setBounds(26, 346, 165, 20);
         panel.add(emailField);
         emailField.setColumns(10);
 
-        JLabel lblNewLabel_10 = new JLabel("Numéro Teléphone Fixe :");
-        lblNewLabel_10.setBounds(246, 321, 165, 14);
-        panel.add(lblNewLabel_10);
+        JLabel lblNumeroTelephoneFixe = new JLabel("Numéro Teléphone Fixe :");
+        lblNumeroTelephoneFixe.setBounds(246, 321, 165, 14);
+        panel.add(lblNumeroTelephoneFixe);
 
-        JLabel lblNewLabel_11 = new JLabel("Numéro Téléphone Portable : ");
-        lblNewLabel_11.setBounds(26, 389, 178, 14);
-        panel.add(lblNewLabel_11);
+        JLabel lblNumeroTelephonePortable = new JLabel("Numéro Téléphone Portable : ");
+        lblNumeroTelephonePortable.setBounds(26, 389, 178, 14);
+        panel.add(lblNumeroTelephonePortable);
 
         numFixeField = new JTextField();
         numFixeField.setBounds(246, 346, 165, 20);
@@ -150,9 +150,9 @@ public class CreateUtilisateur extends JDialog {
         panel.add(numPortableField);
         numPortableField.setColumns(10);
 
-        JLabel lblNewLabel_12 = new JLabel("Région :");
-        lblNewLabel_12.setBounds(246, 387, 165, 14);
-        panel.add(lblNewLabel_12);
+        JLabel lblRegion = new JLabel("Région :");
+        lblRegion.setBounds(246, 387, 165, 14);
+        panel.add(lblRegion);
 
         regionComboBox = new JComboBox<>();
         regionComboBox.setBounds(246, 412, 165, 22);
