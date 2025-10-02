@@ -112,26 +112,18 @@ public class ListeFicheFrais {
         frame.setJMenuBar(menuBar);
 
         // Action pour le bouton Retour
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false); // Masquer la fenêtre actuelle
-            }
-        });
+        btnNewButton.addActionListener(e -> frame.setVisible(false)); // Masquer la fenêtre actuelle
 
         // Ajouter des écouteurs d'événements aux JComboBox
-        comboBox1.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    updateTableModel();
-                }
+        comboBox1.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                updateTableModel();
             }
         });
 
-        comboBox2.addItemListener(new ItemListener() {
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    updateTableModel();
-                }
+        comboBox2.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                updateTableModel();
             }
         });
 
@@ -173,14 +165,12 @@ public class ListeFicheFrais {
     }
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new ListeFicheFrais();
-                } catch (Exception e) {
-                    Logger.error("Erreur lors de l'initialisation de ListeFicheFrais", e);
-                    System.exit(1); // Quitter l'application en cas d'erreur critique
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                new ListeFicheFrais();
+            } catch (Exception e) {
+                Logger.error("Erreur lors de l'initialisation de ListeFicheFrais", e);
+                System.exit(1); // Quitter l'application en cas d'erreur critique
             }
         });
     }
