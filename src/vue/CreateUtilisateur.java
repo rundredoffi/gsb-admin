@@ -43,7 +43,7 @@ public class CreateUtilisateur extends JDialog {
         super(parent, "Nouvelle Fenêtre", true);
         setSize(450, 650);
         setLocationRelativeTo(parent);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         JPanel panel = new JPanel();
