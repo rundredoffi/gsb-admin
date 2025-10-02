@@ -20,10 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.JOptionPane;
@@ -34,6 +33,7 @@ import javax.swing.AbstractCellEditor;
 import metier.Region;
 import metier.Utilisateur;
 import persistance.AccesData;
+import utils.Logger;
 
 public class ListeUtilisateurs {
     private JFrame frame;
@@ -49,174 +49,216 @@ public class ListeUtilisateurs {
 
     public ListeUtilisateurs(Utilisateur utilConnecte) {
         utilisateursModifies = new ArrayList<>();
+        initializeFrame();
+        
+        DefaultTableModel tableModel = createTableModel(utilConnecte);
+        setupTable(tableModel, utilConnecte);
+        setupButtons(utilConnecte);
+        setupMenuBar();
+        setupTableListeners(utilConnecte);
+        
+        frame.setVisible(true);
+    }
+    
+    private void initializeFrame() {
         frame = new JFrame("Fenêtre Visiteurs");
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 
         ImageIcon originalIcon = new ImageIcon(Menu.class.getResource("/resources/GSB.png"));  
         frame.setIconImage(originalIcon.getImage());
-        
-        // Création du modèle de table avec des colonnes
+    }
+    
+    private DefaultTableModel createTableModel(Utilisateur utilConnecte) {
         String[] columnNames = {"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region"};
-        if (utilConnecte.getRole().getIdRole().equals("s")) {
+        if (isAdmin(utilConnecte)) {
             columnNames = new String[]{"id", "Nom", "Prénom", "Adresse", "CP", "Ville", "Email", "TelFixe", "TelPortable", "DateEmbauche", "Region", "Supprimer"};
         }
+        
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
-        regions = AccesData.getLesRegions();
-        String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-
-        JComboBox<String> regionComboBox = new JComboBox<>(regionNames);
-        if(!utilConnecte.getRole().getIdRole().equals("s")) {
-        	regionComboBox.setEditable(false);
-        }
-
+        populateTableModel(tableModel, utilConnecte);
+        return tableModel;
+    }
+    
+    private void populateTableModel(DefaultTableModel tableModel, Utilisateur utilConnecte) {
         List<Utilisateur> util = AccesData.getLesUtilisateur();
         for (Utilisateur u : util) {
-            Object[] rowData = {
-                u.getIdUtilisateur(),
-                u.getNom(),
-                u.getPrenom(),
-                u.getAdresse(),
-                u.getCp(),
-                u.getVille(),
-                u.getEmail(),
-                u.getTelfixe(),
-                u.getTelPortable(),
-                u.getDateEmbauche(),
-                u.getRegion().getLibelleRegion()
-            };
-            if (utilConnecte.getRole().getIdRole().equals("s")) {
-                rowData = new Object[]{u.getIdUtilisateur(), u.getNom(), u.getPrenom(), u.getAdresse(), u.getCp(), u.getVille(), u.getEmail(), u.getTelfixe(), u.getTelPortable(), u.getDateEmbauche(), u.getRegion().getLibelleRegion(), "❌"};
-            }
+            Object[] rowData = createRowData(u, utilConnecte);
             tableModel.addRow(rowData);
         }
-
+    }
+    
+    private Object[] createRowData(Utilisateur u, Utilisateur utilConnecte) {
+        Object[] baseData = {
+            u.getIdUtilisateur(), u.getNom(), u.getPrenom(), u.getAdresse(),
+            u.getCp(), u.getVille(), u.getEmail(), u.getTelfixe(),
+            u.getTelPortable(), u.getDateEmbauche(), u.getRegion().getLibelleRegion()
+        };
+        
+        if (isAdmin(utilConnecte)) {
+            Object[] extendedData = new Object[baseData.length + 1];
+            System.arraycopy(baseData, 0, extendedData, 0, baseData.length);
+            extendedData[baseData.length] = "❌";
+            return extendedData;
+        }
+        return baseData;
+    }
+    
+    private void setupTable(DefaultTableModel tableModel, Utilisateur utilConnecte) {
         table = new JTable(tableModel) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                if (!utilConnecte.getRole().getIdRole().equals("s")) {
-                    return false;
-                }
-                return isModifiableColumn(column);
+                return isAdmin(utilConnecte) && isModifiableColumn(column);
             }
         };
+        
+        configureTableAppearance();
+        setupRegionComboBox(utilConnecte);
+        
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane, BorderLayout.CENTER);
+    }
+    
+    private void configureTableAppearance() {
         table.setFillsViewportHeight(true);
         table.setRowHeight(30);
         table.setFont(new Font("Arial", Font.PLAIN, 14));
         table.setGridColor(Color.LIGHT_GRAY);
         table.getTableHeader().setReorderingAllowed(false);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
+    }
+    
+    private void setupRegionComboBox(Utilisateur utilConnecte) {
+        regions = AccesData.getLesRegions();
+        String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
+        JComboBox<String> regionComboBox = new JComboBox<>(regionNames);
+        
+        if (!isAdmin(utilConnecte)) {
+            regionComboBox.setEditable(false);
+        }
+        
         TableColumn regionColumn = table.getColumnModel().getColumn(10);
         regionColumn.setCellEditor(new DefaultCellEditor(regionComboBox));
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane, BorderLayout.CENTER);
-
+    }
+    
+    private void setupButtons(Utilisateur utilConnecte) {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
         frame.add(buttonPanel, BorderLayout.SOUTH);
-
-        if(utilConnecte.getRole().getIdRole().equals("s")) {
-        	// Bouton de création d'un utilisateur
-        	btnNewVisiteur = new JButton("Nouveau Visiteur");
-            buttonPanel.add(btnNewVisiteur);
-            btnNewVisiteur.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    CreateUtilisateur.ouvrirFenetre(frame);
-                }
-            });
-            // Bouton d'enregistrement des modifications des utilisateurs
-            btnSave = new JButton("Enregistrer");
-            buttonPanel.add(btnSave);
-            btnSave.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    for (Utilisateur utilisateur : utilisateursModifies) {
-                        AccesData.updateVisiteur(utilisateur);
-                    }
-                    utilisateursModifies.clear();
-                    JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
-                }
-            });
-            // Colonne de suppresion des utilisateurs
-            TableColumn deleteColumn = table.getColumnModel().getColumn(11);
-            deleteColumn.setCellRenderer(new ButtonRenderer());
-            deleteColumn.setCellEditor(new ButtonEditor());
+        
+        if (isAdmin(utilConnecte)) {
+            setupAdminButtons();
+            setupDeleteColumn();
         }
-
+        
+        setupReturnButton();
+    }
+    
+    private void setupAdminButtons() {
+        btnNewVisiteur = new JButton("Nouveau Visiteur");
+        buttonPanel.add(btnNewVisiteur);
+        btnNewVisiteur.addActionListener(e -> CreateUtilisateur.ouvrirFenetre(frame));
+        
+        btnSave = new JButton("Enregistrer");
+        buttonPanel.add(btnSave);
+        btnSave.addActionListener(e -> saveModifications());
+    }
+    
+    private void saveModifications() {
+        for (Utilisateur utilisateur : utilisateursModifies) {
+            AccesData.updateVisiteur(utilisateur);
+        }
+        utilisateursModifies.clear();
+        JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+    }
+    
+    private void setupDeleteColumn() {
+        TableColumn deleteColumn = table.getColumnModel().getColumn(11);
+        deleteColumn.setCellRenderer(new ButtonRenderer());
+        deleteColumn.setCellEditor(new ButtonEditor());
+    }
+    
+    private void setupReturnButton() {
         btnRetour = new JButton("Retour");
         buttonPanel.add(btnRetour);
+        btnRetour.addActionListener(e -> frame.setVisible(false));
+    }
+    
+    private void setupMenuBar() {
         menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Menu");
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
-
-        btnRetour.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-            }
-        });
-
-        // Ajout d'un listener pour détecter la sélection
-        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        Object firstCellValue = table.getValueAt(selectedRow, 0);
-                        if (firstCellValue != null) {
-                            // Passez 'frame' comme parent ici
-                        	FicheUtilisateur.ouvrirFenetre(frame, firstCellValue.toString());
-                        }
+    }
+    
+    private void setupTableListeners(Utilisateur utilConnecte) {
+        setupSelectionListener();
+        setupTableModelListener();
+    }
+    
+    private void setupSelectionListener() {
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    Object firstCellValue = table.getValueAt(selectedRow, 0);
+                    if (firstCellValue != null) {
+                        FicheUtilisateur.ouvrirFenetre(frame, firstCellValue.toString());
                     }
                 }
             }
         });
-
-        table.getModel().addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                int row = e.getFirstRow();
-                int column = e.getColumn();
-                if (column != TableModelEvent.ALL_COLUMNS) {
-                    DefaultTableModel model = (DefaultTableModel) e.getSource();
-                    Object newValue = model.getValueAt(row, column);
-
-                    if (isModifiableColumn(column)) {
-                        String userId = (String) model.getValueAt(row, 0);
-                        Utilisateur utilisateur = AccesData.getUtilisateurByID(userId);
-
-                        switch (column) {
-                            case 3: utilisateur.setAdresse(newValue.toString()); break;
-                            case 4: utilisateur.setCp(newValue.toString()); break;
-                            case 5: utilisateur.setVille(newValue.toString()); break;
-                            case 6: utilisateur.setEmail(newValue.toString()); break;
-                            case 7: utilisateur.setTelfixe(newValue.toString()); break;
-                            case 8: utilisateur.setTelPortable(newValue.toString()); break;
-                            case 10: 
-                                String selectedRegion = newValue.toString();
-                                for (Region region : regions) {
-                                    if (region.getLibelleRegion().equals(selectedRegion)) {
-                                        utilisateur.setRegion(region);
-                                        break;
-                                    }
-                                }
-                                break;
-                            default: break;
-                        }
-
-                        if (!utilisateursModifies.contains(utilisateur)) {
-                            utilisateursModifies.add(utilisateur);
-                        }
-                    }
-                }
+    }
+    
+    private void setupTableModelListener() {
+        table.getModel().addTableModelListener(e -> {
+            int row = e.getFirstRow();
+            int column = e.getColumn();
+            if (column != TableModelEvent.ALL_COLUMNS && isModifiableColumn(column)) {
+                handleCellModification(e, row, column);
             }
         });
-
-        frame.setVisible(true);
+    }
+    
+    private void handleCellModification(TableModelEvent e, int row, int column) {
+        DefaultTableModel model = (DefaultTableModel) e.getSource();
+        Object newValue = model.getValueAt(row, column);
+        String userId = (String) model.getValueAt(row, 0);
+        Utilisateur utilisateur = AccesData.getUtilisateurByID(userId);
+        
+        updateUserField(utilisateur, column, newValue);
+        
+        if (!utilisateursModifies.contains(utilisateur)) {
+            utilisateursModifies.add(utilisateur);
+        }
+    }
+    
+    private void updateUserField(Utilisateur utilisateur, int column, Object newValue) {
+        switch (column) {
+            case 3: utilisateur.setAdresse(newValue.toString()); break;
+            case 4: utilisateur.setCp(newValue.toString()); break;
+            case 5: utilisateur.setVille(newValue.toString()); break;
+            case 6: utilisateur.setEmail(newValue.toString()); break;
+            case 7: utilisateur.setTelfixe(newValue.toString()); break;
+            case 8: utilisateur.setTelPortable(newValue.toString()); break;
+            case 10: updateUserRegion(utilisateur, newValue.toString()); break;
+            default: break;
+        }
+    }
+    
+    private void updateUserRegion(Utilisateur utilisateur, String selectedRegion) {
+        for (Region region : regions) {
+            if (region.getLibelleRegion().equals(selectedRegion)) {
+                utilisateur.setRegion(region);
+                break;
+            }
+        }
+    }
+    
+    private boolean isAdmin(Utilisateur utilisateur) {
+        return utilisateur.getRole().getIdRole().equals("s");
     }
 
     private boolean isModifiableColumn(int column) {
@@ -280,7 +322,7 @@ public class ListeUtilisateurs {
                             JOptionPane.showMessageDialog(button, "Échec de la suppression");
                         }
                     } else {
-                        System.err.println("Invalid row index: " + row);
+                        Logger.error("Invalid row index: " + row);
                     }
                 }
             }
