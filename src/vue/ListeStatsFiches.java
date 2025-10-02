@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import metier.Region;
 import persistance.AccesData;
-import utils.outils;
+import utils.Outils;
 
 public class ListeStatsFiches {
     private JFrame frame;
@@ -46,7 +46,7 @@ public class ListeStatsFiches {
         
         List<Region> regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-        String[] moisArray = outils.getMoisFormat();
+        String[] moisArray = Outils.getMoisFormat();
 
         comboBox1 = new JComboBox<>(regionNames);
         comboBox2 = new JComboBox<>(moisArray);
@@ -103,7 +103,7 @@ public class ListeStatsFiches {
     private void updateStats(DefaultTableModel tableModel) {
         String selectedMois = (String) comboBox2.getSelectedItem();
         int selectedRegion = comboBox1.getSelectedIndex() + 1;
-        String selectedMoisFormat = outils.formatageMoisSQL(selectedMois);
+        String selectedMoisFormat = Outils.formatageMoisSQL(selectedMois);
         List<Object[]> stats = AccesData.getCombinedStats(selectedMoisFormat, selectedRegion);
         tableModel.setRowCount(0); // Clear existing data
 

@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import metier.FicheFrais;
 import metier.Region;
 import persistance.AccesData;
-import utils.outils;
+import utils.Outils;
 
 public class ListeFicheFrais {
     private JFrame frame;
@@ -61,7 +61,7 @@ public class ListeFicheFrais {
 
         regions = AccesData.getLesRegions();
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
-        String[] moisArray = outils.getMoisFormat();
+        String[] moisArray = Outils.getMoisFormat();
 
         // Création des JComboBox
         comboBox1 = new JComboBox<>(regionNames);
@@ -149,7 +149,7 @@ public class ListeFicheFrais {
         String selectedRegion = (String) comboBox1.getSelectedItem();
         String selectedMois = (String) comboBox2.getSelectedItem();
         Region region = regions.stream().filter(r -> r.getLibelleRegion().equals(selectedRegion)).findFirst().orElse(null);
-        String MoisSelectedFormated = outils.formatageMoisSQL(selectedMois);
+        String MoisSelectedFormated = Outils.formatageMoisSQL(selectedMois);
         
         
         if (region != null) {

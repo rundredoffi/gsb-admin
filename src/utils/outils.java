@@ -5,11 +5,17 @@ import java.util.List;
 
 import persistance.AccesData;
 
-public class outils {
+public class Outils {
+	
+	// Constructeur privé pour empêcher l'instanciation de cette classe utilitaire
+	private Outils() {
+		throw new IllegalStateException("Utility class");
+	}
+	
 	// Méthode utilisé pour récupérer les mois pour remplir les combobox des statistiques.
 	public static String[] getMoisFormat() {
         List<String> moisList = AccesData.getLesMois();
-        List<String> dateMois = new ArrayList<String>();
+        List<String> dateMois = new ArrayList<>();
 
         moisList.forEach(monMois->{
         	String year = monMois.substring(0, 4);
