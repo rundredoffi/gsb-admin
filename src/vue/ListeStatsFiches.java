@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.JComboBox;
@@ -17,10 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import metier.Region;
 import persistance.AccesData;
+import utils.Logger;
 import utils.Outils;
 
 public class ListeStatsFiches {
@@ -34,7 +35,7 @@ public class ListeStatsFiches {
     public ListeStatsFiches() {
         frame = new JFrame("Statistiques Fiches");
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout());
 
@@ -125,9 +126,9 @@ public class ListeStatsFiches {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                ListeStatsFiches window = new ListeStatsFiches();
+                new ListeStatsFiches();
             } catch (Exception e) {
-                System.err.println("Erreur lors de l'initialisation de ListeStatsFiches : " + e.getMessage());
+                Logger.error("Erreur lors de l'initialisation de ListeStatsFiches", e);
                 System.exit(1);
             }
         });
