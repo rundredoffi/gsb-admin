@@ -204,8 +204,8 @@ public class CreateUtilisateur extends JDialog {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof Region) {
-                    setText(((Region) value).getLibelleRegion());
+                if (value instanceof Region region) {
+                    setText(region.getLibelleRegion());
                 }
                 return this;
             }
