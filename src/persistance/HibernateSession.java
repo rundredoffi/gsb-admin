@@ -7,7 +7,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import utils.Logger;
+
 public class HibernateSession {
+	
+	// Constructeur privé pour empêcher l'instanciation de cette classe utilitaire
+	private HibernateSession() {
+		throw new IllegalStateException("Utility class");
+	}
 	
 	private static final SessionFactory sessionFactory;
 	
@@ -21,8 +28,7 @@ public class HibernateSession {
             Configuration config = new Configuration();
             sessionFactory = config.configure().buildSessionFactory();
         } catch (Throwable e) {
-            System.err.println("Error in creating SessionFactory object."
-                    + e.getMessage());
+            Logger.error("Error in creating SessionFactory object: " + e.getMessage(), e);
             throw new ExceptionInInitializerError(e);
         }
     }
