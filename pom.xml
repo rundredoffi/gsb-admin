@@ -4,6 +4,15 @@
   <artifactId>gsb-admin</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>GSB-Admin</name>
+  
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sonar.projectKey>gsb</sonar.projectKey>
+    <sonar.host.url>http://localhost:9000</sonar.host.url>
+    <sonar.java.source>17</sonar.java.source>
+  </properties>
   <dependencies>
 	<dependency>
     	<groupId>mysql</groupId>
@@ -25,6 +34,11 @@
         <configuration>
           <release>17</release>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.10.0.2594</version>
       </plugin>
     </plugins>
   </build>
