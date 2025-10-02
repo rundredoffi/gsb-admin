@@ -17,12 +17,18 @@ import metier.FicheFrais;
 import metier.Region;
 import metier.Role;
 import metier.Utilisateur;
+import utils.Logger;
 
 
 
 public class AccesData {
 
-private static Session s = HibernateSession.getSession();
+	// Constructeur privé pour empêcher l'instanciation de cette classe utilitaire
+	private AccesData() {
+		throw new IllegalStateException("Utility class");
+	}
+
+	private static Session s = HibernateSession.getSession();
 
 	public static List<Utilisateur> getLesUtilisateur() {
 		Query<Utilisateur> query = s.createQuery("from Utilisateur", Utilisateur.class);
@@ -53,7 +59,7 @@ private static Session s = HibernateSession.getSession();
             query.setParameter("idRole", idRole);
             role = query.uniqueResult();
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération du rôle avec ID " + idRole + " : " + e.getMessage());
+            Logger.error("Erreur lors de la récupération du rôle avec ID " + idRole, e);
         }
         return role;
     }
@@ -75,7 +81,7 @@ private static Session s = HibernateSession.getSession();
 
 	        utilisateur = query.uniqueResult();  
 	    } catch (Exception e) {
-	        System.err.println("Erreur lors de la récupération de l'utilisateur : " + e.getMessage());
+	        Logger.error("Erreur lors de la récupération de l'utilisateur", e);
 	    } finally {
 	        if (session != null) {
 	            session.close();  
@@ -106,7 +112,7 @@ private static Session s = HibernateSession.getSession();
 
 	        utilisateur = query.uniqueResult();  
 	    } catch (Exception e) {
-	        System.err.println("Erreur lors de la récupération de l'utilisateur avec ID " + id + " : " + e.getMessage());
+	        Logger.error("Erreur lors de la récupération de l'utilisateur avec ID " + id, e);
 	    } finally {
 	        if (session != null) {
 	            session.close();  
@@ -123,7 +129,7 @@ private static Session s = HibernateSession.getSession();
 			t.commit();
 			b = true;
 		} catch (HibernateException e) {
-			System.err.println("Erreur lors de l'insertion de l'utilisateur : " + e.getMessage());
+			Logger.error("Erreur lors de l'insertion de l'utilisateur", e);
 			if (t.isActive()) {
 				t.rollback();
 			}
@@ -139,7 +145,7 @@ private static Session s = HibernateSession.getSession();
 	        t.commit();
 	        b = true;
 	    } catch (HibernateException e) {
-	        System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
+	        Logger.error("Erreur lors de la mise à jour de l'utilisateur", e);
 	        if (t != null && t.isActive()) {
 	            t.rollback();
 	        }
@@ -165,7 +171,7 @@ private static Session s = HibernateSession.getSession();
             }
         } catch (SQLException e) {
             // Récupérer et afficher le message d'erreur SQL
-            System.err.println("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
+            Logger.error("Erreur lors de la suppression de l'utilisateur", e);
         }
 
         return success;
@@ -259,12 +265,12 @@ private static Session s = HibernateSession.getSession();
             .setParameter("p_mois", month)
             .setParameter("p_region", region);
 
-        System.out.printf("Appel de la procédure avec mois : %s, région : %d%n", month, region);
+        Logger.debug("Appel de la procédure avec mois : " + month + ", région : " + region);
 
         query.execute();
 
         List<Object> resultList = query.getResultList();
-        System.out.println("Résultats retournés par la procédure : " + resultList);
+        Logger.debug("Résultats retournés par la procédure : " + resultList);
 
         if (resultList.isEmpty()) {
             return null;
@@ -283,7 +289,7 @@ private static Session s = HibernateSession.getSession();
         query.execute();
 
         List<Object> resultList = query.getResultList(); // Utilisation de getResultList() au lieu de getSingleResult()
-        System.out.println("Moyenne frais forfait : " + resultList);
+        Logger.debug("Moyenne frais forfait : " + resultList);
 
         // Vérifier si la liste de résultats est vide
         if (resultList.isEmpty()) {
@@ -313,7 +319,7 @@ private static Session s = HibernateSession.getSession();
             // Ajouter les résultats combinés à la liste finale
             combinedStats.add(combined);
         }
-        System.out.println("Moyenne frais forfait : " + fraisForfait);
-        System.out.println("Moyenne frais hors forfait : " + fraisHorsForfait);
+        Logger.debug("Moyenne frais forfait : " + fraisForfait);
+        Logger.debug("Moyenne frais hors forfait : " + fraisHorsForfait);
         return combinedStats;
     }}
