@@ -1,12 +1,6 @@
 package utils;
 
-im            String year = monMois.substring(0, 4);
-            String month = monMois.substring(4, 6);
-            String formattedDate = month + "/" + year;
-            dateMois.add(formattedDate);
-        });
-        return dateMois.toArray(new String[0]);
-	}a.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import persistance.AccesData;
@@ -29,9 +23,9 @@ public class Outils {
             String formattedDate = month + "/" + year;
             dateMois.add(formattedDate);
         });
-        String[] moisArray = dateMois.toArray(new String[0]);
-		return moisArray;
+        return dateMois.toArray(new String[0]);
 	}
+	
 	// Méthode utilisé pour renvoyer le moyen même structure que dans la BDD
 	public static String formatageMoisSQL(String selectedMois) {
 		//DateMoisSelected
