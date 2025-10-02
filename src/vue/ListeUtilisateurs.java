@@ -38,10 +38,6 @@ public class ListeUtilisateurs {
     private JFrame frame;
     private JTable table;
     private JPanel buttonPanel;
-    private JButton btnNewVisiteur;
-    private JButton btnRetour;
-    private JButton btnSave;
-    private JMenuBar menuBar;
     private List<Utilisateur> utilisateursModifies;
     private List<Region> regions;
     private static final int[] MODIFIABLE_COLUMNS = {3, 4, 5, 6, 7, 8, 10}; // Indices des colonnes modifiables
@@ -156,21 +152,19 @@ public class ListeUtilisateurs {
     }
     
     private void setupAdminButtons() {
-        btnNewVisiteur = new JButton("Nouveau Visiteur");
+        JButton btnNewVisiteur = new JButton("Nouveau Visiteur");
         buttonPanel.add(btnNewVisiteur);
         btnNewVisiteur.addActionListener(e -> CreateUtilisateur.ouvrirFenetre(frame));
         
-        btnSave = new JButton("Enregistrer");
+        JButton btnSave = new JButton("Enregistrer");
         buttonPanel.add(btnSave);
-        btnSave.addActionListener(e -> saveModifications());
-    }
-    
-    private void saveModifications() {
-        for (Utilisateur utilisateur : utilisateursModifies) {
-            AccesData.updateVisiteur(utilisateur);
-        }
-        utilisateursModifies.clear();
-        JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+        btnSave.addActionListener(e -> {
+            for (Utilisateur utilisateur : utilisateursModifies) {
+                AccesData.updateVisiteur(utilisateur);
+            }
+            utilisateursModifies.clear();
+            JOptionPane.showMessageDialog(frame, "Modifications enregistrées avec succès !");
+        });
     }
     
     private void setupDeleteColumn() {
@@ -180,13 +174,13 @@ public class ListeUtilisateurs {
     }
     
     private void setupReturnButton() {
-        btnRetour = new JButton("Retour");
+        JButton btnRetour = new JButton("Retour");
         buttonPanel.add(btnRetour);
         btnRetour.addActionListener(e -> frame.setVisible(false));
     }
     
     private void setupMenuBar() {
-        menuBar = new JMenuBar();
+        JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("Menu");
         menuBar.add(fileMenu);
         frame.setJMenuBar(menuBar);
