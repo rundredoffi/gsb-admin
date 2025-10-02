@@ -50,7 +50,7 @@ public class ListeUtilisateurs {
         setupTable(tableModel, utilConnecte);
         setupButtons(utilConnecte);
         setupMenuBar();
-        setupTableListeners(utilConnecte);
+        setupTableListeners();
         
         frame.setVisible(true);
     }
@@ -186,7 +186,7 @@ public class ListeUtilisateurs {
         frame.setJMenuBar(menuBar);
     }
     
-    private void setupTableListeners(Utilisateur utilConnecte) {
+    private void setupTableListeners() {
         setupSelectionListener();
         setupTableModelListener();
     }
