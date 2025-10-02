@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Properties;
 import java.io.InputStream;
 import java.io.IOException;
+import utils.Logger;
 
 // classe permettant l'ouverture, la fermeture de la base 
 public class AccesBD {
@@ -26,9 +27,9 @@ public class AccesBD {
 				}
 				dbProperties.load(input);
 			} catch (IOException e) {
-				System.err.println("Erreur lors du chargement de la configuration de base de données : " + e.getMessage());
+				Logger.error("Erreur lors du chargement de la configuration de base de données", e);
 				// Valeurs par défaut ou gestion d'erreur
-				throw new RuntimeException("Configuration de base de données non disponible", e);
+				throw new DatabaseConfigurationException("Configuration de base de données non disponible", e);
 			}
 		}
 		return dbProperties;
@@ -50,12 +51,12 @@ public class AccesBD {
 			}
 			// ouverture de la connexion
 			catch (ClassNotFoundException e) {
-				System.err.println("Erreur lors du chargement du driver : " + e.getMessage());
-				throw new RuntimeException("Driver de base de données non trouvé", e);
+				Logger.error("Erreur lors du chargement du driver", e);
+				throw new DatabaseConfigurationException("Driver de base de données non trouvé", e);
 			}
 			catch (SQLException e) {
-				System.err.println("Erreur de connexion à la base de données : " + e.getMessage());
-				throw new RuntimeException("Échec de connexion à la base de données", e);
+				Logger.error("Erreur de connexion à la base de données", e);
+				throw new DatabaseConfigurationException("Échec de connexion à la base de données", e);
 			}
 		}
 		return con;
@@ -68,7 +69,7 @@ public class AccesBD {
 			}
 		}
 		catch(SQLException e) {
-			System.err.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
+			Logger.error("Erreur lors de la fermeture de la connexion", e);
 		}
 	}
 }
