@@ -1,6 +1,12 @@
 package utils;
 
-import java.util.ArrayList;
+im            String year = monMois.substring(0, 4);
+            String month = monMois.substring(4, 6);
+            String formattedDate = month + "/" + year;
+            dateMois.add(formattedDate);
+        });
+        return dateMois.toArray(new String[0]);
+	}a.util.ArrayList;
 import java.util.List;
 
 import persistance.AccesData;
