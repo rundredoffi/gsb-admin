@@ -1,6 +1,7 @@
 package vue;
 
 import javax.swing.*;
+import javax.swing.WindowConstants;
 import java.awt.*;
 
 public class LoadingScreen {
@@ -11,7 +12,7 @@ public class LoadingScreen {
         dialog = new JDialog(parent, "Chargement", true);
         dialog.setSize(300, 150);
         dialog.setLocationRelativeTo(parent);
-        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         // Utiliser un JPanel avec GridBagLayout pour centrer le JLabel et la barre de progression
         JPanel panel = new JPanel(new GridBagLayout());
@@ -32,18 +33,10 @@ public class LoadingScreen {
     }
 
     public void show() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                dialog.setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> dialog.setVisible(true));
     }
 
     public void hide() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                dialog.setVisible(false);
-            }
-        });
+        SwingUtilities.invokeLater(() -> dialog.setVisible(false));
     }
 }
