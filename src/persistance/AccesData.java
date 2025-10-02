@@ -67,8 +67,9 @@ private static Session s = HibernateSession.getSession();
 	    Session session = null;
 	    Utilisateur utilisateur = null;  
 	    try {
+	        session = HibernateSession.getSession();
 	        String hql = "FROM Utilisateur u WHERE u.login = :login AND u.mdp = :motDePasse";
-	        Query<Utilisateur> query = s.createQuery(hql, Utilisateur.class);
+	        Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
 	        query.setParameter("login", login);
 	        query.setParameter("motDePasse", motDePasse);  
 
@@ -98,8 +99,9 @@ private static Session s = HibernateSession.getSession();
 	    Session session = null;
 	    Utilisateur utilisateur = null;  
 	    try {
+	        session = HibernateSession.getSession();
 	        String hql = "FROM Utilisateur u WHERE u.id = :id";
-	        Query<Utilisateur> query = s.createQuery(hql, Utilisateur.class);
+	        Query<Utilisateur> query = session.createQuery(hql, Utilisateur.class);
 	        query.setParameter("id", id);
 
 	        utilisateur = query.uniqueResult();  
@@ -146,17 +148,12 @@ private static Session s = HibernateSession.getSession();
 	}
 	
 	public static Boolean deleteVisiteur(String utilisateurId) {
-		Connection conn = null;
-        PreparedStatement pstmt = null;
-        Boolean success = false;
+		Boolean success = false;
 
-        try {
-            // Obtenir la connexion à partir de AccesBD
-            conn = AccesBD.getInstance();
-
-            // Créer la déclaration de suppression
-            String sql = "DELETE FROM utilisateur WHERE idUtilisateur = ?";
-            pstmt = conn.prepareStatement(sql);
+        try (Connection conn = AccesBD.getInstance();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM utilisateur WHERE idUtilisateur = ?")) {
+            
+            // Définir le paramètre
             pstmt.setString(1, utilisateurId);
 
             // Exécuter la déclaration
@@ -169,8 +166,7 @@ private static Session s = HibernateSession.getSession();
         } catch (SQLException e) {
             // Récupérer et afficher le message d'erreur SQL
             System.out.println(e.getMessage());
-        }           
-        
+        }
 
         return success;
     }
