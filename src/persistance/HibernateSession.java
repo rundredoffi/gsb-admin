@@ -27,7 +27,7 @@ public class HibernateSession {
             // hbm.xml file for each pojo (plain old java object).
             Configuration config = new Configuration();
             sessionFactory = config.configure().buildSessionFactory();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             Logger.error("Error in creating SessionFactory object: " + e.getMessage(), e);
             throw new ExceptionInInitializerError(e);
         }
