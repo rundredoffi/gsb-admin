@@ -167,7 +167,7 @@ public class CreateUtilisateur extends JDialog {
                     Region maRegion = (Region) regionComboBox.getSelectedItem();
                     ArrayList<FicheFrais> mesFichesFrais = new ArrayList<>();
                     Utilisateur monUtilisateur = new Utilisateur(idVisiteurField.getText(), nomField.getText(), prenomField.getText(), loginField.getText(), passwordField.getText(), adresseField.getText(), codePostalField.getText(), villeField.getText(), maDate, emailField.getText(), numFixeField.getText(), numPortableField.getText(), maRegion, AccesData.getRoleById("v"), mesFichesFrais);
-                    Boolean isSuccess = AccesData.insertionVisiteur(monUtilisateur);
+                    boolean isSuccess = AccesData.insertionVisiteur(monUtilisateur);
 
                     if (isSuccess) {
                         JOptionPane.showMessageDialog(panel, "L'utilisateur " + monUtilisateur.getNom() + " " + monUtilisateur.getPrenom() + " a été créé avec succès.", "Succès", JOptionPane.INFORMATION_MESSAGE);
