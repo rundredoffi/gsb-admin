@@ -127,7 +127,8 @@ public class ListeStatsFiches {
             try {
                 ListeStatsFiches window = new ListeStatsFiches();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("Erreur lors de l'initialisation de ListeStatsFiches : " + e.getMessage());
+                System.exit(1);
             }
         });
     }

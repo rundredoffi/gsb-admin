@@ -176,7 +176,8 @@ public class ListeFicheFrais {
                 try {
                     new ListeFicheFrais();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println("Erreur lors de l'initialisation de ListeFicheFrais : " + e.getMessage());
+                    System.exit(1); // Quitter l'application en cas d'erreur critique
                 }
             }
         });

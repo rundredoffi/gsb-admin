@@ -146,7 +146,8 @@ public class ListeStatsRegion {
             try {
                 ListeStatsRegion window = new ListeStatsRegion();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("Erreur lors de l'initialisation de ListeStatsRegion : " + e.getMessage());
+                System.exit(1);
             }
         });
     }

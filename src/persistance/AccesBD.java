@@ -11,6 +11,11 @@ public class AccesBD {
 	protected static Connection con = null;
 	private static Properties dbProperties = null;
 	
+	// Constructeur privé pour empêcher l'instanciation de cette classe utilitaire
+	private AccesBD() {
+		throw new IllegalStateException("Utility class");
+	}
+	
 	// Chargement des propriétés de base de données
 	private static Properties getDbProperties() {
 		if (dbProperties == null) {
@@ -45,12 +50,12 @@ public class AccesBD {
 			}
 			// ouverture de la connexion
 			catch (ClassNotFoundException e) {
-				System.out.println(e.getMessage());
-				System.out.println("échec driver");
+				System.err.println("Erreur lors du chargement du driver : " + e.getMessage());
+				throw new RuntimeException("Driver de base de données non trouvé", e);
 			}
 			catch (SQLException e) {
-				System.out.println(e.getMessage());
-				System.out.println("échec de connexion bd ");
+				System.err.println("Erreur de connexion à la base de données : " + e.getMessage());
+				throw new RuntimeException("Échec de connexion à la base de données", e);
 			}
 		}
 		return con;
@@ -58,10 +63,13 @@ public class AccesBD {
 	//	 fermeture de la connexion
 	public static void close(){
 		try { 
-			con.close();
+			if (con != null && !con.isClosed()) {
+				con.close();
+			}
 		}
-		catch(Exception e) {e.printStackTrace();
-		System.out.println("problème lors de la fermeture");}
+		catch(SQLException e) {
+			System.err.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
+		}
 	}
 }
 

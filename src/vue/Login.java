@@ -112,7 +112,7 @@ public class Login extends JFrame {
                             messageLabel.setForeground(Color.RED);
                             status = false;
                             loadingScreen.hide();
-                            ex.printStackTrace();
+                            System.err.println("Erreur lors de la connexion : " + ex.getMessage());
                         }
                     }
                 };

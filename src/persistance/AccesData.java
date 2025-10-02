@@ -53,7 +53,7 @@ private static Session s = HibernateSession.getSession();
             query.setParameter("idRole", idRole);
             role = query.uniqueResult();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Erreur lors de la récupération du rôle avec ID " + idRole + " : " + e.getMessage());
         }
         return role;
     }
@@ -75,7 +75,7 @@ private static Session s = HibernateSession.getSession();
 
 	        utilisateur = query.uniqueResult();  
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	        System.err.println("Erreur lors de la récupération de l'utilisateur : " + e.getMessage());
 	    } finally {
 	        if (session != null) {
 	            session.close();  
@@ -106,7 +106,7 @@ private static Session s = HibernateSession.getSession();
 
 	        utilisateur = query.uniqueResult();  
 	    } catch (Exception e) {
-	        e.printStackTrace();
+	        System.err.println("Erreur lors de la récupération de l'utilisateur avec ID " + id + " : " + e.getMessage());
 	    } finally {
 	        if (session != null) {
 	            session.close();  
@@ -123,7 +123,7 @@ private static Session s = HibernateSession.getSession();
 			t.commit();
 			b = true;
 		} catch (HibernateException e) {
-			System.out.println(e.getMessage());
+			System.err.println("Erreur lors de l'insertion de l'utilisateur : " + e.getMessage());
 			if (t.isActive()) {
 				t.rollback();
 			}
@@ -139,7 +139,7 @@ private static Session s = HibernateSession.getSession();
 	        t.commit();
 	        b = true;
 	    } catch (HibernateException e) {
-	        System.out.println(e.getMessage());
+	        System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
 	        if (t != null && t.isActive()) {
 	            t.rollback();
 	        }
@@ -165,7 +165,7 @@ private static Session s = HibernateSession.getSession();
             }
         } catch (SQLException e) {
             // Récupérer et afficher le message d'erreur SQL
-            System.out.println(e.getMessage());
+            System.err.println("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
         }
 
         return success;
