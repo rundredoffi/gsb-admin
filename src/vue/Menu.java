@@ -3,13 +3,13 @@ package vue;
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.*;
+import javax.swing.WindowConstants;
 
 import listeners.LoginListener;
 import metier.Utilisateur;
 
 public class Menu extends JFrame implements LoginListener {
     private JFrame frame;
-    private JButton btnDeconnexion;
 
     public Menu() {
         // Constructor without parameters to instantiate Menu from LoginListener
@@ -23,7 +23,7 @@ public class Menu extends JFrame implements LoginListener {
     private void initialize(Utilisateur util) {
         frame = new JFrame("Menu Principal");
         frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
         frame.setLocationRelativeTo(null);
 
@@ -54,7 +54,7 @@ public class Menu extends JFrame implements LoginListener {
         JButton btnGestionVisiteurs = new JButton("Gérer les visiteurs");
         JButton btnConsulterFicheFrais = new JButton("Consulter les FicheFrais");
         JButton btnConsulterStats = new JButton("Consulter les statistiques");
-        btnDeconnexion = new JButton("Déconnexion");
+        JButton btnDeconnexion = new JButton("Déconnexion");
         if (util.getRole().getIdRole().equals("s")) { 
             panelBoutons.add(btnGestionVisiteurs);
             btnGestionVisiteurs.addActionListener(e -> new ListeUtilisateurs(util));
