@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -17,10 +16,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import metier.Region;
 import persistance.AccesData;
+import utils.Logger;
 
 public class ListeStatsRegion {
     private JFrame frame;
@@ -29,14 +30,11 @@ public class ListeStatsRegion {
     private JButton btnNewButton;
     private JComboBox<String> comboBox1;
     private JComboBox<String> comboBox2;
-    private SimpleDateFormat dateFormatter;
 
     public ListeStatsRegion() {
-        dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-
         frame = new JFrame("Statistiques Region");
         frame.setSize(1000, 700);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout());
         
@@ -47,11 +45,11 @@ public class ListeStatsRegion {
         comboBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         List<Region> regions = AccesData.getLesRegions();
-        System.out.println("Regions récupérées : " + regions);  // Print pour vérifier les regions
+        Logger.info("Regions récupérées : " + regions);  // Log pour vérifier les regions
         String[] regionNames = regions.stream().map(Region::getLibelleRegion).toArray(String[]::new);
 
         List<String> moisList = AccesData.getLesMois();
-        System.out.println("Mois récupérés : " + moisList);  // Print pour vérifier les mois
+        Logger.info("Mois récupérés : " + moisList);  // Log pour vérifier les mois
         String[] moisArray = moisList.toArray(new String[0]);
 
         comboBox1 = new JComboBox<>(regionNames);
@@ -113,8 +111,8 @@ public class ListeStatsRegion {
         String selectedMonth = (String) comboBox2.getSelectedItem();
         int selectedRegion = comboBox1.getSelectedIndex() + 1; // Assuming region IDs are 1-based
 
-        System.out.println("Mois sélectionné : " + selectedMonth);
-        System.out.println("ID de la région sélectionnée : " + selectedRegion);
+        Logger.info("Mois sélectionné : " + selectedMonth);
+        Logger.info("ID de la région sélectionnée : " + selectedRegion);
 
         // Appel de la méthode combinée pour obtenir les résultats
         List<Object[]> fraisForfaitStats = AccesData.getCombinedMoyenneMontantFrais(selectedMonth, selectedRegion);
@@ -131,10 +129,10 @@ public class ListeStatsRegion {
             };
             tableModel.addRow(rowData);
 
-            // Print stats to console for debugging
-            System.out.printf("Moyenne Frais Forfait: %s, Moyenne Frais Hors Forfait: %s%n", fraisForfaitStats.get(0)[0], fraisForfaitStats.get(0)[1]);
+            // Log stats for debugging
+            Logger.info(String.format("Moyenne Frais Forfait: %s, Moyenne Frais Hors Forfait: %s", fraisForfaitStats.get(0)[0], fraisForfaitStats.get(0)[1]));
         } else {
-            System.out.println("Aucune donnée retournée pour les paramètres sélectionnés.");
+            Logger.warn("Aucune donnée retournée pour les paramètres sélectionnés.");
         }
     }
 
@@ -144,9 +142,9 @@ public class ListeStatsRegion {
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
-                ListeStatsRegion window = new ListeStatsRegion();
+                new ListeStatsRegion();
             } catch (Exception e) {
-                System.err.println("Erreur lors de l'initialisation de ListeStatsRegion : " + e.getMessage());
+                Logger.error("Erreur lors de l'initialisation de ListeStatsRegion", e);
                 System.exit(1);
             }
         });
